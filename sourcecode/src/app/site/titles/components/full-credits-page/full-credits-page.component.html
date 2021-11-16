@@ -1,0 +1,29 @@
+<media-item-header [backdrop]="titlePage.title.backdrop"></media-item-header>
+
+<div class="container main-container">
+    <title-primary-details-panel></title-primary-details-panel>
+
+    <div class="credits-container">
+        <mat-expansion-panel class="mat-elevation-z0" *ngFor="let creditGroup of groupedCredits  | keyvalue">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <span class="credit-group-name" trans>{{creditGroup.key}}</span>
+                    <span>&nbsp;({{creditGroup.value.length}}&nbsp;</span>
+                    <span trans>credits</span>)
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="credits">
+                <ng-container *ngFor="let credit of creditGroup.value; index as index; trackBy: trackByFn">
+                    <div class="credit">
+                        <a class="name" [routerLink]="url.generate(credit)">{{credit.name}}</a>
+                        <span class="separator"> ... </span>
+                        <span class="job">{{credit.pivot.character || (credit.pivot.job | trans)}}</span>
+                    </div>
+                </ng-container>
+            </div>
+        </mat-expansion-panel>
+    </div>
+</div>
+
+<footer></footer>

@@ -1,0 +1,12 @@
+<media-image [src]="activeImage$ | async" size="original" [loadLazily]="false"></media-image>
+<button class="close-button" mat-mini-fab (click)="close()">
+    <mat-icon svgIcon="close"></mat-icon>
+</button>
+
+<button type="button" class="prev-btn" mat-icon-button (click)="showPrevious()">
+    <mat-icon svgIcon="keyboard-arrow-left"></mat-icon>
+</button>
+
+<button type="button" class="next-btn" mat-icon-button (click)="showNext()">
+    <mat-icon svgIcon="keyboard-arrow-right"></mat-icon>
+</button>

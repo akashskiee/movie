@@ -1,0 +1,25 @@
+episodes-panel {
+  display: block;
+
+  .table-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+
+    .input-container {
+      max-width: 300px;
+      margin-left: auto;
+      position: relative;
+
+      .mat-icon {
+        position: absolute;
+        top: 11px;
+        right: 8px;
+      }
+    }
+  }
+
+  no-results-message {
+    margin-top: 50px;
+  }
+}

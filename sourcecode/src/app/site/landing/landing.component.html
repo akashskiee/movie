@@ -1,0 +1,66 @@
+<ng-container *ngIf="content$ | async as content">
+  <header>
+    <material-navbar
+      class="login-button-accent"
+      menuPosition="landing"
+      [transparent]="true"
+      [hideRegisterButton]="true"
+    ></material-navbar>
+    <div class="content">
+      <h1>{{ content.headerTitle }}</h1>
+      <p>{{ content.headerSubtitle }}</p>
+      <a
+        mat-raised-button
+        class="cta-button"
+        color="accent"
+        [routerLink]="settings.get('billing.enable') ? '/billing/pricing' : '/register'"
+        >{{ content.actions.cta1 }}</a
+      >
+    </div>
+    <div class="background" [style.background-image]="'url(' + content.headerImage + ')'"></div>
+    <div class="overlay" [style.background-color]="content.headerOverlayColor"></div>
+    <div class="gradient-overlay"></div>
+  </header>
+
+  <div class="container">
+    <ad-host slot="ads.landing.top"></ad-host>
+    <ul class="unstyled-list inline-features">
+      <li class="inline-feature" *ngFor="let primaryFeature of content.primaryFeatures">
+        <image-or-icon [src]="primaryFeature.image"></image-or-icon>
+        <h3>{{ primaryFeature.title }}</h3>
+        <p>{{ primaryFeature.subtitle }}</p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="spacer"></div>
+
+  <ul class="unstyled-list big-features">
+    <ng-container
+      *ngFor="
+        let secondaryFeature of content.secondaryFeatures;
+        first as first;
+        last as last;
+        even as even
+      "
+    >
+      <li
+        class="big-feature container"
+        [class.first-secondary-feature]="first"
+        [class.reverse]="even"
+      >
+        <img [src]="settings.getBaseUrl(true) + '/' + secondaryFeature.image + '?v3'" alt="" />
+        <section class="info">
+          <small>{{ secondaryFeature.subtitle }}</small>
+          <h2>{{ secondaryFeature.title }}</h2>
+          <div class="feature-border"></div>
+          <p>{{ secondaryFeature.description }}</p>
+        </section>
+      </li>
+
+      <div class="spacer" *ngIf="!last"></div>
+    </ng-container>
+  </ul>
+
+  <footer></footer>
+</ng-container>

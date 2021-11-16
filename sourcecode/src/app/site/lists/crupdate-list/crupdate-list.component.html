@@ -1,0 +1,90 @@
+<media-item-header></media-item-header>
+
+<form [formGroup]="form" (ngSubmit)="createOrUpdateList()" class="container" ngNativeFormValidate>
+   <div class="many-inputs form-group list-details-group">
+       <div class="input-container">
+           <label for="name" trans>Name</label>
+           <input type="text" id="name" formControlName="name" required>
+       </div>
+
+       <div class="input-container">
+           <label for="public" trans>Public</label>
+           <select id="public" formControlName="public" required>
+               <option [ngValue]="true" trans>Yes</option>
+               <option [ngValue]="false" trans>No</option>
+           </select>
+       </div>
+
+       <div class="input-container">
+           <label for="list-style" trans>Display Style</label>
+           <select id="list-style" formControlName="style" required>
+               <option value="portrait" trans>Portrait Grid</option>
+               <option value="landscape" trans>Landscape Grid</option>
+           </select>
+       </div>
+
+       <div class="input-container">
+           <label for="description" trans>Description</label>
+           <textarea type="text" id="description" formControlName="description"></textarea>
+       </div>
+
+       <div class="input-container" *ngIf="currentUser.isAdmin()">
+           <label for="auto_update" trans>Auto Update With</label>
+           <select type="text" id="auto_update" formControlName="auto_update">
+               <option [ngValue]="null" trans>Don't auto update</option>
+               <option [value]="option.key" *ngFor="let option of autoUpdateOptions | keyvalue" trans>{{option.value}}</option>
+           </select>
+           <p *ngIf="(form.get('auto_update').valueChanges | async)" trans>This will override any list items that were attached manually.</p>
+       </div>
+
+       <button type="submit" mat-raised-button color="accent" [disabled]="loading$ | async" trans>Save</button>
+       <button type="button" mat-button (click)="maybeDeleteList()" *ngIf="(updating$ | async) && !(system$ | async)" [disabled]="loading$ | async" trans>Delete</button>
+       <mat-progress-bar mode="indeterminate" color="accent" *ngIf="loading$ | async"></mat-progress-bar>
+   </div>
+
+    <div class="form-group">
+        <search-input (resultSelected)="attachItem($event)"></search-input>
+
+        <no-results-message *ngIf="!(items$ | async)?.length" svgImage="task-list.svg">
+            <span primary-text trans>No items are attached to this list yet.</span>
+        </no-results-message>
+
+        <table class="material-table" cdkDropList (cdkDropListDropped)="reorderList($event)">
+            <thead>
+            <tr>
+                <th trans>Name</th>
+                <th trans>Rating</th>
+                <th trans>Added</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of items$ | async" cdkDrag>
+                <td>
+                    <div class="column-with-image">
+                        <button mat-icon-button cdkDragHandle type="button">
+                            <mat-icon svgIcon="drag-handle"></mat-icon>
+                        </button>
+                        <media-image [src]="item.poster" [alt]="item.name" size="small"></media-image>
+                        <div *cdkDragPreview>{{item.name}}</div>
+                        <div class="info">
+                            <div class="item-name">{{item.name}}</div>
+                            <div class="item-type">{{ item?.year }} | {{ item?.type }}</div>
+                        </div>
+                    </div>
+                </td>
+                <td class="rating-column">
+                    <rating-widget [item]="item" [showRateButton]="false"></rating-widget>
+                    <span *ngIf="!item.rating">-</span>
+                </td>
+                <td class="added-at-column">{{item.pivot ? (item.pivot.created_at | formattedDate) : '&mdash;'}}</td>
+                <td class="edit-column">
+                    <button type="button" mat-icon-button (click)="detachItem(item)">
+                        <mat-icon svgIcon="close"></mat-icon>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</form>

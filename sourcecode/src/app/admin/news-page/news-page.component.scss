@@ -1,0 +1,31 @@
+news-page {
+  display: block;
+
+  .mat-column-title {
+    margin-right: 25px;
+
+    img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      margin-right: 10px;
+      border-radius: 4px;
+    }
+
+    a {
+      color: inherit;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .mat-column-source {
+    max-width: 180px;
+  }
+
+  .mat-column-created {
+    max-width: 120px;
+  }
+}

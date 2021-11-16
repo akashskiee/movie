@@ -1,0 +1,70 @@
+@import "../../../../../scss/variables";
+
+title-cast-panel {
+  display: block;
+  margin-top: 25px;
+  margin-bottom: 30px;
+
+  .cast-table-row {
+    display: flex;
+    align-items: center;
+    height: 70px;
+
+    &.even {
+      background-color: mat-color($app-background, background);
+    }
+  }
+
+  .image-col {
+    width: 40px;
+    flex: 0 0 40px;
+    height: 60px;
+    margin-right: 20px;
+
+    img {
+      width: 100%;
+      height: 60px;
+      object-fit: cover;
+    }
+  }
+
+  .name-col {
+    display: block;
+    max-width: 250px;
+    flex: 1 1 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: inherit;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .character-col {
+    max-width: 250px;
+    flex: 1 1 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .separator {
+    margin: 0 40px;
+    font-size: 2rem;
+  }
+
+  .full-cast-button {
+    display: block;
+    width: 100%;
+    padding-top: 15px;
+    margin-top: 15px;
+    border-top: 1px solid mat-color($app-foreground, divider-lighter);
+    color: mat-color($app-accent, default);
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

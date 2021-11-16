@@ -1,0 +1,20 @@
+<div class="slider-el" #sliderEl></div>
+
+<div class="values">
+    <ng-container *ngIf="value$ | async as value">
+        <div class="left">
+            {{value[0]}}
+            <ng-container *ngIf="affix"> {{affix | trans}}</ng-container>
+        </div>
+        <mat-icon svgIcon="compare-arrows"></mat-icon>
+        <div class="right">
+            <span *ngIf="value[1]; else noLimit">
+                {{value[1]}}
+                <ng-container *ngIf="affix"> {{affix | trans}}</ng-container>
+            </span>
+            <ng-template #noLimit>
+                <span trans>No limit</span>
+            </ng-template>
+        </div>
+    </ng-container>
+</div>

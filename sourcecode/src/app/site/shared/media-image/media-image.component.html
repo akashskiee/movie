@@ -1,0 +1,7 @@
+<a [routerLink]="link" *ngIf="link; else noLink">
+    <img class="media-image-el" [alt]="alt || ''" #image draggable="false" [defaultImage]="getDefaultPoster()" [lazyLoad]="src">
+</a>
+<ng-template #noLink>
+    <img class="media-image-el" [alt]="alt || ''" #image draggable="false" [defaultImage]="getDefaultPoster()" [lazyLoad]="src">
+</ng-template>
+<ng-content></ng-content>

@@ -1,0 +1,5 @@
+<button mat-icon-button [matTooltip]="'Delete' | trans" (click)="deleteRating()" class="delete-button" [disabled]="loading$ | async">
+    <mat-icon svgIcon="delete"></mat-icon>
+</button>
+
+<star-rating-widget [formControl]="rating"></star-rating-widget>

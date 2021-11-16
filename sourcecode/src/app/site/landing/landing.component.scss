@@ -1,0 +1,180 @@
+@import "variables";
+
+:host-context(.be-dark-mode) {
+  .gradient-overlay {
+    background: linear-gradient(to bottom, transparent -50%, mat-color($app-background, card) 100%);
+    display: block;
+  }
+}
+
+header {
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+
+  .content {
+    position: relative;
+    z-index: 3;
+    padding: 180px 80px 280px 80px;
+    text-align: center;
+  }
+
+  p {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin: 0 auto 25px;
+    opacity: 0.9;
+    max-width: 600px;
+  }
+
+  .cta-button {
+    min-width: 200px;
+    line-height: 60px;
+    border-radius: 30px;
+    font-size: 2rem;
+    font-weight: 300;
+    margin-top: 40px;
+  }
+}
+
+material-navbar {
+  z-index: 3;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  filter: blur(4px);
+  background-size: cover;
+}
+
+.overlay, .gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 2;
+}
+
+.gradient-overlay {
+  display: none;
+}
+
+h1 {
+  font-size: 6rem;
+  margin-bottom: 15px;
+}
+
+.inline-features {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-content: space-between;
+  margin-top: 60px;
+  text-align: center;
+
+  @media only screen and (max-width: $medium) {
+    display: block;
+
+    .inline-feature {
+      min-width: auto;
+    }
+  }
+}
+
+.inline-feature {
+  max-width: 360px;
+
+  img, image-or-icon {
+    display: block;
+    width: 150px;
+    height: 120px;
+    margin: 0 auto 30px;
+    color: mat-color($app-foreground, icon);
+  }
+
+  h3 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+
+  p {
+    font-size: 1.5rem;
+    color: mat-color($app-foreground, secondary-text);
+  }
+}
+
+.spacer {
+  border-bottom: 1px solid mat-color($app-foreground, divider-lighter);
+  margin-bottom: 40px;
+  margin-top: 40px;
+}
+
+.big-feature {
+  display: flex;
+  padding: 15px 0;
+
+  &.reverse {
+    flex-direction: row-reverse;
+  }
+
+  img {
+    border-radius: 10px;
+    width: 580px;
+    max-width: 100%;
+    margin-right: auto;
+    //box-shadow: 0 0 80px 10px rgba(0, 0, 0, 0.08);
+    @include mat-elevation(3);
+  }
+
+  .info {
+    margin-left: 30px;
+    margin-right: auto;
+    max-width: 350px;
+    padding-top: 30px;
+  }
+
+  small {
+    text-transform: uppercase;
+    margin: 0 0 15px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: mat-color($app-foreground, secondary-text);
+  }
+
+  h2 {
+    margin: 15px 0;
+    font-size: 3.1rem;
+    font-weight: 400;
+  }
+
+  .feature-border {
+    width: 50px;
+    height: 2px;
+    background-color: mat-color($app-primary, default);
+  }
+
+  p {
+    font-size: 1.5rem;
+    margin: 20px 0;
+  }
+
+  @media only screen and (max-width: $medium) {
+    display: block;
+    padding: 0 15px;
+
+    .info {
+      margin-left: 0;
+    }
+  }
+}
+
+footer {
+  margin-top: 60px;
+}

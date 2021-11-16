@@ -1,0 +1,30 @@
+<div class="img-container">
+  <media-image
+    mode="portrait"
+    [src]="title.poster"
+    size="medium"
+    [alt]="title.name + ' image'"
+    [link]="url.generate(title)"
+  >
+    <media-view-play-button [title]="title"></media-view-play-button>
+  </media-image>
+  <streamable-label [item]="title"></streamable-label>
+</div>
+<div class="details">
+  <h3 class="title">
+    <a [routerLink]="url.generate(title)">{{ title.name }}</a>
+  </h3>
+  <div class="meta">
+    <div class="meta-item certification" *ngIf="title.certification">{{ title.certification }}</div>
+    <div class="meta-item runtime" *ngIf="title.runtime">
+      {{ title.runtime }} {{ 'min' | trans }}
+    </div>
+    <div class="meta-item genres" *ngIf="title.genres?.length">
+      <genre-widget [genres]="title.genres" separator=", "></genre-widget>
+    </div>
+  </div>
+  <div class="rating">
+    <rating-widget [item]="title"></rating-widget>
+  </div>
+  <div class="description">{{ title.description }}</div>
+</div>

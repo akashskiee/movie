@@ -1,0 +1,80 @@
+@import "../../../../scss/variables";
+
+:host {
+  display: block;
+  width: 100%;
+
+  ::ng-deep .mat-tab-body-wrapper {
+    padding: 20px 0;
+  }
+
+  ::ng-deep  .mat-tab-label-content {
+    text-transform: capitalize;
+  }
+
+  ::ng-deep datatable-header {
+    .left-column {
+      display: none;
+    }
+
+    .right-column {
+      margin: 0;
+    }
+
+    .input-container {
+      width: 400px;
+    }
+  }
+}
+
+.inline-container {
+  display: flex;
+
+  .input-container {
+    flex: 1 1 auto;
+
+    &:not(:last-of-type) {
+      margin-right: 15px;
+    }
+
+    &.size-small {
+      flex: 1 1 30%;
+    }
+  }
+}
+
+.mat-tab-group {
+  margin-bottom: 25px;
+}
+
+.primary-facts-panel {
+  display: flex;
+
+  .left-col {
+    flex: 0 0 200px;
+    width: 200px;
+    margin-right: 25px;
+  }
+
+  .right-col {
+    flex: 1 1 auto;
+  }
+
+  media-image {
+    img {
+      max-width: 100%;
+      @include mat-elevation(1);
+      border-radius: 4px;
+    }
+  }
+
+  .submit-button {
+    width: 100%;
+    margin-top: 15px;
+    min-height: 45px;
+  }
+}
+
+no-results-message {
+  margin: 50px 0 40px;
+}

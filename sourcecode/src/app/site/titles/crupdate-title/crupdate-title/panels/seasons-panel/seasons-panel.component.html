@@ -1,0 +1,40 @@
+<ng-container *ngIf="seasons$ | async as seasons">
+    <div class="header">
+        <button type="button" mat-raised-button color="accent" (click)="addSeason()" [disabled]="loading$ | async">Add Season</button>
+    </div>
+
+    <mat-accordion>
+        <mat-expansion-panel [expanded]="(activeSeason$ | async) === season.number" class="mat-elevation-z0" [ngClass]="'season-' + season.number + '-panel'" *ngFor="let season of seasons; trackBy: trackByFn">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    <span trans>Season</span>
+                    &nbsp;
+                    <span>{{season.number}}</span>
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <ng-template matExpansionPanelContent>
+                <mat-tab-group animationDuration="0ms" color="accent">
+                    <mat-tab [label]="'Episodes' | trans">
+                        <episodes-panel [season]="season"></episodes-panel>
+                    </mat-tab>
+                    <mat-tab [label]="'Regular Cast' | trans">
+                        <credits-panel type="cast" [mediaItem]="season"></credits-panel>
+                    </mat-tab>
+                    <mat-tab [label]="'Regular Crew' | trans">
+                        <credits-panel type="crew" [mediaItem]="season"></credits-panel>
+                    </mat-tab>
+                </mat-tab-group>
+            </ng-template>
+
+            <mat-action-row>
+                <button type="button" mat-button (click)="maybeDeleteSeason(season)" trans>Delete</button>
+            </mat-action-row>
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <no-results-message *ngIf="!seasons.length">
+        <span primary-text trans>Nothing to Display.</span>
+        <span secondary-text trans>This series does not have any seasons yet.</span>
+    </no-results-message>
+</ng-container>

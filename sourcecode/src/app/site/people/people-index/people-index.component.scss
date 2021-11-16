@@ -1,0 +1,50 @@
+@import "variables";
+
+:host {
+  display: block;
+}
+
+.main-container {
+  padding-top: 25px;
+  padding-bottom: 25px;
+  min-height: calc(100vh - #{$material-navbar-height + $footer-height});
+}
+
+.page-title {
+  padding: 0 10px;
+  margin: 0 0 5px;
+}
+
+sort-dropdown {
+  padding-left: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid mat-color($app-foreground, divider-lighter); //
+}
+
+person-detail-item {
+  margin-bottom: 13px;
+  padding: 12px;
+  max-width: 900px;
+
+  &:nth-child(even) {
+    background-color: mat-color($app-background, background);
+  }
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+@media only screen and (min-width: $medium) {
+  .pagination-btn {
+    min-width: 220px;
+    height: 45px;
+  }
+}
+
+.shared-ad-host {
+  margin-top: 30px;
+}

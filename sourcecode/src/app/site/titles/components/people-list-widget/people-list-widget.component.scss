@@ -1,0 +1,13 @@
+people-list-widget {
+  display: block;
+
+  .separator {
+    padding-right: 5px;
+  }
+
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

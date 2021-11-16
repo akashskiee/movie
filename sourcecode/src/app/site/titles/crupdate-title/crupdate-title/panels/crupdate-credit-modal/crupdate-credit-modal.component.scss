@@ -1,0 +1,12 @@
+@import "../../../../../../../scss/variables";
+
+crupdate-credit-modal {
+  display: block;
+  width: $modal-default-width;
+  max-width: 100%;
+
+  search-input input {
+    border-color: mat-color($app-foreground, divider);
+    margin-bottom: 20px;
+  }
+}

@@ -1,0 +1,41 @@
+<slider [list]="sliderList">
+  <media-item-header [transparent]="true"></media-item-header>
+</slider>
+
+<ad-host slot="ads.shared" class="shared-ad-host"></ad-host>
+
+<section class="lists">
+  <ng-container *ngFor="let list of lists$ | async; index as index">
+    <div class="list">
+      <div class="container">
+        <h2>
+          <a [routerLink]="['/lists', list.id]">{{ list.name }}</a>
+        </h2>
+        <p *ngIf="list.description">{{ list.description }}</p>
+
+        <media-view
+          [mode]="list.style === 'landscape-grid' ? modes.Landscape : modes.Portrait"
+          [items]="list.items"
+          class="full-width"
+          [showPlayButton]="settings.get('homepage.show_play_buttons')"
+        ></media-view>
+      </div>
+    </div>
+
+    <ad-host slot="ads.homepage" *ngIf="index === 0" class="homepage-ad-host"></ad-host>
+  </ng-container>
+  <no-results-message
+    *ngIf="currentUser.hasPermission('admin') && !(lists$ | async).length"
+    svgImage="task-list.svg"
+  >
+    <span primary-text trans>No homepage content yet.</span>
+    <span secondary-text trans
+      >Assign some lists to the homepage from &ngsp;
+      <a routerLink="/admin/appearance/homepage" [queryParams]="{panel: 'homepage'}"
+        >appearance editor</a
+      >.</span
+    >
+  </no-results-message>
+</section>
+
+<footer></footer>

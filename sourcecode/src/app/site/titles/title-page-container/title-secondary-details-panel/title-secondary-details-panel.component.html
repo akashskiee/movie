@@ -1,0 +1,81 @@
+<section class="left">
+  <div class="img-container">
+    <media-image [src]="titlePage.title.poster" size="medium"></media-image>
+  </div>
+  <div class="details">
+    <div class="detail seasons" *ngIf="!titlePage.activeEpisode && titlePage.title.is_series">
+      <div class="name" trans>Seasons</div>
+      <div class="value">
+        <a
+          class="season"
+          [routerLink]="['season', season.number]"
+          *ngFor="let season of titlePage.title.seasons"
+          >{{ season.number }}</a
+        >
+      </div>
+    </div>
+    <div class="detail" *ngIf="titlePage.shortCredits.directors?.length as directorCount">
+      <div class="name">
+        <span *ngIf="directorCount === 1" trans>Director</span>
+        <span *ngIf="directorCount !== 1" trans>Directors</span>
+      </div>
+      <div class="value">
+        <people-list-widget
+          [people]="titlePage.shortCredits.directors"
+          [limit]="3"
+        ></people-list-widget>
+      </div>
+    </div>
+    <div class="detail" *ngIf="titlePage.shortCredits.creators?.length">
+      <div class="name" trans>Created By</div>
+      <div class="value">
+        <people-list-widget
+          [people]="titlePage.shortCredits.creators"
+          [limit]="3"
+        ></people-list-widget>
+      </div>
+    </div>
+    <div class="detail" *ngIf="titlePage.shortCredits.writers?.length">
+      <div class="name" trans>Writers</div>
+      <div class="value">
+        <people-list-widget
+          [people]="titlePage.shortCredits.writers"
+          [limit]="3"
+        ></people-list-widget>
+      </div>
+    </div>
+    <div class="detail with-separator">
+      <div class="name" trans>Cast</div>
+      <div class="value">
+        <people-list-widget
+          *ngIf="titlePage.shortCredits.cast.length; else noCast"
+          [people]="titlePage.shortCredits.cast"
+          [limit]="5"
+        ></people-list-widget>
+        <ng-template #noCast>{{ 'No cast information has been added yet.' | trans }}</ng-template>
+      </div>
+    </div>
+    <div class="detail">
+      <div class="name" trans>Plot</div>
+      <div class="value">
+        <span moreLessText="340" [textContent]="description" *ngIf="description"></span>
+        <span *ngIf="!description">{{ 'No overview has been added yet.' | trans }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="right">
+  <title-action-buttons [item]="titlePage.activeEpisode || titlePage.title"></title-action-buttons>
+  <div class="video-cover">
+    <media-image [src]="titlePage.videoCoverImage" size="large" mode="landscape"></media-image>
+    <button
+      mat-fab
+      (click)="titlePage.playVideo(titlePage.primaryVideo)"
+      class="play-button-animation"
+      *ngIf="titlePage.primaryVideo"
+    >
+      <mat-icon svgIcon="play-arrow"></mat-icon>
+    </button>
+  </div>
+</section>

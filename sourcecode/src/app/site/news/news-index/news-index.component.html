@@ -1,0 +1,26 @@
+<media-item-header></media-item-header>
+
+<ad-host slot="ads.shared" class="shared-ad-host"></ad-host>
+
+<div class="container main-container">
+    <h1 class="page-title" trans>Latest News</h1>
+    <div class="articles" *ngIf="articles$ | async as articles">
+        <div class="article" *ngFor="let article of articles.data">
+            <img [src]="article?.meta?.image">
+            <div class="media-body">
+                <a [routerLink]="['/news', article.id]" class="title">{{article.title}}</a>
+                <p class="body">{{article.body | slice:0:300}}...</p>
+                <div class="meta">
+                    <ng-container *ngIf="article?.meta?.source">
+                        <span class="source"> {{article.meta.source}}</span>
+                    </ng-container>
+                    <span>{{article.created_at | formattedDate}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <loading-indicator [isVisible]="loading$ | async" class="overlay overlay-light"></loading-indicator>
+</div>
+
+<footer></footer>

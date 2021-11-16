@@ -1,0 +1,24 @@
+@import "../../../../../../../scss/variables";
+
+:host {
+  display: block;
+
+  ::ng-deep datatable-header {
+    height: auto;
+  }
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.mat-expansion-panel {
+  border: 1px solid mat-color($app-foreground, divider);
+  border-radius: 4px;
+  margin-bottom: 10px;
+
+  .mat-expansion-panel-header-title {
+    font-weight: 500;
+    font-size: 1.5rem;
+  }
+}

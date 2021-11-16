@@ -1,0 +1,66 @@
+<div class="many-inputs">
+    <div class="input-container" [class.disabled]="formGroup.get('title').disabled">
+        <div class="fake-label" trans>Title</div>
+        <div class="fake-input" tabindex="0" [matMenuTriggerFor]="menu" (menuOpened)="onMenuOpened()" (menuClosed)="onMenuClosed()">
+            <ng-container *ngIf="selectedTitle$ | async as selectedTitle; else anyTitle">
+                <img [src]="selectedTitle.poster" [alt]="selectedTitle.name">
+                <div class="title-name">{{selectedTitle.name}}</div>
+            </ng-container>
+            <ng-template #anyTitle>
+                <div class="title-name" trans>Any</div>
+            </ng-template>
+            <div class="arrow-container">
+                <div class="arrow"></div>
+            </div>
+        </div>
+        <p class="error" *ngIf="titleError">{{titleError}}</p>
+    </div>
+
+    <ng-container *ngIf="selectedTitle$ | async as selectedTitle">
+        <ng-container *ngIf="selectedTitle.is_series" [formGroup]="formGroup">
+            <div class="inline-inputs-container many-inputs">
+                <div class="input-container">
+                    <label for="season" trans>Season Number</label>
+                    <select formControlName="season_num" class="season-select" id="season">
+                        <option [ngValue]="null">-</option>
+                        <option [ngValue]="season.number" *ngFor="let season of selectedTitle.seasons">S{{prefixWithZero(season.number)}}</option>
+                    </select>
+                </div>
+
+                <div class="input-container">
+                    <label for="episode" trans>Episode Number</label>
+                    <select formControlName="episode_num" class="episode-select" id="episode">
+                        <option [ngValue]="null">-</option>
+                        <option [ngValue]="i + 1" *ngFor="let k of getEpisodeIterable(); index as i">E{{prefixWithZero(i + 1)}}</option>
+                    </select>
+                </div>
+            </div>
+        </ng-container>
+    </ng-container>
+</div>
+
+<mat-menu #menu="matMenu">
+    <div class="input-container search-input-container" (click)="$event.stopPropagation()">
+        <div class="search-input-wrapper">
+            <input type="text" [formControl]="searchFormControl" placeholder="Search..." (blur)="searchInput.focus()" #searchInput trans-placeholder>
+            <button class="clear-search-input-button" mat-icon-button (click)="clearSearchInput()" *ngIf="searchFormControl.value">
+                <mat-icon svgIcon="close"></mat-icon>
+            </button>
+            <loading-indicator [isVisible]="loading$ | async" class="small"></loading-indicator>
+        </div>
+    </div>
+    <button mat-menu-item (click)="selectTitle(null)">
+        <img src="client/assets/images/default_title_poster.jpg" alt="default poster">
+        <div class="info any-user-info">
+            <div class="name" trans>Any Title</div>
+        </div>
+    </button>
+    <button mat-menu-item *ngFor="let title of titles$ | async" (click)="selectTitle(title)">
+        <img [src]="title.poster" [alt]="title.name">
+        <div class="user-info">
+            <div class="name">{{title.name}}</div>
+            <div class="email">{{title.description | slice:0:200}}</div>
+        </div>
+    </button>
+    <button mat-menu-item disabled *ngIf="searchedOnce && !(titles$ | async).length" trans>No titles found.</button>
+</mat-menu>

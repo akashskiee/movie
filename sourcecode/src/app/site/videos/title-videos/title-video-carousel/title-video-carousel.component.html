@@ -1,0 +1,21 @@
+<div class="video-item" *ngFor="let video of titlePage.videos.values()">
+    <div class="thumbnail-container">
+        <img class="thumbnail-image" [src]="video.thumbnail" alt="Video thumbnail">
+        <div class="thumbnail-overlay"></div>
+        <button mat-mini-fab color="accent" class="play-video-button" (click)="titlePage.playVideo(video)">
+            <mat-icon [svgIcon]="video.type === 'external' ? 'open-in-new' : 'play-arrow'"></mat-icon>
+        </button>
+    </div>
+    <div class="meta">
+        <div class="video-name">
+            <mat-icon svgIcon="hd" *ngIf="video.quality === 'hd'"></mat-icon>
+            <mat-icon svgIcon="4k" *ngIf="video.quality === '4k'"></mat-icon>
+            <span>{{video.name}}</span>
+        </div>
+        <div class="video-actions">
+            <edit-title-video-widget [video]="video"></edit-title-video-widget>
+            <video-rating-widget [video]="video"></video-rating-widget>
+        </div>
+        <img class="domain-favicon" *ngIf="video.source === 'local'" [src]="video.url | favicon" alt="">
+    </div>
+</div>

@@ -1,0 +1,30 @@
+<datatable-header>
+    <button mat-raised-button color="accent" leftContent (click)="openTagManagerModal()">
+        {{ 'Add' | trans }} {{ (displayType || (type + 's') ) | trans }}
+    </button>
+</datatable-header>
+
+<table class="material-table">
+    <thead>
+    <tr>
+        <th table-sort-header trans>Name</th>
+        <th table-sort-header trans>Display Name</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let tag of datatable.data$ | async">
+        <td>{{tag.name}}</td>
+        <td>{{tag.display_name || '-'}}</td>
+        <td class="edit-column">
+            <button mat-icon-button (click)="detachTag(tag)">
+                <mat-icon svgIcon="close"></mat-icon>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<no-results-message *ngIf="!(datatable.data$ | async).length" svgImage="folder.svg">
+    <span primary-text trans>Nothing to display</span>
+</no-results-message>

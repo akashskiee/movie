@@ -1,0 +1,44 @@
+<datatable-header>
+    <button type="button" mat-raised-button color="accent" leftContent (click)="openCrupdateCreditModal()" trans>Add Credit</button>
+</datatable-header>
+
+<table class="material-table" cdkDropList (cdkDropListDropped)="changeCreditsOrder($event)" [cdkDropListDisabled]="type === 'crew'">
+    <thead>
+    <tr>
+        <th table-sort-header trans>Name</th>
+        <th table-sort-header="pivot.character" *ngIf="type === 'cast'" trans>Character</th>
+        <th table-sort-header="pivot.department" *ngIf="type === 'crew'" trans>Department</th>
+        <th table-sort-header="pivot.job" *ngIf="type === 'crew'" trans>Job</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let person of datatable.data$ | async" cdkDrag>
+        <td>
+           <div class="column-with-image">
+               <button type="button" mat-icon-button cdkDragHandle *ngIf="type === 'cast'">
+                   <mat-icon svgIcon="drag-handle"></mat-icon>
+               </button>
+               <media-image [src]="person.poster" size="small"></media-image>
+               <span>{{person.name}}</span>
+           </div>
+            <div *cdkDragPreview>{{person.name}}</div>
+        </td>
+        <td *ngIf="type === 'cast'">{{person.pivot.character}}</td>
+        <td *ngIf="type === 'crew'">{{person.pivot.department}}</td>
+        <td *ngIf="type === 'crew'">{{person.pivot.job}}</td>
+        <td class="edit-column">
+            <button type="button" mat-icon-button (click)="openCrupdateCreditModal(person)">
+                <mat-icon svgIcon="edit"></mat-icon>
+            </button>
+            <button type="button" mat-icon-button (click)="detachCredit(person)">
+                <mat-icon svgIcon="close"></mat-icon>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<no-results-message *ngIf="!(datatable.data$ | async).length" svgImage="awards.svg">
+    <span primary-text trans>Nothing to Display.</span>
+</no-results-message>

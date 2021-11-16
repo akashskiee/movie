@@ -1,0 +1,23 @@
+<div class="caption-container-title">
+    <div class="text" trans>Captions</div>
+    <button type="button" class="add-caption-button" mat-flat-button color="accent" (click)="openCrupdateCaptionModal()" [disabled]="!video" trans>Add</button>
+</div>
+<ul class="unstyled-list feature-list" cdkDropList (cdkDropListDropped)="reorderCaptions($event)">
+    <li class="feature-list-item" *ngFor="let caption of captions$ | async" [attr.data-id]="caption.id" cdkDrag>
+        <button cdkDragHandle mat-icon-button class="drag-handle">
+            <mat-icon svgIcon="drag-handle"></mat-icon>
+        </button>
+        <div class="text">{{caption.name}}</div>
+        <button type="button" class="edit-button" mat-icon-button (click)="openCrupdateCaptionModal(caption)">
+            <mat-icon svgIcon="edit"></mat-icon>
+        </button>
+        <button type="button" class="delete-button" mat-icon-button (click)="maybeDeleteCaption(caption)">
+            <mat-icon svgIcon="delete"></mat-icon>
+        </button>
+    </li>
+</ul>
+
+<p *ngIf="!video; else noResults" trans>Video must be saved before captions can be attached.</p>
+<ng-template #noResults>
+    <p *ngIf="!(captions$ | async).length" trans>No captions have been added to this video yet.</p>
+</ng-template>

@@ -1,0 +1,81 @@
+@import "variables";
+
+:host {
+  display: flex;
+
+  &:hover .img-container {
+    @include mat-elevation(6);
+  }
+}
+
+.img-container {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  @include mat-elevation(1);
+  transition: box-shadow 0.2s ease-in-out;
+  border-radius: 4px;
+
+  ::ng-deep img {
+    height: 200px;
+  }
+}
+
+.details {
+  flex: 1 1 auto;
+  margin-left: 15px;
+}
+
+.title {
+  margin: 0 0 5px;
+}
+
+.meta {
+  display: flex;
+  color: mat-color($app-foreground, secondary-text);
+  font-size: 1.3rem;
+  margin-bottom: 5px;
+}
+
+.meta-item:not(:last-of-type) {
+  padding-right: 4px;
+  margin-right: 4px;
+  border-right: 1px solid mat-color($app-foreground, divider);
+}
+
+.description {
+  margin: 14px 0;
+}
+
+.rating {
+  margin-top: 10px;
+}
+
+.certification {
+  text-transform: uppercase;
+}
+
+a {
+  color: mat-color($app-accent, default);
+}
+
+@media only screen and (max-width: $medium) {
+  :host {
+    align-items: center;
+  }
+
+  .description {
+    display: none;
+  }
+
+  .img-container {
+    width: 50px;
+    height: 75px;
+    flex: 0 0 50px;
+
+    ::ng-deep img {
+      height: 75px;
+    }
+  }
+}

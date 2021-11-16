@@ -1,0 +1,20 @@
+<ng-container [ngSwitch]="mode">
+  <ng-container *ngSwitchCase="'detail'">
+    <ng-container *ngFor="let item of items; trackBy: trackByFn">
+      <person-detail-item *ngIf="item.model_type === 'person'" [person]="item"></person-detail-item>
+      <title-detail-item *ngIf="item.model_type === 'title'" [title]="item"></title-detail-item>
+    </ng-container>
+  </ng-container>
+  <div class="auto-height-grid" *ngSwitchCase="'landscape'">
+    <ng-container *ngFor="let item of items; trackBy: trackByFn">
+      <person-landscape-item *ngIf="item.model_type === 'person'" [person]="item"></person-landscape-item>
+      <title-landscape-item *ngIf="item.model_type === 'title'" [title]="item"></title-landscape-item>
+    </ng-container>
+  </div>
+  <div class="auto-height-grid" *ngSwitchDefault>
+    <ng-container *ngFor="let item of items; trackBy: trackByFn">
+      <person-portrait-item *ngIf="item.model_type === 'person'" [person]="item"></person-portrait-item>
+      <title-portrait-item *ngIf="item.model_type === 'title'" [title]="item"></title-portrait-item>
+    </ng-container>
+  </div>
+</ng-container>

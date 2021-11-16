@@ -1,0 +1,32 @@
+@import "../../../../../../../scss/variables";
+
+primary-facts-panel {
+  display: block;
+
+  .poster-container {
+    display: flex;
+    margin-bottom: 20px;
+
+    media-image img {
+      height: 350px;
+      width: auto;
+      @include mat-elevation(1);
+      border-radius: 4px;
+    }
+
+    .many-inputs {
+      margin-left: 20px;
+      flex: 1 1 auto;
+
+      .input-container:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .certification-input-container {
+    option, select {
+      text-transform: uppercase;
+    }
+  }
+}

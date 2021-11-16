@@ -1,0 +1,15 @@
+@import "variables";
+
+:host {
+  display: block;
+  width: $modal-default-width;
+  max-width: 100%;
+}
+
+.type-select {
+  text-transform: capitalize;
+
+  option {
+    text-transform: capitalize;
+  }
+}

@@ -1,0 +1,19 @@
+@import "variables";
+
+.thumb-up-btn {
+  color: mat-color($app-success, default);
+  padding: 0;
+
+  .mat-icon {
+    margin-right: 5px;
+  }
+}
+
+.thumb-down-btn {
+  color: mat-color($app-warn, default);
+  padding: 0;
+
+  .mat-icon {
+    margin-left: 5px;
+  }
+}

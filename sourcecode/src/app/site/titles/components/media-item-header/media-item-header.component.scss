@@ -1,0 +1,64 @@
+@import '../../../../../scss/variables';
+
+media-item-header {
+  display: block;
+  position: relative;
+
+  .nav-searchbar input {
+    &::placeholder {
+      color: darken(#fff, 20%);
+    }
+
+    &:focus,
+    &:active {
+      &::placeholder {
+        color: mat-color($app-foreground, secondary-text);
+      }
+    }
+  }
+
+  &:not(.no-backdrop) {
+    height: 450px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #000;
+
+    @media only screen and (max-width: $medium) {
+      height: 180px;
+    }
+
+    .header-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+
+    .play-button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      margin: auto;
+    }
+
+    material-navbar {
+      background-color: transparent;
+      box-shadow: none;
+
+      .nav-searchbar input:not(:focus) {
+        background-color: rgba(67, 81, 80, 0.6);
+      }
+    }
+  }
+
+  .action-buttons {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    color: mat-color($app-accent, default-contrast);
+  }
+}

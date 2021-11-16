@@ -1,0 +1,11 @@
+<material-navbar menuPosition="primary" [transparent]="transparent || !!backdrop">
+    <search-input class="nav-searchbar"></search-input>
+</material-navbar>
+<div class="header-overlay">
+    <button mat-fab *ngIf="backdrop && settings.get('streaming.show_header_play') && titlePage.primaryVideo" (click)="titlePage.playVideo(titlePage.primaryVideo)" class="play-button play-button-animation">
+        <mat-icon svgIcon="play-arrow"></mat-icon>
+    </button>
+</div>
+<div class="action-buttons">
+    <ng-content></ng-content>
+</div>

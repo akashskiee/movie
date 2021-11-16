@@ -1,0 +1,17 @@
+@import "../../../../scss/variables";
+
+:host {
+  display: block;
+  overflow: hidden;
+  min-height: 180px;
+  position: relative;
+  margin-bottom: 45px;
+}
+
+.action-bar {
+  margin: 25px 0 45px;
+}
+
+review-item:last-of-type {
+  border-color: transparent;
+}

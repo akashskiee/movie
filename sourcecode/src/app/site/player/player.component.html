@@ -1,0 +1,54 @@
+<mat-sidenav-container>
+    <mat-sidenav-content>
+        <div class="iframe-container video-and-stream-container" #videoContainer [class.hidden]="(player.iframeUrl$ | async) || player.activeVideo?.type === 'external'"></div>
+        <div class="iframe-container embed-container" *ngIf="player.iframeUrl$ | async as iframeUrl">
+            <iframe [src]="iframeUrl" height="100%" width="100%" allowfullscreen allowtransparency allow="autoplay"></iframe>
+        </div>
+        <div class="iframe-container external-link-container" *ngIf="player.activeVideo?.type === 'external'">
+            <a mat-raised-button color="accent" [href]="player.activeVideo?.url" class="open-external-link-button" target="_blank">
+                <mat-icon svgIcon="open-in-new"></mat-icon>
+                <span trans>Open Link</span>
+            </a>
+        </div>
+        <loading-indicator [isVisible]="player.loading$ | async" class="overlay overlay-partial overlay-transparent"></loading-indicator>
+    </mat-sidenav-content>
+    <mat-sidenav [mode]="isTabletOrMobile() ? 'over' : 'side'" position="end" [opened]="player.sidebarOpen$ | async" *ngIf="settings.get('streaming.related_videos_type') !== 'hide'">
+        <div class="header" trans>Related Videos</div>
+        <ng-container *ngIf="player.mediaItem as mediaItem">
+            <div class="title-info">
+                <div class="img-container">
+                    <img [src]="mediaItem.poster" alt="{{mediaItem.name}} poster">
+                </div>
+                <div class="media-body">
+                    <div class="title">{{mediaItem.name}}</div>
+                    <div class="year">{{mediaItem.year}}</div>
+                </div>
+            </div>
+            <div class="related-videos">
+                <div class="related-video" *ngFor="let video of player.relatedVideos$ | async; trackBy:trackByFn" (click)="player.play(video)" [class.active]="video.id === player.activeVideo.id">
+                    <div class="img-container">
+                        <media-image [src]="video.thumbnail || video?.title?.backdrop || mediaItem.backdrop" [alt]="video.name" size="medium" mode="landscape"></media-image>
+                    </div>
+                    <div class="media-body">
+                        <div class="title">{{video.name}}</div>
+                        <div class="secondary-title">{{video.description || video?.title?.name || mediaItem.name}}</div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </mat-sidenav>
+</mat-sidenav-container>
+
+<div class="action-toolbar" [class.active]="!(player.sidebarOpen$ | async)">
+    <div class="toolbar-bg-wrapper">
+        <button mat-icon-button (click)="player.toggleSidebar()">
+            <mat-icon svgIcon="last-page" *ngIf="player.sidebarOpen$ | async; else openIcon"></mat-icon>
+            <ng-template #openIcon>
+                <mat-icon svgIcon="first-page"></mat-icon>
+            </ng-template>
+        </button>
+        <button mat-icon-button (click)="close()">
+            <mat-icon svgIcon="close"></mat-icon>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+@import "../../../../../scss/variables";
+
+related-titles-panel {
+  display: block;
+  width: 100%;
+  padding: 45px 0;
+  background-color: mat-color($app-foreground, divider-lighter);
+
+  .header {
+    font-size: 2.5rem;
+    padding-bottom: 15px;
+  }
+}

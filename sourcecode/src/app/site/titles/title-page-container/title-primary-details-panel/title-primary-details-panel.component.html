@@ -1,0 +1,101 @@
+<div class="row">
+  <div class="left">
+    <h1 class="title">
+      <ng-container *ngIf="titlePage.activeEpisode">
+        <a [routerLink]="url.generate(titlePage.title)">{{ titlePage.title.name }}:</a>
+        <a [routerLink]="url.generate(titlePage.activeEpisode, titlePage.title)">
+          {{ titlePage.activeEpisode.name }}
+        </a>
+        <span *ngIf="titlePage.activeEpisode.year" class="year"
+          >({{ titlePage.activeEpisode.year }})</span
+        >
+      </ng-container>
+      <ng-container *ngIf="!titlePage.activeEpisode">
+        <a [routerLink]="url.generate(titlePage.title)">
+          {{ titlePage.title.name }}
+        </a>
+        <span *ngIf="titlePage.title.year" class="year">({{ titlePage.title.year }})</span>
+      </ng-container>
+    </h1>
+  </div>
+  <div class="right links">
+    <share-buttons [mediaItem]="titlePage.activeEpisode || titlePage.title"></share-buttons>
+  </div>
+</div>
+
+<div class="row">
+  <div class="left">
+    <div class="genres" *ngIf="!titlePage.activeEpisode">
+      <genre-widget [genres]="titlePage.title.genres"></genre-widget>
+    </div>
+
+    <div class="episode-number" *ngIf="titlePage.activeEpisode">
+      <a
+        [routerLink]="
+          url.generate(titlePage.title, {seasonNum: titlePage.activeEpisode.season_number})
+        "
+      >
+        <span trans>Season</span>:
+        <span> {{ titlePage.activeEpisode.season_number }}</span>
+      </a>
+      <span>, </span>
+      <a [routerLink]="url.generate(titlePage.activeEpisode, titlePage.title)">
+        <span trans>Episode</span>:
+        <span> {{ titlePage.activeEpisode.episode_number }}&nbsp;</span>
+      </a>
+    </div>
+
+    <div class="row rating-row">
+      <rating-widget
+        [item]="titlePage.activeEpisode || titlePage.title"
+        [showRateButton]="isReleased()"
+      ></rating-widget>
+    </div>
+  </div>
+  <div class="right meta-details">
+    <ng-container *ngIf="titlePage.title.runtime">
+      <div class="detail">
+        <div class="name" trans>Running Time</div>
+        <div class="value">
+          {{ titlePage.title.runtime }}
+          <span trans>mins</span>
+        </div>
+      </div>
+
+      <mat-icon svgIcon="keyboard-arrow-right" class="separator"></mat-icon>
+    </ng-container>
+
+    <ng-container *ngIf="!titlePage.activeEpisode">
+      <ng-container *ngIf="titlePage.title.budget">
+        <div class="detail">
+          <div class="name" trans>Budget</div>
+          <div class="value">{{ titlePage.title.budget | currency: 'USD':'symbol':'1.0-0' }}</div>
+        </div>
+
+        <mat-icon svgIcon="keyboard-arrow-right" class="separator"></mat-icon>
+      </ng-container>
+
+      <ng-container *ngIf="titlePage.title.episode_count">
+        <div class="detail">
+          <div class="name" trans>Episodes</div>
+          <div class="value">{{ titlePage.title.episode_count }}</div>
+        </div>
+
+        <mat-icon svgIcon="keyboard-arrow-right" class="separator"></mat-icon>
+      </ng-container>
+    </ng-container>
+
+    <div class="detail">
+      <div class="name" *ngIf="titlePage.activeEpisode" trans>Air Date</div>
+      <div class="name" *ngIf="!titlePage.activeEpisode && titlePage.title.is_series" trans>
+        Premiered
+      </div>
+      <div class="name" *ngIf="!titlePage.activeEpisode && !titlePage.title.is_series" trans>
+        Release Date
+      </div>
+      <div class="value">
+        {{ (titlePage.activeEpisode || titlePage.title).release_date | formattedDate }}
+      </div>
+    </div>
+  </div>
+</div>

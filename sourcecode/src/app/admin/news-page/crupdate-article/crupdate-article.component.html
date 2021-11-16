@@ -1,0 +1,31 @@
+<form (ngSubmit)="crupdateArticle()" [formGroup]="articleForm" class="many-inputs" ngNativeValidate>
+    <div class="input-container">
+        <label for="title" trans>Title</label>
+        <div class="input-with-action">
+            <input type="text" id="title" placeholder="Title..." formControlName="title" required minlength="5">
+            <button mat-raised-button color="accent" type="submit" class="submit-button" [disabled]="loading$ | async" trans>Save</button>
+        </div>
+    </div>
+
+    <div class="input-container">
+        <label for="image" trans>Image</label>
+        <div class="input-with-action action-left">
+            <button mat-flat-button color="accent" type="button" (click)="openUploadImageDialog()">
+                <mat-icon svgIcon="file-upload"></mat-icon>
+            </button>
+            <input id="image" formControlName="image" required>
+        </div>
+    </div>
+
+    <div class="errors" *ngIf="errors$ | async as errors">
+        <div class="error" *ngIf="errors.title">{{errors.title}}</div>
+        <div class="error" *ngIf="errors.body">{{errors.body}}</div>
+        <div class="error" *ngIf="errors.image">{{errors.image}}</div>
+    </div>
+
+    <div class="editor-container">
+        <text-editor inlineUploadPrefix="page" class="text-editor" minHeight="auto" [showAdvancedControls]="true"></text-editor>
+    </div>
+</form>
+
+<loading-indicator [isVisible]="loading$ | async" class="overlay"></loading-indicator>

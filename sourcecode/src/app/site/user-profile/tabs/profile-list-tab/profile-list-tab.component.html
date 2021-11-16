@@ -1,0 +1,44 @@
+<ng-container *ngIf="pagination$ | async as pagination">
+  <no-results-message
+    *ngIf="!pagination.data.length && !(loading$ | async)"
+    svgImage="task-list.svg"
+  >
+    <span primary-text [transValues]="{user: profile.user$.value.display_name}" trans
+      >:user has not created any lists yet.</span
+    >
+  </no-results-message>
+
+  <div class="auto-height-grid">
+    <div *ngFor="let list of pagination.data" @fadeIn>
+      <div class="grid-item">
+        <div class="grid-content">
+          <media-image
+            mode="portrait"
+            [src]="list.image"
+            size="medium"
+            [alt]="list.name + ' image'"
+            [link]="['/lists', list.id]"
+          >
+          </media-image>
+        </div>
+      </div>
+      <div class="grid-label">
+        <a class="title" [routerLink]="['/lists', list.id]">{{ list.name }}</a>
+        <p class="subtitle" *ngIf="list.description">{{ list.description }}</p>
+      </div>
+    </div>
+    <ng-container *ngIf="loading$ | async">
+      <div *ngFor="let skeleton of skeletonCount" @fadeOut>
+        <div class="grid-item">
+          <div class="grid-content">
+            <skeleton variant="rect"></skeleton>
+          </div>
+        </div>
+        <div class="grid-label">
+          <skeleton class="title" variant="text"></skeleton>
+          <skeleton class="subtitle" variant="text"></skeleton>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

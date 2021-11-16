@@ -1,0 +1,7 @@
+<button class="trigger-button" mat-icon-button [matMenuTriggerFor]="menu" [disabled]="loading$ | async">
+    <mat-icon svgIcon="more-vert"></mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item *ngIf="canEditVideo()" (click)="titlePage.openCrupdateVideoModal(video)" trans>Edit</button>
+    <button mat-menu-item *ngIf="canDeleteVideo()" (click)="deleteVideo()" trans>Delete</button>
+</mat-menu>

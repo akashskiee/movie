@@ -1,0 +1,89 @@
+@import "../../../../scss/variables";
+
+.be-dark-mode .footer-bar {
+  background-color: transparent;
+}
+
+footer {
+  display: block;
+  border-top: 1px solid mat-color($app-foreground, divider-lighter);
+
+  .footer-content {
+    background-color: mat-color($app-background, background);
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
+  }
+
+  .col {
+    max-width: 300px;
+    margin-bottom: 30px;
+
+    .title, .menu-title {
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 25px;
+    }
+
+    .nav-item {
+      display: block;
+      color: inherit;
+      margin-bottom: 10px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .footer-bar {
+    background-color: mat-color($app-accent, default);
+    color: mat-color($app-accent, default-contrast);
+    padding: 15px 50px;
+
+    .container {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .copyright {
+    margin-right: auto;
+  }
+
+  app-footer-lang-switcher {
+    margin-left: 20px;
+  }
+
+  @media only screen and (max-width: $medium) {
+    .about-col {
+      max-width: none;
+      text-align: center;
+      width: 100%;
+
+      .title {
+        margin-bottom: 10px;
+      }
+    }
+
+    .footer-content .container {
+      padding: 30px;
+    }
+
+    .footer-bar {
+      .copyright {
+        margin-bottom: 15px;
+      }
+
+      .container {
+        display: block;
+        text-align: center;
+      }
+    }
+  }
+}

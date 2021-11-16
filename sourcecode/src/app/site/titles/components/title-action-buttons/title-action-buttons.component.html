@@ -1,0 +1,9 @@
+<button mat-flat-button color="accent" (authClick)="addToWatchlist()" [class.hidden]="itemInWatchlist$ | async" [disabled]="loading$ | async">
+    <mat-icon svgIcon="add"></mat-icon>
+    <span trans>Add to Watchlist</span>
+</button>
+
+<button mat-stroked-button color="accent" (authClick)="removeFromWatchlist()" [class.hidden]="!(itemInWatchlist$ | async)" [disabled]="loading$ | async">
+    <mat-icon svgIcon="close"></mat-icon>
+    <span trans>Remove from Watchlist</span>
+</button>

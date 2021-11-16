@@ -1,0 +1,26 @@
+<div class="grid-item">
+  <div class="grid-content">
+    <media-image
+      mode="portrait"
+      [src]="title.poster"
+      size="medium"
+      [alt]="title.name + ' image'"
+      [link]="url.generate(title)"
+    >
+      <media-view-play-button [title]="title"></media-view-play-button>
+    </media-image>
+    <streamable-label [item]="title"></streamable-label>
+  </div>
+</div>
+<div class="grid-label">
+  <a class="title" [routerLink]="url.generate(title)">{{ title.name }}</a>
+  <div class="subtitle">
+    <genre-widget
+      *ngIf="title.genres?.length"
+      class="subtitle-item"
+      [genres]="title.genres"
+      [limit]="2"
+      separator="/"
+    ></genre-widget>
+  </div>
+</div>

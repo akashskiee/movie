@@ -1,0 +1,37 @@
+<media-image
+  *ngIf="review.reviewable"
+  [src]="review.reviewable.poster"
+  [link]="url.generate(review.reviewable)"
+  size="small"
+></media-image>
+<div class="review">
+  <div class="header">
+    <div class="score" [ngClass]="getScoreColor(review.score)">{{ review.score }}</div>
+    <div class="meta">
+      <div class="header-link" *ngIf="review.reviewable">
+        <a target="_blank" [routerLink]="url.generate(review.reviewable)">{{
+          review.reviewable.name
+        }}</a>
+      </div>
+      <div class="header-link" *ngIf="review.user as author">
+        <img [src]="author.avatar" alt="">
+        <a [routerLink]="['/users', author.id, 'reviews']">{{ author.display_name }}</a>
+      </div>
+      <div class="date">{{ review.created_at | formattedDate }}</div>
+    </div>
+    <div class="actions">
+      <button
+        mat-icon-button
+        color="danger"
+        (click)="maybeDeleteReview(review)"
+        *ngIf="currentUser.get('id') === review.user_id"
+      >
+        <mat-icon svgIcon="delete"></mat-icon>
+      </button>
+      <a [href]="review.link" target="_blank" mat-icon-button *ngIf="review.link">
+        <mat-icon svgIcon="open-in-new"></mat-icon>
+      </a>
+    </div>
+  </div>
+  <div class="body" moreLessText="500" [textContent]="review.body"></div>
+</div>

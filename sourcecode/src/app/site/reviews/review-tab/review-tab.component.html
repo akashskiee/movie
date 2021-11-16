@@ -1,0 +1,31 @@
+<div class="action-bar">
+  <button
+    mat-raised-button
+    type="button"
+    color="accent"
+    (authClick)="openCrupdateReviewModal()"
+    trans
+  >
+    Write a Review
+  </button>
+</div>
+
+<div class="reviews-list" *ngIf="reviews.size; else noReviews">
+  <review-item
+    *ngFor="let review of reviews.values()"
+    [review]="review"
+    (deleted)="reviews.delete($event)"
+  ></review-item>
+</div>
+
+<ng-template #noReviews>
+  <no-results-message svgImage="like-dislike.svg">
+    <span primary-text trans>There are no reviews for this title yet.</span>
+    <span secondary-text trans>Be the first to leave one!</span>
+  </no-results-message>
+</ng-template>
+
+<loading-indicator
+  [isVisible]="loading$ | async"
+  class="overlay overlay-light overlay-partial"
+></loading-indicator>

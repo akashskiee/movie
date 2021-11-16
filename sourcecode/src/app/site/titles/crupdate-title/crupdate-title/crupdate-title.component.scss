@@ -1,0 +1,172 @@
+@import "../../../../../scss/variables";
+
+.be-dark-mode crupdate-title .sidebar .header {
+  background-color: transparent;
+  border-bottom: 1px solid mat-color($app-foreground, divider);
+}
+
+crupdate-title {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+
+  .material-panel {
+    flex: 1 1 auto;
+
+    // same as sidebar menu height, prevent
+    // height flashes while content is not loaded
+    min-height: 412px;
+
+    // only add margin to direct children
+    form > .input-container, .inline-container {
+      margin-bottom: 25px;
+    }
+  }
+
+  video-index {
+    &.material-panel {
+      padding: 0;
+    }
+
+    .datatable {
+      border: none;
+    }
+
+    h1 {
+      display: none;
+    }
+
+    .datatable-page-header {
+      padding: 15px 15px 0 15px;
+    }
+  }
+
+  .inline-container {
+    display: flex;
+
+    .input-container {
+      flex: 1 1 auto;
+
+      &.size-small {
+        flex: 1 1 30%;
+      }
+
+      &:first-of-type {
+        margin-right: 15px;
+      }
+    }
+  }
+
+  .sidebar {
+    flex: 0 0 260px;
+    margin-left: 30px;
+    padding: 0;
+    overflow: hidden;
+
+    .header {
+      background-color: mat-color($app-primary);
+      color: mat-color($app-accent, default-contrast);
+      padding: 15px 20px;
+      font-size: 1.6rem;
+      font-weight: 500;
+    }
+
+    .list {
+      .list-item {
+        display: block;
+        width: 100%;
+        padding: 10px 20px;
+        white-space: nowrap;
+        text-transform: capitalize;
+
+        &:disabled {
+          color: mat-color($app-foreground, hint-text);
+          cursor: default;
+        }
+
+        &.active {
+          font-weight: 500;
+        }
+
+        &:not(:disabled):hover {
+          background-color: mat-color($app-foreground, hover);
+          cursor: pointer;
+        }
+      }
+    }
+
+    .message {
+      margin: 8px 20px;
+      padding-top: 8px;
+      font-size: 1.3rem;
+      color: mat-color($app-foreground, secondary-text);
+      border-top: 1px solid mat-color($app-foreground, divider-lighter);
+    }
+  }
+
+  @media only screen and (max-width: $medium) {
+    display: block;
+
+    primary-facts-panel.material-panel {
+      border: none;
+
+      .poster-container {
+        display: block;
+      }
+
+      .many-inputs {
+        margin-left: 0;
+      }
+
+      img {
+        margin: 0 auto 20px;
+      }
+    }
+
+    .sidebar {
+      margin: 30px 20px 0;
+    }
+
+    .inline-container {
+      display: block;
+
+      .input-container:first-of-type {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}
+
+.crupdate-title-panel, crupdate-episode-modal {
+  .table-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+
+    .mat-raised-button {
+      text-transform: capitalize;
+    }
+
+    .input-container {
+      max-width: 300px;
+      margin-left: auto;
+      position: relative;
+
+      .mat-icon {
+        position: absolute;
+        top: 11px;
+        right: 8px;
+      }
+    }
+  }
+
+  no-results-message {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+
+  .mat-column-edit {
+    max-width: 100px;
+    color: mat-color($app-foreground, secondary-text);
+  }
+}

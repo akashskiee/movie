@@ -1,0 +1,49 @@
+@import "variables";
+
+:host {
+  display: block;
+
+  ::ng-deep .mat-tab-links {
+    justify-content: center;
+  }
+}
+
+.main-container {
+  padding: 30px;
+  min-height: calc(100vh);
+}
+
+.content {
+  padding-top: 25px;
+}
+
+.name {
+  font-size: 3.4rem;
+  margin: 15px 0;
+
+  skeleton {
+    min-width: 300px;
+    max-width: 80%;
+    height: 2.3rem;
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 50px 0;
+  position: relative;
+}
+
+.user-avatar {
+  border-radius: 50%;
+  border: 5px solid #fff;
+  width: 90px;
+  height: 90px;
+
+  &.real {
+    background: #fff;
+  }
+}

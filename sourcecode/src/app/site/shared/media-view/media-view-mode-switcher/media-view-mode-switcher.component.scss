@@ -1,0 +1,8 @@
+:host {
+  display: block;
+
+  ::ng-deep .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+    line-height: 37px;
+    padding: 0 8px;
+  }
+}

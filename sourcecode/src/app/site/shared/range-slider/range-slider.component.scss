@@ -1,0 +1,58 @@
+@import "../../../../scss/variables";
+@import "~nouislider/dist/nouislider.css";
+
+.be-dark-mode range-slider .noUi-horizontal .noUi-handle {
+  background-color: #313131;
+}
+
+range-slider {
+  display: block;
+
+  .slider-el {
+     padding-right: 12px;
+  }
+
+  .values {
+    display: flex;
+    align-items: center;
+    margin-top: 18px;
+    min-height: 20px;
+
+    .left, .right {
+      min-width: 25px;
+    }
+
+    .mat-icon {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      color: mat-color($app-foreground, icon);
+    }
+  }
+
+  .noUi-horizontal {
+    height: 3px;
+    border-radius: 0;
+    border: none;
+    background: mat-color($app-foreground, divider);
+    box-shadow: none;
+
+    .noUi-handle {
+      width: 20px;
+      height: 20px;
+      top: -8px;
+      outline: none;
+      background: mat-color($app-background, card);
+      border-color: mat-color($app-foreground, divider);
+      @include mat-elevation(1);
+
+      &:before, &:after {
+        display: none;
+      }
+    }
+  }
+
+  .noUi-connect {
+    background-color: mat-color($app-accent, default);
+  }
+}

@@ -1,0 +1,67 @@
+@import "../../../../scss/variables";
+
+news-index {
+  display: block;
+
+  .main-container {
+    min-height: calc(100vh - #{$footer-height + $material-navbar-height});
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .page-title {
+    margin: 15px 0 20px;
+    font-weight: 400;
+    font-size: 2.8rem;
+  }
+
+  .article {
+    display: flex;
+    margin-bottom: 25px;
+    border: 1px solid mat-color($app-foreground, divider);
+    border-radius: 4px;
+    padding: 15px;
+
+    img {
+      width: 95px;
+      flex: 0 0 95px;
+      height: 95px;
+      object-fit: cover;
+      margin-right: 20px;
+      border-radius: 4px;
+    }
+
+    .body {
+      margin: 6px 0;
+
+      @media only screen and (max-width: $medium) {
+        display: none;
+      }
+    }
+
+    .title {
+      font-weight: 500;
+      font-size: 1.6rem;
+      color: inherit;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .meta {
+      color: mat-color($app-foreground, secondary-text);
+
+      .source {
+        &:after {
+          content: '\0000a0\002022\0000a0';
+          vertical-align: text-top;
+        }
+      }
+    }
+  }
+
+  .shared-ad-host {
+    margin-top: 30px;
+  }
+}

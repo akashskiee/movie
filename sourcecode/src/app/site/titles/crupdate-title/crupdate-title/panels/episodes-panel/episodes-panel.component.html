@@ -1,0 +1,40 @@
+<datatable-header pluralResourceName="episodes">
+    <ng-container leftContent>
+        <button mat-raised-button color="accent" (click)="openCrupdateEpisodeModal()" trans>Add Episode</button>
+    </ng-container>
+</datatable-header>
+<table class="material-table">
+    <thead>
+    <tr>
+        <th table-sort-header trans>Name</th>
+        <th table-sort-header trans>Number</th>
+        <th table-sort-header trans>Release Date</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let episode of datatable.data$ | async; trackBy: trackByFn">
+        <td>
+            <div class="column-with-image">
+                <media-image [src]="episode.poster" [alt]="episode.name" size="small"></media-image>
+                <span>{{episode.name}}</span>
+            </div>
+        </td>
+        <td>{{episode.episode_number}}</td>
+        <td>{{episode.release_date | formattedDate}}</td>
+        <td class="edit-column">
+            <button type="button" mat-icon-button (click)="openCrupdateEpisodeModal(episode)">
+                <mat-icon svgIcon="edit"></mat-icon>
+            </button>
+            <button type="button" mat-icon-button (click)="deleteEpisode(episode)">
+                <mat-icon svgIcon="close"></mat-icon>
+            </button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<no-results-message *ngIf="!(datatable.data$ | async).length">
+    <span primary-text trans>Nothing to Display.</span>
+    <span secondary-text trans>This season does not have any episodes yet.</span>
+</no-results-message>

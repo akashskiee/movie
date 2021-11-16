@@ -1,0 +1,8 @@
+<button mat-button class="thumb-up-btn" (click)="rateVideo(video, 'positive')" [disabled]="loading$ | async">
+    <mat-icon svgIcon="thumb-up"></mat-icon>
+    <span>({{video.positive_votes}})</span>
+</button>
+<button mat-button class="thumb-down-btn" (click)="rateVideo(video, 'negative')" [disabled]="loading$ | async">
+    <span>({{video.negative_votes}})</span>
+    <mat-icon svgIcon="thumb-down"></mat-icon>
+</button>

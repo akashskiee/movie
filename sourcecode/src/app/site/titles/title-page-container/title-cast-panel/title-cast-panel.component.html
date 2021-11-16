@@ -1,0 +1,16 @@
+<div class="cast-table-row" *ngFor="let person of cast; even as even" [class.even]="even">
+    <div class="cast-table-col image-col">
+        <media-image [src]="person.poster" size="small"></media-image>
+    </div>
+
+    <a [routerLink]="url.generate(person)" class="cast-table-col name-col">{{person.name}}</a>
+
+    <ng-container *ngIf="person.pivot.character">
+        <div class="separator">...</div>
+        <div class="cast-table-col character-col">{{person.pivot.character}}</div>
+    </ng-container>
+</div>
+
+<p *ngIf="!cast.length" trans>No cast information has been added yet.</p>
+
+<a routerLink="full-credits" class="full-cast-button" *ngIf="cast.length" trans>See full credits >></a>

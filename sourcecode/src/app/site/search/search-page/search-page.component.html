@@ -1,0 +1,26 @@
+<media-item-header></media-item-header>
+
+<div class="container main-container">
+    <h1>
+        <span trans>Search results for:</span>
+        &nbsp;
+        <span class="query">"{{query$ | async}}"</span>
+    </h1>
+
+    <div class="type-container" *ngIf="(movies$ | async).length">
+        <div class="title" trans>Movies</div>
+        <media-view [items]="movies$ | async" class="full-width small-titles"></media-view>
+    </div>
+
+    <div class="type-container" *ngIf="(series$ | async).length">
+        <div class="title" trans>Series</div>
+        <media-view [items]="series$ | async" class="full-width small-titles"></media-view>
+    </div>
+
+    <div class="type-container" *ngIf="(people$ | async).length">
+        <div class="title" trans>People</div>
+        <media-view [items]="people$ | async" class="full-width small-titles"></media-view>
+    </div>
+</div>
+
+<footer></footer>

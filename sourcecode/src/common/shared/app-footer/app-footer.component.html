@@ -1,0 +1,17 @@
+<div class="row first-row">
+  <custom-menu position="footer" class="first-menu first-col" [horizontal]="true"></custom-menu>
+  <custom-menu
+    position="footer-secondary"
+    class="second-menu second-col"
+    [horizontal]="true"
+  ></custom-menu>
+</div>
+
+<div class="row second-row">
+  <div class="copyright first-col">
+    {{ copyrightText }}
+  </div>
+  <div class="selectors second-col">
+    <app-footer-lang-switcher></app-footer-lang-switcher>
+  </div>
+</div>

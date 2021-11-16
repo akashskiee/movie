@@ -1,0 +1,10 @@
+@import "../../../../scss/variables";
+
+known-for-widget {
+  color: mat-color($app-foreground, secondary-text);
+  font-size: 1.3rem;
+
+  .separator {
+    padding: 0 5px;
+  }
+}

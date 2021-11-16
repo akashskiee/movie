@@ -1,0 +1,15 @@
+people-page {
+  display: block;
+
+  .mat-column-name {
+    media-image {
+      margin-right: 10px;
+
+      img {
+        width: 30px;
+        height: 40px;
+        object-fit: cover;
+      }
+    }
+  }
+}

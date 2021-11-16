@@ -1,0 +1,33 @@
+<ng-content></ng-content>
+
+<ng-container *ngIf="list">
+    <div class="slider-track" #sliderTrack (swipeleft)="changeSlide('previous')" (swiperight)="changeSlide('next')">
+        <div class="slide" *ngFor="let item of filterTitles(list.items)" [style.background-image]="'url('+ item.backdrop +')'">
+            <div class="slide-cover">
+                <div class="slide-content container">
+                    <div class="rating" *ngIf="item.rating">
+                        <mat-icon svgIcon="star"></mat-icon>
+                        {{item.rating}} / 10
+                    </div>
+                    <a class="title" [routerLink]="url.generate(item)" draggable="false">{{item.name}}</a>
+                    <div class="description" [moreLessText]="(breakpoints.isMobile$ | async) ? 200 : 350" [textContent]="item.description"></div>
+                    <genre-widget [genres]="item.genres"></genre-widget>
+                    <button mat-raised-button color="accent" class="play-trailer-button play-button-animation" (click)="playVideo(item)" *ngIf="item?.videos?.length">
+                        <mat-icon svgIcon="play-arrow"></mat-icon>
+                        <span *ngIf="item.videos[0].category !== 'full'; else playFull" trans>Play Trailer</span>
+                        <ng-template #playFull>
+                            <span trans>Watch Now</span>
+                        </ng-template>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slider-controls">
+        <button class="control" *ngFor="let item of list.items; index as index;" [class.active]="index === (activeSlide$ | async)" (tap)="changeSlide(index)">
+            <span class="control-inner"></span>
+        </button>
+    </div>
+</ng-container>
+

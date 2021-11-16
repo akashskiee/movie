@@ -1,0 +1,35 @@
+<media-item-header></media-item-header>
+
+<ad-host slot="ads.shared" class="shared-ad-host"></ad-host>
+
+<div class="container main-container">
+  <div class="header" *ngIf="profile.user$ | async as user" @fadeIn>
+    <img [src]="user.avatar" alt="" class="user-avatar real" />
+    <h1 class="name">{{ user.display_name }}</h1>
+  </div>
+  <div class="header" *ngIf="!(profile.user$ | async)" @fadeOut>
+    <skeleton variant="rect" class="user-avatar"></skeleton>
+    <h1 class="name">
+      <skeleton variant="text"></skeleton>
+    </h1>
+  </div>
+
+  <nav mat-tab-nav-bar color="accent">
+    <a mat-tab-link [routerLink]="tabRoute('lists')" [active]="tabIsActive('lists')" trans>Lists</a>
+    <a mat-tab-link [routerLink]="tabRoute('ratings')" [active]="tabIsActive('ratings')" trans
+      >Ratings</a
+    >
+    <a mat-tab-link [routerLink]="tabRoute('reviews')" [active]="tabIsActive('reviews')" trans
+      >Reviews</a
+    >
+    <a mat-tab-link [routerLink]="tabRoute('comments')" [active]="tabIsActive('comments')" trans
+      >Comments</a
+    >
+  </nav>
+
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<footer></footer>

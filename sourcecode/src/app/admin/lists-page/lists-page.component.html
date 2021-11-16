@@ -1,0 +1,90 @@
+<div class="datatable-page-header">
+  <h1 trans>Lists</h1>
+  <div class="header">
+    <datatable-filters pluralName="lists" [filters]="filters"></datatable-filters>
+    <div class="action-buttons">
+      <a
+        *ngIf="currentUser.hasPermission('lists.create')"
+        mat-raised-button
+        color="accent"
+        routerLink="/lists/new"
+        class="button-with-icon"
+      >
+        <mat-icon svgIcon="add"></mat-icon>
+        <span trans>Add New List</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="datatable responsive-table">
+  <mat-progress-bar
+    class="loading-bar"
+    mode="indeterminate"
+    color="accent"
+    *ngIf="datatable.paginator && datatable.paginator.loading$ | async"
+  ></mat-progress-bar>
+  <table class="material-table">
+    <thead>
+      <tr>
+        <th table-header-checkbox></th>
+        <th table-sort-header trans>Name</th>
+        <th table-sort-header="user_id" trans>Owner</th>
+        <th table-sort-header="items_count" trans>Item Count</th>
+        <th table-sort-header trans>Public</th>
+        <th table-sort-header="updated_at" trans>Last Updated</th>
+        <th></th>
+      </tr>
+      <tr *ngIf="datatable.selectedRows$.value.length as selectedCount">
+        <th colspan="7">
+          <div
+            class="bulk-actions-title"
+            [transValues]="{count: selectedCount, resource: 'list(s)'}"
+            trans
+          >
+            :count :resource selected:
+          </div>
+          <div class="bulk-actions">
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="maybeDeleteSelectedLists()"
+              *ngIf="currentUser.hasPermission('lists.delete')"
+              trans
+            >
+              Delete
+            </button>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let list of lists$ | async">
+        <td [table-body-checkbox]="list.id"></td>
+        <td data-label="Name">{{ list.name }}</td>
+        <td data-label="Owner">
+          <div class="column-with-image">
+            <user-column [user]="list.user"></user-column>
+          </div>
+        </td>
+        <td data-label="Item Count">{{ list.items_count }}</td>
+        <td data-label="Public">{{ list.public ? 'Yes' : 'No' }}</td>
+        <td data-label="Last Updated">{{ list.updated_at | formattedDate }}</td>
+        <td class="edit-column">
+          <a
+            mat-icon-button
+            [routerLink]="['/lists', list.id, 'edit']"
+            *ngIf="currentUser.hasPermission('lists.update')"
+            [matTooltip]="'Edit list' | trans"
+          >
+            <mat-icon svgIcon="edit"></mat-icon>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <no-results-message svgImage="task-list.svg" *ngIf="datatable.paginator.noResults$ | async">
+    <span primary-text trans>No lists have been created yet</span>
+  </no-results-message>
+  <datatable-footer></datatable-footer>
+</div>

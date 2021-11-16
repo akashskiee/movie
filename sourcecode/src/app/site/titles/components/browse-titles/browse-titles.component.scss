@@ -1,0 +1,177 @@
+@import "../../../../../scss/variables";
+
+browse-titles {
+  display: block;
+  width: 100%;
+
+  .main-container {
+    display: flex;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 60px;
+    min-height: 100vh;
+  }
+
+  .mat-sidenav-container {
+    background-color: mat-color($app-background, card);
+    color: inherit;
+  }
+
+  .mat-sidenav-content {
+    width: 100%;
+  }
+
+  .mat-sidenav-fixed.sidebar {
+    padding-top: $material-navbar-height + 20px;
+  }
+
+  .mat-drawer-inner-container {
+    overflow: initial;
+  }
+
+  .sidebar {
+    width: 250px + 35px;
+    padding-top: 35px;
+    border-right: none;
+    padding-left: 20px;
+    overflow: auto;
+    user-select: none;
+    background: inherit;
+    color: inherit;
+
+    form {
+      width: calc(100% - 35px);
+    }
+
+    .filter-header {
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      line-height: 1.5;
+      letter-spacing: 2px;
+      font-size: 1.3rem;
+    }
+
+    .filter-container {
+      border-bottom: 1px solid mat-color($app-foreground, divider);
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+    }
+
+    .reset-filters-btn {
+      width: 100%;
+
+      .mat-icon {
+        margin-right: 5px;
+      }
+    }
+
+    .mat-selection-list {
+      padding-top: 0;
+      margin-left: -16px;
+
+      .mat-list-option {
+        text-transform: capitalize;
+        height: 38px;
+        color: inherit;
+      }
+
+      .mat-pseudo-checkbox {
+        color: mat-color($app-foreground, secondary-text);
+      }
+    }
+
+    .slider-filter {
+      .filter-header {
+        margin-bottom: 0;
+      }
+    }
+
+    range-slider {
+      margin-top: 18px;
+    }
+
+    .mat-button-toggle-appearance-standard {
+      .mat-button-toggle-label-content {
+        line-height: 25px;
+        height: 25px;
+        padding: 0 8px;
+        text-transform: uppercase;
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  media-view-mode-switcher {
+    margin-left: 20px;
+  }
+
+  .browse-container {
+    padding: 35px 20px 0;
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+
+      h1 {
+        margin: 0;
+        align-self: flex-end;
+      }
+
+      sort-dropdown {
+        margin-left: auto;
+        width: auto;
+
+        @media only screen and (max-width: $medium) {
+          padding-top: 5px;
+        }
+      }
+
+      .applied-filter {
+        padding-left: 15px;
+      }
+
+      .toggle-filters-button {
+        margin-left: 8px;
+      }
+
+      .clear-all-filters-button {
+        margin-left: 20px;
+
+        .mat-icon {
+          color: mat-color($app-foreground, icon);
+          margin-left: 5px;
+        }
+
+        @media only screen and (max-width: $medium) {
+          display: none;
+        }
+      }
+    }
+
+    no-results-message {
+      margin-top: 80px;
+    }
+  }
+
+  .media-view-container {
+    min-height: calc(100vh - #{(215px + $material-navbar-height)} );
+  }
+
+  .pagination-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+
+  @media only screen and (min-width: $medium) {
+    .pagination-btn {
+      min-width: 220px;
+      height: 45px;
+    }
+  }
+
+  .shared-ad-host {
+    margin-top: 30px;
+  }
+}

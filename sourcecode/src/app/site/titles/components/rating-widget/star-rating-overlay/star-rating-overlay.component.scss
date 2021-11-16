@@ -1,0 +1,17 @@
+@import "../../../../../../scss/variables";
+
+star-rating-overlay {
+  display: flex;
+  align-items: center;
+  @include mat-elevation(3);
+  border-radius: 4px;
+  background-color: mat-color($app-background, card);
+  padding: 10px 18px 10px 10px;
+  color: mat-color($app-foreground, text);
+
+  .stars {
+    padding-left: 5px;
+    margin-left: 5px;
+    border-left: 1px solid mat-color($app-foreground, divider);
+  }
+}

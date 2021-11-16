@@ -1,0 +1,100 @@
+<div class="modal-header">
+  <h2 class="modal-title" mat-dialog-title *ngIf="data.episode" trans>Edit Episode</h2>
+  <h2 class="modal-title" mat-dialog-title *ngIf="!data.episode" trans>Create Episode</h2>
+  <button type="button" (click)="close()" class="close-button no-style icon-button">
+    <mat-icon svgIcon="close"></mat-icon>
+  </button>
+</div>
+
+<form autocomplete="off" (ngSubmit)="confirm()" [formGroup]="episodeForm" ngNativeValidate>
+  <mat-dialog-content>
+    <mat-tab-group [dynamicHeight]="true" animationDuration="0ms" color="accent">
+      <mat-tab [label]="'Primary Facts' | trans">
+        <div class="many-inputs primary-facts-panel">
+          <div class="input-container">
+            <label for="name" trans>Title</label>
+            <input
+              type="text"
+              formControlName="name"
+              id="name"
+              minlength="1"
+              maxlength="250"
+              required
+            />
+          </div>
+
+          <div class="input-container">
+            <label for="episode_number" trans>Number</label>
+            <input
+              type="number"
+              formControlName="episode_number"
+              id="episode_number"
+              min="1"
+              required
+            />
+            <div class="error" *ngIf="(errors$ | async).episode_number as epNumError">
+              {{ epNumError }}
+            </div>
+          </div>
+
+          <div class="input-container">
+            <label for="poster" trans>Poster</label>
+            <div class="input-with-action action-left">
+              <button
+                type="button"
+                mat-flat-button
+                color="accent"
+                (click)="uploadPoster()"
+                [matTooltip]="'Upload poster' | trans"
+              >
+                <mat-icon svgIcon="file-upload"></mat-icon>
+              </button>
+              <input
+                type="text"
+                formControlName="poster"
+                id="poster"
+                minlength="1"
+                maxlength="250"
+              />
+            </div>
+          </div>
+
+          <div class="input-container">
+            <label for="release_date" trans>Release Date</label>
+            <input type="date" formControlName="release_date" id="release_date" required />
+          </div>
+
+          <div class="input-container">
+            <label for="description" trans>Overview</label>
+            <textarea
+              type="text"
+              formControlName="description"
+              id="description"
+              minlength="1"
+              cdkTextareaAutosize
+              cdkAutosizeMinRows="6"
+            ></textarea>
+          </div>
+
+          <div class="input-container">
+            <label for="popularity" trans>Popularity</label>
+            <input type="number" formControlName="popularity" id="popularity" min="1" max="1000" />
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab [label]="'Cast' | trans" [disabled]="!data.episode">
+        <credits-panel [mediaItem]="episode$ | async" type="cast"></credits-panel>
+      </mat-tab>
+      <mat-tab [label]="'Crew' | trans" [disabled]="!data.episode">
+        <credits-panel [mediaItem]="episode$ | async" type="crew"></credits-panel>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button (click)="close()" type="button" mat-button trans>Cancel</button>
+    <button type="submit" mat-raised-button color="accent" [disabled]="loading$ | async" trans>
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>

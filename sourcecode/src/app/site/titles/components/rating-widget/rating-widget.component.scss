@@ -1,0 +1,55 @@
+@import "../../../../../scss/variables";
+
+rating-widget {
+  display: flex;
+  align-items: center;
+
+  &.small {
+    .mat-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .text {
+      font-size: 1.4rem;
+    }
+  }
+
+  .separator {
+    width: 1px;
+    flex: 0 0 1px;
+    min-height: 24px;
+    background-color: mat-color($app-foreground, divider);
+    margin: 0 3px 0 13px;
+  }
+
+  .mat-icon {
+    color: $rating-color;
+    margin-right: 5px;
+    vertical-align: bottom;
+  }
+
+  .text {
+    display: inline-block;
+    font-size: 1.5rem;
+  }
+
+  .rate-this .mat-icon {
+    color: inherit;
+  }
+
+  .user-rating {
+    .mat-icon {
+      color: mat-color($app-accent, default);
+    }
+
+    .score {
+      font-weight: 500;
+    }
+  }
+
+  .rate-button {
+    padding: 0 8px 0 5px;
+    font-weight: 400;
+  }
+}

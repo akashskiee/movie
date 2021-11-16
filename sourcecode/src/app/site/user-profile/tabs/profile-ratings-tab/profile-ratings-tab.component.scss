@@ -1,0 +1,85 @@
+@import "variables";
+
+:host {
+  display: block;
+  position: relative;
+
+  media-image ::ng-deep img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+no-results-message {
+  margin: 30px 0;
+}
+
+.auto-height-grid {
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+
+  @media only screen and (max-width: 740px) {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  // reduce title size and hide genres on mobile
+  @media only screen and (max-width: $medium) {
+    .title {
+      font-size: 1.5rem;
+    }
+  }
+
+  .grid-item {
+    padding-top: 150%;
+  }
+}
+
+.grid-item:hover .grid-content {
+  @include mat-elevation(6);
+}
+
+.grid-content {
+  border: none;
+  @include mat-elevation(1);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.grid-label {
+  white-space: normal;
+  margin: 12px auto 0;
+  text-align: center;
+}
+
+.title {
+  color: mat-color($app-foreground, text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+  font-size: 1.8rem;
+
+  &:hover {
+    color: mat-color($app-accent, default);
+  }
+}
+
+.subtitle {
+  display: flex;
+  justify-content: center;
+  font-size: 1.3rem;
+  margin: 8px 0;
+}
+
+.skeleton-grid {
+  position: relative !important;
+  left: 0;
+  right: 0;
+}
+
+skeleton.title {
+  height: 2.8rem;
+}
+
+skeleton.subtitle {
+  height: 1.3rem;
+}

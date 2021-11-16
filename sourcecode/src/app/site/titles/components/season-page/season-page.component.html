@@ -1,0 +1,55 @@
+<media-item-header [backdrop]="titlePage.title.backdrop">
+    <a mat-icon-button [routerLink]="['edit']" *ngIf="currentUser.hasPermission('titles.update')">
+        <mat-icon svgIcon="edit"></mat-icon>
+    </a>
+</media-item-header>
+
+<ad-host slot="ads.shared" class="shared-ad-host"></ad-host>
+
+<div class="page-title container">
+    <div class="text">
+        <a [routerLink]="url.generate(titlePage.title)">{{ titlePage.title.name }}:</a>&nbsp;
+        <span trans>Episode List</span>
+    </div>
+    <div class="inputs">
+        <div class="input-container">
+            <label for="season">
+                <span trans>Season</span>:
+            </label>
+            <select name="season" id="season" [formControl]="seasonModel">
+                <option [ngValue]="season.number" *ngFor="let season of titlePage.title.seasons">{{season.number}}</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="episode-list">
+    <div class="episode" *ngFor="let episode of titlePage.title.season.episodes">
+        <div class="container">
+            <figure>
+                <media-image [src]="episode.poster" [alt]="episode.name" [routerLink]="['episode', episode.episode_number]" size="medium" mode="landscape"></media-image>
+                <figcaption>
+                    <season-episode-number [episode]="episode"></season-episode-number>
+                </figcaption>
+                <streamable-label [item]="episode"></streamable-label>
+            </figure>
+            <div class="media-body">
+                <div class="header">
+                    <a [routerLink]="['episode', episode.episode_number]" class="title">{{episode.name}}</a>
+                    <div class="release_date">{{episode.release_date | formattedDate}}</div>
+                </div>
+                <div class="rating">
+                    <rating-widget [item]="episode"></rating-widget>
+                </div>
+                <div class="description">
+                    <ng-container *ngIf="episode.description; else noDescription">
+                        <div moreLessText="500" [textContent]="episode.description"></div>
+                    </ng-container>
+                    <ng-template #noDescription>{{'We do not have an overview for this episode yet.' | trans}}</ng-template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer></footer>

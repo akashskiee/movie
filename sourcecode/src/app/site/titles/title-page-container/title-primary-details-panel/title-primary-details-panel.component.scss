@@ -1,0 +1,106 @@
+@import "../../../../../scss/variables";
+
+title-primary-details-panel {
+  display: block;
+  border-bottom: 1px solid mat-color($app-foreground, divider);
+  margin: 20px 0 20px;
+  padding-bottom: 20px;
+
+  @media only screen and (max-width: $medium) {
+    margin-bottom: 0;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+
+    .left {
+      margin-right: 35px;
+      max-width: 60%;
+    }
+
+    .right {
+      margin-left: auto;
+      max-width: 40%;
+    }
+
+    @media only screen and (max-width: $medium) {
+      display: block;
+
+      .left, .right {
+        max-width: 100%;
+        margin: 0;
+      }
+
+      .social-icons, .rating-row {
+        margin-bottom: 15px;
+      }
+    }
+  }
+
+  h1 {
+    font-size: 4.5rem;
+    font-weight: 400;
+    margin: 0;
+    padding-left: 3px;
+    line-height: 48px;
+
+    @media only screen and (max-width: $medium) {
+      font-size: 3rem;
+    }
+
+    .year {
+      font-size: 1.6rem;
+      font-weight: 500;
+      position: relative;
+      bottom: 3px;
+    }
+
+    a {
+      color: inherit;
+      transition: color 200ms ease-in-out;
+
+      &:hover {
+        color: mat-color($app-accent, default);
+      }
+    }
+  }
+
+  .genres {
+    margin-left: 5px;
+    white-space: nowrap;
+  }
+
+  .genres, .episode-number {
+    font-size: 1.7rem;
+    margin-bottom: 8px;
+
+    a {
+      color: inherit;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .meta-details {
+    display: flex;
+    align-items: center;
+
+    .name {
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 1.3rem;
+      white-space: nowrap;
+    }
+
+    .value {
+      font-size: 1.6rem;
+    }
+
+    .separator {
+      margin: 0 10px;
+    }
+  }
+}

@@ -1,0 +1,152 @@
+<div class="modal-header">
+  <h2 mat-dialog-title trans>
+    <span *ngIf="data.video" trans>Update</span>
+    <span *ngIf="!data.video" trans>Create</span>
+    <span> {{ 'Video' | trans }}</span>
+  </h2>
+  <button type="button" (click)="close()" class="close-button no-style icon-button">
+    <mat-icon svgIcon="close"></mat-icon>
+  </button>
+</div>
+
+<form autocomplete="off" (ngSubmit)="confirm()" [formGroup]="videoForm" ngNativeValidate>
+  <mat-dialog-content class="many-inputs">
+    <div class="input-container">
+      <label for="name" trans>Name</label>
+      <input type="text" required minlength="3" maxlength="100" id="name" formControlName="name" />
+      <p class="error" *ngIf="errors.name">{{ errors.name }}</p>
+    </div>
+
+    <div class="input-container">
+      <label for="thumbnail" trans>Thumbnail</label>
+      <div class="input-with-action action-left">
+        <button
+          type="button"
+          mat-flat-button
+          color="accent"
+          (click)="uploadFile('image')"
+          [matTooltip]="'Upload thumbnail' | trans"
+        >
+          <mat-icon svgIcon="file-upload"></mat-icon>
+        </button>
+        <input
+          type="text"
+          formControlName="thumbnail"
+          id="thumbnail"
+          minlength="1"
+          maxlength="250"
+        />
+      </div>
+      <p class="error" *ngIf="errors.thumbnail">{{ errors.thumbnail }}</p>
+    </div>
+
+    <div class="input-container">
+      <label for="type" trans>Type</label>
+      <select required id="type" formControlName="type">
+        <option value="embed" trans>Embed</option>
+        <option value="video" trans>Direct Video (.mp4, .webm, .avi, .mov etc.)</option>
+        <option value="stream" trans>Adaptive Stream (hls, dash)</option>
+        <option value="external" trans>Basic Url</option>
+      </select>
+      <p class="error" *ngIf="errors.type">{{ errors.type }}</p>
+    </div>
+
+    <div class="input-container">
+      <label for="crupdate-video-modal-url">{{ (isEmbed() ? 'Embed Code' : 'Url') | trans }}</label>
+      <div class="action-left" [class.input-with-action]="isDirectVideo()">
+        <button
+          type="button"
+          mat-flat-button
+          color="accent"
+          (click)="uploadFile('video')"
+          *ngIf="isDirectVideo()"
+          [matTooltip]="'Upload video' | trans"
+        >
+          <mat-icon svgIcon="file-upload"></mat-icon>
+        </button>
+        <textarea
+          required
+          id="crupdate-video-modal-url"
+          formControlName="url"
+          rows="5"
+          *ngIf="isEmbed()"
+        ></textarea>
+        <input
+          type="text"
+          required
+          id="crupdate-video-modal-url"
+          formControlName="url"
+          *ngIf="!isEmbed()"
+        />
+      </div>
+      <upload-progress-bar></upload-progress-bar>
+      <p class="error" *ngIf="errors.url">{{ errors.url }}</p>
+    </div>
+
+    <div class="inline-inputs-container many-inputs">
+      <div class="input-container">
+        <label for="quality" trans>Quality</label>
+        <select required maxlength="250" id="quality" formControlName="quality">
+          <option [ngValue]="null" trans>None</option>
+          <option [value]="quality" *ngFor="let quality of qualities" trans>{{ quality }}</option>
+        </select>
+        <p class="error" *ngIf="errors.quality">{{ errors.quality }}</p>
+      </div>
+
+      <div class="input-container">
+        <label for="language" trans>Language</label>
+        <select required id="language" formControlName="language">
+          <option [ngValue]="null" trans>None</option>
+          <option [value]="language.code" *ngFor="let language of languages$ | async" trans>
+            {{ language.name }}
+          </option>
+        </select>
+        <p class="error" *ngIf="errors.language">{{ errors.language }}</p>
+      </div>
+    </div>
+
+    <select-title-input
+      [formGroup]="videoForm"
+      [titleError]="errors.title_id"
+      id="crupdate-video-modal-title_id"
+      *ngIf="!data.episode_num"
+    ></select-title-input>
+
+    <ng-container *ngIf="settings.get('streaming.show_category_select') || insideAdmin()">
+      <div class="input-container">
+        <label for="category" trans>Category</label>
+        <select required id="category" formControlName="category">
+          <option value="trailer" trans>Trailer</option>
+          <option value="clip" trans>Clip</option>
+          <option value="featurette" trans>Featurette</option>
+          <option value="teaser" trans>Teaser</option>
+          <option value="full" trans>Full Movie or Episode</option>
+        </select>
+        <p class="error" *ngIf="errors.category">{{ errors.category }}</p>
+      </div>
+    </ng-container>
+
+    <div class="input-container" *ngIf="insideAdmin()">
+      <label for="order" trans>Position</label>
+      <input type="number" id="order" formControlName="order" min="0" max="999" />
+      <p>
+        At what position should this video be displayed on title and episode pages. Lower position
+        will appear first. Lowest position video for title/episode will be used as primary video for
+        streaming or as trailer.
+      </p>
+      <p class="error" *ngIf="errors.order">{{ errors.order }}</p>
+    </div>
+
+    <captions-panel
+      [video]="data.video"
+      *ngIf="supportsCaptions() && (settings.get('streaming.show_captions_panel') || insideAdmin())"
+    ></captions-panel>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button (click)="close()" type="button" mat-button trans>Cancel</button>
+    <button type="submit" mat-raised-button color="accent" [disabled]="loading$ | async" trans>
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>

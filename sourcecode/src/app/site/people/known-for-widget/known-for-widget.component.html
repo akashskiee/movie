@@ -1,0 +1,5 @@
+<span>{{person.known_for | trans}}</span>
+<span class="separator" *ngIf="person.known_for && person.popular_credits?.length">|</span>
+<span class="credit" *ngFor="let credit of person.popular_credits | slice:0:showCredits">
+    <a [routerLink]="url.generate(credit)">{{credit.name}} ({{credit.year}})</a>
+</span>

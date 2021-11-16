@@ -1,0 +1,39 @@
+<media-item-header></media-item-header>
+
+<div class="container main-container">
+    <div class="header">
+        <h1 trans>Your Lists</h1>
+        <a mat-raised-button routerLink="/lists/new" color="accent" class="new-list-button" trans>New List</a>
+    </div>
+    <div class="lists">
+        <div class="list" *ngFor="let list of userLibrary.lists$ | async">
+            <div class="info">
+                <a [routerLink]="['/lists', list.id]" class="name">{{list.system ? (list.name | trans) : list.name}}</a>
+                <p class="description" *ngIf="list.description">{{list.description}}</p>
+                <div class="status">
+                    <ng-container *ngIf="list.public; else private">
+                        <mat-icon svgIcon="lock-open"></mat-icon>
+                        <span trans>Public</span>
+                    </ng-container>
+                    <ng-template #private>
+                        <mat-icon svgIcon="lock"></mat-icon>
+                        <span trans>Private</span>
+                    </ng-template>
+                </div>
+                <div class="dates">
+                    <span trans>Last Updated</span>
+                    <span class="date"> {{list.updated_at | formattedDate}}</span>
+                    <span class="separator">|</span>
+                    <span trans>Created</span>
+                    <span class="date"> {{list.created_at | formattedDate}}</span>
+                </div>
+            </div>
+            <a mat-icon-button [routerLink]="['/lists', list.id, 'edit']" class="action-button">
+                <mat-icon svgIcon="edit"></mat-icon>
+            </a>
+        </div>
+    </div>
+    <loading-indicator [isVisible]="loading$ | async" class="overlay"></loading-indicator>
+</div>
+
+<footer></footer>

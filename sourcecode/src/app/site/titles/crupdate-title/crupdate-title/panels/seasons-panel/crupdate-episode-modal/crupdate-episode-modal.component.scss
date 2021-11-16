@@ -1,0 +1,15 @@
+@import "src/scss/variables";
+
+:host {
+  display: block;
+  width: 750px;
+  max-width: 100%;
+}
+
+label {
+  text-transform: capitalize;
+}
+
+.primary-facts-panel, credits-panel {
+  padding: 20px 0;
+}

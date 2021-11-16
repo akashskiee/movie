@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h2 mat-dialog-title trans>Import</h2>
+    <button type="button" (click)="close()" class="close-button no-style icon-button">
+        <mat-icon svgIcon="close"></mat-icon>
+    </button>
+</div>
+
+<form autocomplete="off" (ngSubmit)="confirm()" [formGroup]="importForm" ngNativeValidate>
+    <mat-dialog-content class="many-inputs">
+        <div class="input-container">
+            <label for="mediaType" trans>Type</label>
+            <select required id="mediaType" formControlName="mediaType" class="type-select">
+                <option [value]="type" *ngFor="let type of data.mediaTypes">{{type}}</option>
+            </select>
+        </div>
+        <div class="input-container">
+            <label for="tmdbId" trans>TheMovieDB ID</label>
+            <input type="number" required min="1" id="tmdbId" formControlName="tmdbId">
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button (click)="close()" type="button" mat-button trans>Cancel</button>
+        <button type="submit" mat-raised-button color="accent" [disabled]="loading$ | async" trans>Import</button>
+    </mat-dialog-actions>
+</form>

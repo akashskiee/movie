@@ -1,0 +1,91 @@
+@import "../../../../scss/variables";
+
+search-input {
+  display: block;
+  width: 100%;
+
+  label {
+    display: block;
+    padding-bottom: 5px;
+  }
+
+  input {
+    width: 100%;
+    height: 100%;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: transparent;
+    padding: 15px;
+    color: inherit;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .input-wrapper {
+    position: relative;
+    height: 100%;
+
+    .search-button {
+      position: absolute;
+      top: 3px;
+      right: 5px;
+    }
+  }
+}
+
+.main-search-autocomplete-panel.mat-autocomplete-panel {
+  max-height: 450px;
+  background: mat-color($app-background, card);
+  color: mat-color($app-foreground, text);
+
+  .mat-option {
+    display: block;
+    line-height: normal;
+    height: auto;
+    padding: 10px;
+    white-space: normal;
+    border-bottom: 1px solid mat-color($app-foreground, divider);
+  }
+
+  .mat-option-text {
+    display: flex;
+    align-items: center;
+  }
+
+  media-image {
+    flex: 0 0 auto;
+  }
+
+  img {
+    max-height: 80px;
+    width: auto;
+    border-radius: 4px;
+  }
+
+  .media-body {
+    margin-left: 10px;
+
+    .name {
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: mat-color($app-foreground, link);
+    }
+
+    .description {
+      max-height: 35px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 1.3rem;
+    }
+  }
+
+  known-for-widget {
+    a {
+      pointer-events: none;
+      color: mat-color($app-foreground, text);
+    }
+  }
+}

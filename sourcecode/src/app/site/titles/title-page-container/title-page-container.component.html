@@ -1,0 +1,74 @@
+<media-item-header [backdrop]="titlePage.title.backdrop">
+  <a mat-icon-button [routerLink]="['edit']" *ngIf="currentUser.hasPermission('titles.update')">
+    <mat-icon svgIcon="edit"></mat-icon>
+  </a>
+</media-item-header>
+
+<ad-host slot="ads.shared" class="shared-ad-host"></ad-host>
+
+<div class="container">
+  <title-primary-details-panel></title-primary-details-panel>
+  <current-next-episode-panel *ngIf="titlePage.title.is_series"></current-next-episode-panel>
+  <title-secondary-details-panel></title-secondary-details-panel>
+
+  <title-videos
+    *ngIf="titlePage.title.show_videos || settings.get('titles.video_panel_mode')"
+  ></title-videos>
+
+  <mat-tab-group
+    color="accent"
+    animationDuration="0ms"
+    (selectedTabChange)="selectedTabChanged($event)"
+  >
+    <mat-tab [label]="'Cast' | trans">
+      <title-cast-panel></title-cast-panel>
+    </mat-tab>
+    <mat-tab
+      [label]="'Images' | trans"
+      *ngIf="!titlePage.activeEpisode && titlePage.title.images?.length"
+    >
+      <ng-template matTabContent>
+        <div class="images-container">
+          <media-image
+            [src]="image.url"
+            [alt]="titlePage.title.name"
+            mode="landscape"
+            size="large"
+            *ngFor="let image of titlePage.title.images; index as index"
+            (click)="openImageGallery(titlePage.title.images, index)"
+          ></media-image>
+        </div>
+      </ng-template>
+    </mat-tab>
+    <mat-tab
+      [label]="'Reviews' | trans"
+      *ngIf="currentUser.hasPermission('reviews.view') && settings.get('titles.enable_reviews')"
+    >
+      <ng-template matTabContent>
+        <review-tab></review-tab>
+      </ng-template>
+    </mat-tab>
+    <mat-tab
+      [label]="'Comments' | trans"
+      *ngIf="currentUser.hasPermission('comments.view') && settings.get('titles.enable_comments')"
+    >
+     <ng-template matTabContent>
+       <div class="comment-tab">
+         <new-comment-form class="root-new-comment-form" (created)="commentList.addComment($event)" [commentable]="titlePage.title"></new-comment-form>
+         <comment-list [commentable]="titlePage.title" #commentList></comment-list>
+       </div>
+     </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
+  <ad-host slot="ads.title" class="title-ad-host"></ad-host>
+</div>
+
+<ng-container *ngIf="!titlePage.activeEpisode">
+  <div class="tagline" *ngIf="titlePage.title.tagline">
+    <q class="container">{{ titlePage.title.tagline }}</q>
+  </div>
+  <related-titles-panel></related-titles-panel>
+</ng-container>
+
+<footer></footer>

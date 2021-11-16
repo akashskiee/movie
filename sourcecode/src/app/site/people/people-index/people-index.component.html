@@ -1,0 +1,40 @@
+<media-item-header></media-item-header>
+
+<ad-host slot="ads.shared" class="shared-ad-host"></ad-host>
+
+<div class="container main-container">
+  <h1 class="page-title" trans>Popular People</h1>
+  <sort-dropdown [sortOptions]="sortOptions" [formControl]="form.get('order')"></sort-dropdown>
+  <ng-container *ngIf="pagination$ | async as people">
+    <div class="people-list">
+      <person-detail-item *ngFor="let person of people.data" [person]="person"></person-detail-item>
+    </div>
+    <div class="pagination-container" *ngIf="(pagination$ | async)?.data">
+      <button
+        type="button"
+        class="pagination-btn"
+        mat-stroked-button
+        (click)="prevPage()"
+        [disabled]="!(hasPrev$ | async)"
+        trans
+      >
+        Previous Page
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        class="pagination-btn"
+        color="accent"
+        [disabled]="!(hasNext$ | async)"
+        (click)="nextPage()"
+        trans
+      >
+        Next Page
+      </button>
+    </div>
+  </ng-container>
+</div>
+
+<loading-indicator [isVisible]="loading$ | async" class="overlay"></loading-indicator>
+
+<footer></footer>

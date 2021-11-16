@@ -1,0 +1,131 @@
+<div class="datatable-page-header">
+  <h1 trans>Videos</h1>
+
+  <div class="header">
+    <datatable-filters pluralName="videos" [filters]="filters"></datatable-filters>
+    <div class="action-buttons">
+      <button
+        *ngIf="currentUser.hasPermission('videos.create')"
+        mat-raised-button
+        color="accent"
+        (click)="openCrupdateVideoModal()"
+        class="button-with-icon"
+      >
+        <mat-icon svgIcon="add"></mat-icon>
+        <span trans>Add New Video</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="datatable responsive-table">
+  <mat-progress-bar
+    class="loading-bar"
+    mode="indeterminate"
+    color="accent"
+    *ngIf="datatable.paginator && datatable.paginator.loading$ | async"
+  ></mat-progress-bar>
+  <table class="material-table">
+    <thead>
+      <tr>
+        <th table-header-checkbox></th>
+        <th table-sort-header trans>Name</th>
+        <th table-sort-header="title_id" *ngIf="!title" trans>Title</th>
+        <th table-sort-header trans>Type</th>
+        <th table-sort-header trans>Category</th>
+        <th table-sort-header trans>Approved</th>
+        <th table-sort-header="plays_count" trans>Plays</th>
+        <th table-sort-header trans>Quality</th>
+        <th table-sort-header trans>Score</th>
+        <th table-sort-header="reports_count" trans>Reports</th>
+        <th table-sort-header="season_num" trans>Season</th>
+        <th table-sort-header="episode_num" trans>Episode</th>
+        <th></th>
+      </tr>
+      <tr *ngIf="datatable.selectedRows$.value.length as selectedCount">
+        <th colspan="12">
+          <div
+            class="bulk-actions-title"
+            [transValues]="{count: selectedCount, resource: 'video(s)'}"
+            trans
+          >
+            :count :resource selected:
+          </div>
+          <div class="bulk-actions">
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="maybeDeleteSelectedVideos()"
+              *ngIf="currentUser.hasPermission('videos.delete')"
+              trans
+            >
+              Delete
+            </button>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let video of videos$ | async">
+        <td [table-body-checkbox]="video.id"></td>
+        <td>
+          <div class="column-with-image">
+            <img [src]="video.thumbnail || video.title?.backdrop" alt="" [title]="video.name" />
+            <a class="video-name link" [href]="video.url" target="_blank">{{ video.name }}</a>
+          </div>
+        </td>
+        <td data-label="Title" *ngIf="!title">
+          <a
+            [routerLink]="['/admin/titles', video.title.id, 'edit']"
+            class="title-name link"
+            [queryParams]="{active: 'videos'}"
+            *ngIf="video.title"
+            >{{ video.title.name }}</a
+          >
+        </td>
+        <td data-label="Type" class="capitalize">{{ video.type }}</td>
+        <td data-label="Category" class="capitalize">{{ video.category }}</td>
+        <td data-label="Approved">
+          <button
+            mat-icon-button
+            (click)="toggleApprovedState(video)"
+            class="approve-button"
+            [class.disapproved]="!video.approved"
+            [class.approved]="video.approved"
+            [disabled]="modifying$ | async"
+          >
+            <mat-icon svgIcon="check" class="success-icon"></mat-icon>
+            <mat-icon svgIcon="close" class="warn-icon"></mat-icon>
+          </button>
+        </td>
+        <td data-label="Plays">{{ video.plays_count }}</td>
+        <td data-label="Quality">
+          <div [ngSwitch]="video.quality">
+            <mat-icon class="icon-quality" svgIcon="hd" *ngSwitchCase="'hd'"></mat-icon>
+            <mat-icon class="icon-quality" svgIcon="4k" *ngSwitchCase="'4k'"></mat-icon>
+            <div *ngSwitchCase="'regular'">-</div>
+            <div class="text-quality" *ngSwitchDefault>{{ video.quality }}</div>
+          </div>
+        </td>
+        <td data-label="Score">{{ video.score ? video.score + '%' : '-' }}</td>
+        <td data-label="Reports">{{ video.reports_count ? video.reports_count : '-' }}</td>
+        <td data-label="Season">{{ video.season_num || '-' }}</td>
+        <td data-label="Episode">{{ video.episode_num || '-' }}</td>
+        <td class="edit-column">
+          <button
+            mat-icon-button
+            (click)="openCrupdateVideoModal(video)"
+            *ngIf="currentUser.hasPermission('videos.update')"
+            [matTooltip]="'Edit video' | trans"
+          >
+            <mat-icon svgIcon="edit"></mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <no-results-message svgImage="video-files.svg" *ngIf="datatable.paginator.noResults$ | async">
+    <span primary-text trans>No videos have been created yet</span>
+  </no-results-message>
+  <datatable-footer></datatable-footer>
+</div>

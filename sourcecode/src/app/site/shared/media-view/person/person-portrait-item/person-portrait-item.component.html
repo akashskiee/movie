@@ -1,0 +1,15 @@
+<div class="grid-item">
+  <div class="grid-content">
+    <media-image
+      mode="portrait"
+      [src]="person.poster"
+      size="medium"
+      [alt]="person.name + ' image'"
+      [link]="url.generate(person)"
+    >
+    </media-image>
+  </div>
+</div>
+<div class="grid-label">
+  <a class="title" [routerLink]="url.generate(person)">{{ person.name }}</a>
+</div>

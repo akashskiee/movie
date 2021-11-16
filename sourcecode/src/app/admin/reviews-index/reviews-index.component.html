@@ -1,0 +1,104 @@
+<div class="datatable-page-header">
+  <h1 trans>Reviews</h1>
+
+  <div class="header">
+    <datatable-filters pluralName="reviews" [filters]="filters"></datatable-filters>
+    <div class="action-buttons">
+      <button
+        *ngIf="currentUser.hasPermission('reviews.create')"
+        mat-raised-button
+        color="accent"
+        (click)="openCrupdateReviewModal()"
+        class="button-with-icon"
+      >
+        <mat-icon svgIcon="add"></mat-icon>
+        <span trans>Add New Review</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="datatable responsive-table">
+  <mat-progress-bar
+    class="loading-bar"
+    mode="indeterminate"
+    color="accent"
+    *ngIf="datatable.paginator && datatable.paginator.loading$ | async"
+  ></mat-progress-bar>
+  <table class="material-table">
+    <thead>
+      <tr>
+        <th table-header-checkbox></th>
+        <th table-sort-header trans>Score</th>
+        <th table-sort-header="user_id" trans>Owner</th>
+        <th table-sort-header="media_item_id" trans>Reviewable</th>
+        <th table-sort-header="body" trans>Type</th>
+        <th table-sort-header="updated_at" trans>Last Updated</th>
+        <th></th>
+      </tr>
+      <tr *ngIf="datatable.selectedRows$.value.length as selectedCount">
+        <th colspan="7">
+          <div
+            class="bulk-actions-title"
+            [transValues]="{count: selectedCount, resource: 'review(s)'}"
+            trans
+          >
+            :count :resource selected:
+          </div>
+          <div class="bulk-actions">
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="maybeDeleteSelectedReviews()"
+              *ngIf="currentUser.hasPermission('reviews.delete')"
+              trans
+            >
+              Delete
+            </button>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let review of reviews$ | async">
+        <td [table-body-checkbox]="review.id"></td>
+        <td data-label="Score">
+          <mat-icon svgIcon="star-border" class="star-icon"></mat-icon>
+          <span>{{ review.score }}/10</span>
+        </td>
+        <td data-label="User">
+          <user-column [user]="review.user"></user-column>
+        </td>
+        <td data-label="Reviewable">
+          <div class="column-with-image">
+            <a
+              class="link"
+              target="_blank"
+              [routerLink]="url.generate(review.reviewable)"
+              *ngIf="review.reviewable"
+            >
+              <img [src]="review.reviewable.poster" alt="reviewable image" />
+              <span>{{ review.reviewable.name }}</span>
+            </a>
+          </div>
+        </td>
+        <td data-label="Type">{{ review.body ? 'Review' : 'Rating' }}</td>
+        <td data-label="Last Updated">{{ review.updated_at | formattedDate }}</td>
+        <td class="edit-column">
+          <button
+            mat-icon-button
+            (click)="openCrupdateReviewModal(review)"
+            *ngIf="currentUser.hasPermission('reviews.update')"
+            [matTooltip]="'Edit review' | trans"
+          >
+            <mat-icon svgIcon="edit"></mat-icon>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <no-results-message svgImage="like-dislike.svg" *ngIf="datatable.paginator.noResults$ | async">
+    <span primary-text trans>No reviews have been created yet</span>
+  </no-results-message>
+  <datatable-footer></datatable-footer>
+</div>

@@ -1,0 +1,84 @@
+@import "variables";
+
+.name-column {
+  padding-right: 30px;
+
+  &:not(th):hover {
+    cursor: pointer;
+    background-color: mat-color($app-background, hover);
+  }
+}
+
+.name-container {
+  display: flex;
+  align-items: center;
+}
+
+.external-link-icon {
+  color: mat-color($app-foreground, icon);
+  margin-left: 5px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  vertical-align: middle;
+}
+
+.play-icon {
+  margin-right: 5px;
+  color: mat-color($app-foreground, icon);
+  flex-shrink: 0;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.favicon-column {
+  width: 65px;
+}
+
+.language-column, .quality-column, .report-column {
+  width: 100px;
+}
+
+.added-at-column, .rating-column {
+  width: 150px;
+}
+
+.edit-column {
+  width: 64px;
+}
+
+.video-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.report-button {
+  color: mat-color($app-warn, default);
+}
+
+.mat-column-edit {
+  max-width: 64px;
+  color: mat-color($app-foreground, icon);
+}
+
+.icon-quality {
+  color: mat-color($app-foreground, icon);
+}
+
+@media only screen and (max-width: $medium) {
+  .material-table {
+    table-layout: fixed;
+  }
+  .favicon-column, .report-column, .language-column, .quality-column {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .rating-column, .added-at-column {
+    display: none;
+  }
+}

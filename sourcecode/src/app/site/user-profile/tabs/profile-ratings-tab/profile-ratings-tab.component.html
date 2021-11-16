@@ -1,0 +1,48 @@
+<ng-container *ngIf="pagination$ | async as pagination">
+  <no-results-message
+    *ngIf="!pagination.data.length && !(loading$ | async)"
+    svgImage="like-dislike.svg"
+  >
+    <span primary-text [transValues]="{user: profile.user$.value.display_name}" trans
+      >:user has not rated any titles yet.</span
+    >
+  </no-results-message>
+
+  <div class="auto-height-grid">
+    <div *ngFor="let review of pagination.data" @fadeIn>
+      <div class="grid-item">
+        <div class="grid-content">
+          <media-image
+            mode="portrait"
+            [src]="review.reviewable.poster"
+            size="medium"
+            [alt]="review.reviewable.name + ' image'"
+            [link]="url.generate(review.reviewable)"
+          >
+          </media-image>
+        </div>
+      </div>
+      <div class="grid-label">
+        <a class="title" [routerLink]="url.generate(review.reviewable)">{{
+          review.reviewable.name
+        }}</a>
+        <p class="subtitle">
+          <rating-widget [rating]="review.score" [showRateButton]="false"></rating-widget>
+        </p>
+      </div>
+    </div>
+    <ng-container *ngIf="loading$ | async">
+      <div *ngFor="let skeleton of skeletonCount" @fadeOut>
+        <div class="grid-item">
+          <div class="grid-content">
+            <skeleton variant="rect"></skeleton>
+          </div>
+        </div>
+        <div class="grid-label">
+          <skeleton class="title" variant="text"></skeleton>
+          <skeleton class="subtitle" variant="text"></skeleton>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>

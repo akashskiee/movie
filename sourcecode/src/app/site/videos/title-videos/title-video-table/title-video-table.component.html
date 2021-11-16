@@ -1,0 +1,45 @@
+<table class="material-table">
+    <thead>
+    <tr>
+        <th class="favicon-column"></th>
+        <th class="name-column" trans>Name</th>
+        <th class="language-column" trans>Language</th>
+        <th class="quality-column" trans>Quality</th>
+        <th class="report-column" trans>Report</th>
+        <th class="added-at-column" trans>Added At</th>
+        <th class="rating-column"></th>
+        <th class="edit-column"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let video of videos">
+        <td class="favicon-column"><img class="domain-favicon" [src]="video.url | favicon" alt="Video domain favicon"></td>
+        <td class="name-column" (click)="titlePage.playVideo(video)">
+          <div class="name-container">
+              <mat-icon svgIcon="play-arrow" class="play-icon"></mat-icon>
+              <div class="video-name">{{video.name}}</div>
+              <mat-icon svgIcon="open-in-new" class="external-link-icon" *ngIf="video.type === 'external'"></mat-icon>
+          </div>
+        </td>
+        <td class="uppercase language-column">{{video.language}}</td>
+        <td class="quality-column">
+            <div [ngSwitch]="video.quality">
+                <mat-icon class="icon-quality" svgIcon="hd" *ngSwitchCase="'hd'"></mat-icon>
+                <mat-icon class="icon-quality" svgIcon="4k" *ngSwitchCase="'4k'"></mat-icon>
+                <div *ngSwitchCase="'regular'">-</div>
+                <div class="text-quality" *ngSwitchDefault>{{video.quality}}</div>
+            </div>
+        </td>
+        <td class="report-column">
+            <button mat-icon-button class="report-button" [disabled]="loading$ | async" (click)="reportVideo(video)">
+                <mat-icon svgIcon="report"></mat-icon>
+            </button>
+        </td>
+        <td class="added-at-column">{{video.created_at | formattedDate}}</td>
+        <td class="rating-column"><video-rating-widget [video]="video"></video-rating-widget></td>
+        <td class="edit-column">
+            <edit-title-video-widget [video]="video"></edit-title-video-widget>
+        </td>
+    </tr>
+    </tbody>
+</table>

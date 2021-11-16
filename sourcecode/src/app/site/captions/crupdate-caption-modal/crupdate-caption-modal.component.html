@@ -1,0 +1,44 @@
+<div class="modal-header">
+    <h2 mat-dialog-title>
+        <span *ngIf="data.caption" trans>Update Caption</span>
+        <span *ngIf="!data.caption" trans>Create Caption</span>
+    </h2>
+    <button type="button" (click)="close()" class="close-button no-style" tabindex="-1">
+        <mat-icon svgIcon="close"></mat-icon>
+    </button>
+</div>
+
+<form (ngSubmit)="confirm()" ngNativeValidate [formGroup]="form" *ngIf="errors$ | async as errors">
+    <mat-dialog-content class="many-inputs">
+        <div class="input-container">
+            <label for="name" trans>Name</label>
+            <input type="text" id="name" formControlName="name" required minlength="2" maxlength="50">
+            <div class="error" *ngIf="errors.name">{{errors.name}}</div>
+        </div>
+
+        <div class="input-container">
+            <label for="language" trans>Language</label>
+            <select id="language" formControlName="language">
+                <option [value]="language.code" *ngFor="let language of languages$ | async" trans>{{language.name}}</option>
+            </select>
+        </div>
+
+        <div class="input-container">
+            <label for="caption" trans>Caption File</label>
+            <input type="file" id="caption" accept=".vtt" #captionFileInput [required]="!data.caption">
+            <div class="error" *ngIf="errors.caption_file">{{errors.caption_file}}</div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button (click)="close()" type="button" mat-button trans>Cancel</button>
+        <button type="submit" mat-raised-button color="accent" [disabled]="loading$ | async" trans>
+            <span *ngIf="data.caption; else creating">Update</span>
+            <ng-template #creating>
+                <span>Create</span>
+            </ng-template>
+        </button>
+    </mat-dialog-actions>
+</form>
+
+

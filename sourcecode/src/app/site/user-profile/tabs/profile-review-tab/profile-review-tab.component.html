@@ -1,0 +1,36 @@
+<ng-container *ngIf="pagination$ | async as pagination">
+  <no-results-message
+    *ngIf="!pagination.data.length && !(loading$ | async)"
+    svgImage="like-dislike.svg"
+  >
+    <span primary-text [transValues]="{user: profile.user$.value.display_name}" trans
+      >:user has not reviewed any titles yet.</span
+    >
+  </no-results-message>
+
+  <review-item
+    (deleted)="removeReview($event)"
+    [review]="review"
+    *ngFor="let review of pagination.data"
+    @fadeIn
+  ></review-item>
+  <ng-container *ngIf="loading$ | async">
+    <div class="skeleton-container" *ngFor="let skeleton of skeletonCount" @fadeOut>
+      <skeleton variant="rect" class="skeleton-poster"></skeleton>
+      <div class="skeleton-review">
+        <div class="skeleton-header">
+          <skeleton variant="rect" class="skeleton-score"></skeleton>
+          <div class="skeleton-meta">
+            <div class="skeleton-header-link">
+              <skeleton variant="text" class="skeleton-name"></skeleton>
+            </div>
+            <skeleton variant="text" class="skeleton-date"></skeleton>
+          </div>
+        </div>
+        <skeleton variant="text" class="skeleton-body"></skeleton>
+        <skeleton variant="text" class="skeleton-body"></skeleton>
+        <skeleton variant="text" class="skeleton-body"></skeleton>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

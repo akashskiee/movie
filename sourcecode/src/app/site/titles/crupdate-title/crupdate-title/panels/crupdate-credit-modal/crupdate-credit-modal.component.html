@@ -1,0 +1,60 @@
+<div class="modal-header">
+  <h2 class="modal-title" mat-dialog-title *ngIf="data.credit" trans>Edit</h2>
+  <h2 class="modal-title" mat-dialog-title *ngIf="!data.credit" trans>Create</h2>
+  <button type="button" (click)="close()" class="close-button no-style icon-button">
+    <mat-icon svgIcon="close"></mat-icon>
+  </button>
+</div>
+
+<form autocomplete="off" (ngSubmit)="confirm()" [formGroup]="form" ngNativeValidate>
+  <mat-dialog-content class="many-inputs">
+    <div class="input-container" *ngIf="data.credit">
+      <label for="name" trans>Person</label>
+      <input type="text" id="name" [value]="credit?.name" disabled />
+    </div>
+
+    <search-input
+      *ngIf="!data.credit"
+      placeholder="Search for a person..."
+      label="Person"
+      [type]="personModelType"
+      [resetInputOnSelect]="false"
+      searchProvider="local"
+      (resultSelected)="setCredit($event)"
+    ></search-input>
+
+    <div class="input-container" *ngIf="data.type === 'cast'">
+      <label for="character" trans>Character</label>
+      <input type="text" id="character" formControlName="character" required />
+    </div>
+
+    <ng-container *ngIf="data.type === 'crew'">
+      <div class="input-container">
+        <label for="job" trans>Job</label>
+        <input type="text" id="job" formControlName="job" [matAutocomplete]="auto" required />
+      </div>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="jobSelected($event)">
+        <mat-option
+          *ngFor="let value of filteredJobs | async"
+          [value]="value.job"
+          class="multiline-mat-menu-item"
+        >
+          <div class="title"><span trans>Job</span>: {{ value.job }}</div>
+          <div class="description"><span trans>Department</span>: {{ value.department }}</div>
+        </mat-option>
+      </mat-autocomplete>
+
+      <div class="input-container">
+        <label for="department" trans>Department</label>
+        <input type="text" id="department" formControlName="department" required />
+      </div>
+    </ng-container>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button (click)="close()" type="button" mat-button trans>Cancel</button>
+    <button type="submit" mat-raised-button color="accent" [disabled]="loading$ | async" trans>
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>

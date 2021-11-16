@@ -1,0 +1,37 @@
+@import "variables";
+
+.comment-container {
+  display: flex;
+  margin-bottom: 15px;
+}
+
+.commentable {
+  flex-shrink: 0;
+  margin-right: 15px;
+}
+
+media-image ::ng-deep img {
+  max-height: 75px;
+  border-radius: 4px;
+}
+
+comment-list-item {
+  flex: 1 1 auto;
+  background: mat-color($app-background, background);
+  border: 1px solid mat-color($app-foreground, divider-lighter);
+  border-radius: 4px;
+  padding: 0 15px !important;
+}
+
+.skeleton-comment {
+  display: flex;
+  padding: 15px 0;
+}
+
+.skeleton-meta {
+  flex: 1 1 auto;
+}
+
+.skeleton-username {
+  max-width: 81px;
+}

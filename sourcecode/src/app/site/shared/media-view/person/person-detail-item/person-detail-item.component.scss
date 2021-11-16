@@ -1,0 +1,7 @@
+@import "variables";
+
+:host {
+  known-for-widget ::ng-deep a {
+    color: mat-color($app-accent, default);
+  }
+}

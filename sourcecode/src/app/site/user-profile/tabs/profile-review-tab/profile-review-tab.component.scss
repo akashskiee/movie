@@ -1,0 +1,43 @@
+@import "variables";
+
+.skeleton-container {
+  display: flex;
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid mat-color($app-foreground, divider);
+}
+
+.skeleton-poster {
+  height: 138px;
+  width: 92px;
+  flex-shrink: 0;
+  margin-right: 20px;
+}
+
+.skeleton-review {
+  flex: 1 1 auto;
+}
+
+.skeleton-header {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.skeleton-score {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  margin-right: 15px;
+}
+
+.skeleton-meta {
+  flex: 1 1 auto;
+}
+
+.skeleton-name {
+  max-width: 280px;
+}
+
+.skeleton-date {
+  max-width: 80px;
+}

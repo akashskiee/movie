@@ -1,0 +1,19 @@
+<div class="footer-content">
+  <section class="container">
+    <div class="col about-col">
+      <div class="title" trans>About</div>
+      <div class="content">{{ siteDescription() }}</div>
+    </div>
+
+    <custom-menu class="col" position="footer-1" [showTitle]="true"></custom-menu>
+    <custom-menu class="col" position="footer-2" [showTitle]="true"></custom-menu>
+    <custom-menu class="col" position="footer-3" [showTitle]="true"></custom-menu>
+  </section>
+</div>
+
+<div class="footer-bar">
+  <div class="container">
+    <div class="copyright" trans>Copyright &copy; {{ year() }} {{ siteName() }}</div>
+    <app-footer-lang-switcher></app-footer-lang-switcher>
+  </div>
+</div>

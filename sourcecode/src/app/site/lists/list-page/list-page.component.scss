@@ -1,0 +1,161 @@
+@import "../../../../scss/variables";
+
+:host {
+  display: block;
+  width: 100%;
+
+  @media only screen and (max-width: $medium) {
+    .list-meta, .meta {
+      display: none;
+    }
+
+    // align buttons with sort select. on mobile select label
+    // will be on top so flex align items will not work properly.
+    .sort-container {
+      .mat-icon-button {
+        margin-top: 25px;
+      }
+    }
+  }
+}
+
+.main-container {
+  margin-bottom: 25px;
+  min-height: calc(100vh - #{$material-navbar-height + $footer-height});
+}
+
+.list-header {
+  display: flex;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.list-meta {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+
+  .separator {
+    padding: 0 6px;
+  }
+}
+
+.owner-container {
+  display: flex;
+  align-items: center;
+
+  a {
+    color: mat-color($app-accent, default);
+  }
+}
+
+.owner-img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin-right: 5px;
+  margin-left: 10px;
+}
+
+.dates-container {
+  color: mat-color($app-foreground, secondary-text);
+}
+
+.state {
+  font-size: 1.3rem;
+  color: mat-color($app-foreground, secondary-text);
+
+  .mat-icon {
+    line-height: 17px;
+    width: 17px;
+    height: 17px;
+    vertical-align: middle;
+  }
+}
+
+.header-left {
+  flex: 1 1 auto;
+  margin-right: auto;
+}
+
+.header-right {
+  text-align: right;
+}
+
+.list-name {
+  text-transform: capitalize;
+  margin: 0;
+}
+
+.description {
+  margin-bottom: 5px;
+  max-width: 700px;
+}
+
+.action-button-text {
+  display: block;
+  text-transform: uppercase;
+}
+
+.list-actions {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid mat-color($app-foreground, divider);
+
+  .meta {
+    flex: 1 1 auto;
+    align-self: flex-end;
+    max-width: 60%;
+  }
+}
+
+.sort-container {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .input-container {
+    width: auto;
+  }
+
+  label {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  select {
+    width: 200px;
+    margin-right: 5px;
+  }
+}
+
+.sort-button {
+  margin-top: 24px;
+
+  &.active {
+    color: mat-color($app-accent, default);
+  }
+}
+
+media-view-mode-switcher {
+  margin-left: 25px;
+}
+
+.shared-ad-host {
+  margin-top: 30px;
+}
+
+.list-share-menu {
+  .mat-menu-item .mat-icon.facebook-icon {
+    color: $facebook-color;
+  }
+
+  .mat-menu-item .mat-icon.twitter-icon {
+    color: $twitter-color;
+  }
+}

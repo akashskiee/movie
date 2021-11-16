@@ -1,0 +1,154 @@
+@import "../../../../../scss/variables";
+
+season-page {
+  display: block;
+  width: 100%;
+
+  .page-title {
+    margin: 45px auto;
+
+    @media only screen and (max-width: $medium) {
+      margin-bottom: 0;
+    }
+
+    .text {
+      font-size: 3rem;
+      margin-bottom: 15px;
+    }
+
+    a {
+      color: inherit;
+      transition: color 200ms ease-in-out;
+
+      &:hover {
+        color: mat-color($app-accent, default);
+      }
+    }
+
+    .inputs {
+      .input-container {
+        display: inline-flex;
+        width: 50%;
+        max-width: 250px;
+        align-items: center;
+        justify-content: center;
+
+        &:first-of-type {
+          margin-right: 40px;
+        }
+
+        label {
+          font-size: 1.5rem;
+          margin-right: 10px;
+          padding-bottom: 0;
+        }
+
+        select {
+          height: 40px;
+          padding: 6px;
+        }
+      }
+    }
+  }
+
+  .episode-list {
+    margin-bottom: 45px;
+
+    media-image {
+      cursor: pointer;
+    }
+
+    .episode {
+      padding: 30px 0;
+
+      &:nth-of-type(even) {
+        background-color: mat-color($app-background, background);
+      }
+    }
+
+    .media-body {
+      flex: 1 1 auto;
+    }
+
+    .container {
+      display: flex;
+
+      @media only screen and (max-width: $medium) {
+        display: block;
+        padding-left: 30px;
+        padding-right: 30px;
+
+        .media-body {
+          margin-top: 15px;
+        }
+
+        figure {
+          width: 100%;
+          height: auto;
+          max-width: 350px;
+        }
+      }
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .description {
+      margin-top: 8px;
+    }
+
+    .release_date {
+      margin-left: auto;
+      margin-right: 20px;
+      color: mat-color($app-foreground, secondary-text);
+      font-size: 1.3rem;
+    }
+
+    .title {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: mat-color($app-accent, default);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    figure {
+      position: relative;
+      margin: 0 25px 0 0;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+      flex: 0 0 300px;
+      width: 300px;
+      height: 169px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      figcaption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        padding: 8px;
+        width: 100%;
+        background-color: rgba(0,0,0,0.6);
+        color: mat-color($app-accent, default-contrast);
+        font-size: 1.3rem;
+        text-align: center;
+        opacity: 0.6;
+      }
+    }
+  }
+
+  .shared-ad-host {
+    margin-top: 50px;
+  }
+}

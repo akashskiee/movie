@@ -1,0 +1,4 @@
+<ng-container *ngFor="let person of people|slice:0:limit; last as last">
+    <a [routerLink]="url.generate(person)">{{person.name}}</a>
+    <span *ngIf="!last" class="separator">,</span>
+</ng-container>

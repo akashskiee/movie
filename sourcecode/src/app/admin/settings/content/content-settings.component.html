@@ -1,0 +1,515 @@
+<div class="header">
+  <div class="title" trans>Content</div>
+  <div class="subtitle" trans>Control how content is displayed across the site.</div>
+</div>
+
+<form
+  class="body many-inputs"
+  (ngSubmit)="saveSettings()"
+  *ngIf="state.errors$ | async as errors"
+  ngNativeValidate
+>
+  <mat-tab-group color="accent" animationDuration="0">
+    <mat-tab [label]="'General' | trans">
+      <div class="many-inputs error-group no-bottom-border tab-content">
+        <div class="input-container">
+          <label for="content.rating_col" trans>Rating Used For Sorting</label>
+          <select
+            type="number"
+            id="content.rating_col"
+            name="content.rating_col"
+            [(ngModel)]="state.server['rating_column']"
+            required
+          >
+            <option value="tmdb_vote_average">TheMovieDB</option>
+            <option value="local_vote_average">Local (Ratings and reviews from site users)</option>
+          </select>
+          <p trans>
+            When ordering titles by rating, should local user rating or TheMovieDB rating average be
+            used.
+          </p>
+        </div>
+
+        <div class="setting-toggle-container">
+          <mat-slide-toggle
+            name="titles.enable_reviews"
+            id="titles.enable_reviews"
+            [(ngModel)]="state.client['titles.enable_reviews']"
+            trans
+            >Enable Reviews</mat-slide-toggle
+          >
+          <p trans>Enable or disable all review functionality across the site.</p>
+        </div>
+
+        <div class="setting-toggle-container">
+          <mat-slide-toggle
+            name="titles.enable_comments"
+            id="titles.enable_comments"
+            [(ngModel)]="state.client['titles.enable_comments']"
+            trans
+            >Enable Comments</mat-slide-toggle
+          >
+          <p trans>Enable or disable all comment functionality across the site.</p>
+        </div>
+
+        <div class="settings-separator"></div>
+
+        <div class="input-container">
+          <label for="genres" trans>Browse Page Genres</label>
+          <chip-input
+            id="genres"
+            name="genres"
+            [(ngModel)]="browseGenres"
+            placeholder="+New Genre..."
+            trans-placeholder
+          ></chip-input>
+        </div>
+
+        <div class="input-container">
+          <label for="age-ratings" trans>Age Ratings</label>
+          <chip-input
+            id="age-ratings"
+            name="age-ratings"
+            [(ngModel)]="ageRatings"
+            placeholder="+New Rating..."
+            trans-placeholder
+          ></chip-input>
+        </div>
+
+        <div class="input-container">
+          <label for="content-settings-qualities" trans>Possible Video Qualities</label>
+          <chip-input
+            id="content-settings-qualities"
+            name="content-settings-qualities"
+            [(ngModel)]="qualities"
+            placeholder="+New Quality..."
+            trans-placeholder
+          ></chip-input>
+        </div>
+
+        <div class="error-group">
+          <div class="inline-inputs-container">
+            <div class="input-container">
+              <label for="content-settings-min-year" trans>Browse Min Year</label>
+              <input
+                id="content-settings-min-year"
+                name="content-settings-min-year"
+                type="number"
+                min="1880"
+                [max]="defaultBrowseMaxYear + 5"
+                placeholder="1880"
+                [(ngModel)]="state.client['browse.year_slider_min']"
+              />
+            </div>
+            <div class="input-container">
+              <label for="content-settings-max-year" trans>Browse Max Year</label>
+              <input
+                id="content-settings-max-year"
+                name="content-settings-max-year"
+                type="number"
+                min="1880"
+                [max]="defaultBrowseMaxYear + 5"
+                [placeholder]="defaultBrowseMaxYear"
+                [(ngModel)]="state.client['browse.year_slider_max']"
+              />
+            </div>
+          </div>
+          <p class="inline-inputs-description" trans>
+            Minimum and maximum years for slider in browse titles page.
+          </p>
+        </div>
+
+        <div class="input-container">
+          <label for="content.people_index_min_popularity" trans>People Page Min Popularity</label>
+          <input
+            type="number"
+            minlength="0"
+            maxlength="100"
+            id="content.people_index_min_popularity"
+            name="content.people_index_min_popularity"
+            [(ngModel)]="state.client['content.people_index_min_popularity']"
+            required
+          />
+          <p trans>
+            Only people with specified or higher popularity will be shown on people page. Enter zero
+            to show all people.
+          </p>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab [label]="'Search' | trans">
+      <div class="tab-content many-inputs">
+        <div class="error-group">
+          <div class="input-container">
+            <label for="content.search_provider" trans>Search Method</label>
+            <select
+              name="content.search_provider"
+              id="content.search_provider"
+              [(ngModel)]="state.client['content.search_provider']"
+            >
+              <option value="tmdb" trans>The Movie Database (TMDb)</option>
+              <option value="local" trans>Local Database</option>
+              <option value="all" trans>TMDb + Local Database</option>
+            </select>
+            <p trans>Which method should be used for performing search across the site.</p>
+          </div>
+        </div>
+
+        <ng-container *ngIf="state.client['content.search_provider'] !== 'tmdb'">
+          <div class="error-group many-inputs no-border-top" id="search_group">
+            <div class="input-container">
+              <label for="scout.driver" trans>Local Search Driver</label>
+              <select
+                name="scout.driver"
+                id="scout.driver"
+                [(ngModel)]="state.server['scout_driver']"
+                (ngModelChange)="clearErrors()"
+              >
+                <option value="mysql">Mysql</option>
+                <option value="meilisearch">Meilisearch</option>
+                <option value="tntsearch">TNTSearch</option>
+                <option value="algolia">Algolia</option>
+              </select>
+              <p trans>
+                Which driver should be used when searching titles and people in local database.
+              </p>
+            </div>
+
+            <div class="input-container" *ngIf="state.server['scout_driver'] === 'mysql'">
+              <label for="mysql-mode" trans>Mysql Mode</label>
+              <select
+                name="mysql-mode"
+                id="mysql-mode"
+                [(ngModel)]="state.server['scout_mysql_mode']"
+                (ngModelChange)="clearErrors()"
+              >
+                <option value="basic">Basic</option>
+                <option value="extended">Extended</option>
+                <option value="fulltext">Fulltext</option>
+              </select>
+            </div>
+
+            <!-- ALGOLIA-->
+            <ng-container *ngIf="state.server['scout_driver'] === 'algolia'">
+              <div class="input-container">
+                <label for="scout.algolia_app_id" trans>Algolia App ID</label>
+                <input
+                  name="scout.algolia_app_id"
+                  id="scout.algolia_app_id"
+                  [(ngModel)]="state.server['algolia_app_id']"
+                  required
+                />
+              </div>
+
+              <div class="input-container">
+                <label for="scout.algolia_secret" trans>Algolia Secret</label>
+                <input
+                  name="scout.algolia_secret"
+                  id="scout.algolia_secret"
+                  [(ngModel)]="state.server['algolia_secret']"
+                  required
+                />
+              </div>
+            </ng-container>
+            <p
+              class="error"
+              *ngIf="(state.errors$ | async).search_group as errorMessage"
+              [innerHTML]="errorMessage"
+            ></p>
+          </div>
+          <div
+            class="widget widget-info widget-important"
+            *ngIf="state.server['scout_driver'] === 'meilisearch'"
+          >
+            <div class="title" trans>Important!</div>
+            <p trans>
+              <a href="https://www.meilisearch.com" target="_blank">"Meilisearch"</a> needs to be
+              installed and running for this method to work.
+            </p>
+          </div>
+          <div
+            class="widget widget-info widget-important"
+            *ngIf="state.server['scout_driver'] === 'elastic'"
+          >
+            <div class="title" trans>Important!</div>
+            <p trans>
+              <a href="https://www.elastic.co/elasticsearch" target="_blank">"Elasticsearch"</a>
+              needs to be installed and running for this method to work.
+            </p>
+          </div>
+          <div class="widget widget-flat">
+            <div class="title" trans>Import Records</div>
+            <p trans>
+              Whenever a new search method is enabled, records that already exist in database need
+              to be imported into the index. All records created after search method is enabled will
+              be imported automatically.
+            </p>
+            <p>
+              Depending on number of records in database, importing could take some time. Don't
+              close this window while it is in progress.
+            </p>
+            <div class="import-flex">
+              <div class="input-container">
+                <label for="searchable-model" class="hidden" trans>Record Type</label>
+                <select id="searchable-model" [formControl]="searchableModelControl">
+                  <option [ngValue]="null" trans>All</option>
+                  <option [ngValue]="value.model" *ngFor="let value of models$ | async" trans>
+                    {{ value.name }}
+                  </option>
+                </select>
+              </div>
+              <button
+                type="button"
+                mat-stroked-button
+                color="accent"
+                (click)="importRecords()"
+                [disabled]="state.loading$ | async"
+                trans
+              >
+                Import Now
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </mat-tab>
+
+    <mat-tab [label]="'Automation' | trans">
+      <div class="many-inputs tab-content error-group no-bottom-border">
+        <div class="setting-toggle-container news-toggle-container">
+          <mat-slide-toggle
+            name="news.auto_update"
+            id="news.auto_update"
+            [(ngModel)]="state.client['news.auto_update']"
+            trans
+            >Auto Update News</mat-slide-toggle
+          >
+          <p trans>When enabled, news will be automatically updated using 3rd party sites.</p>
+        </div>
+
+        <button
+          mat-flat-button
+          color="accent"
+          class="button"
+          (click)="updateNews()"
+          [disabled]="state.loading$ | async"
+          type="button"
+          trans
+        >
+          Update News Now
+        </button>
+
+        <div class="settings-separator"></div>
+
+        <div class="input-container">
+          <label for="content.title_provider" trans>Title Data Provider</label>
+          <select
+            name="content.title_provider"
+            id="content.title_provider"
+            [(ngModel)]="state.client['content.title_provider']"
+          >
+            <option value="tmdb" trans>The Movie Database (TMDb)</option>
+            <option value="local" trans>Local Database</option>
+          </select>
+          <p trans>Which method should be used for retrieving data about movies and TV series.</p>
+        </div>
+
+        <div class="setting-toggle-container">
+          <mat-slide-toggle
+            name="content.force_season_update"
+            id="content.force_season_update"
+            [(ngModel)]="state.client['content.force_season_update']"
+            trans
+            >Always Update Seasons</mat-slide-toggle
+          >
+          <p trans>
+            When this is enabled, season episodes will be automatically updated, even if automation
+            is disabled.
+          </p>
+        </div>
+
+        <div class="settings-separator"></div>
+
+        <div class="input-container">
+          <label for="content.people_provider" trans>People Data Provider</label>
+          <select
+            name="content.people_provider"
+            id="content.people_provider"
+            [(ngModel)]="state.client['content.people_provider']"
+          >
+            <option value="tmdb" trans>The Movie Database (TMDb)</option>
+            <option value="local" trans>Local Database</option>
+          </select>
+          <p trans>
+            Which method should be used for retrieving data about people (biography, filmography,
+            statistics etc.)
+          </p>
+        </div>
+
+        <div class="setting-toggle-container">
+          <mat-slide-toggle
+            name="content.automate_filmography"
+            id="content.automate_filmography"
+            [(ngModel)]="state.client['content.automate_filmography']"
+            trans
+            >Auto Update Filmography</mat-slide-toggle
+          >
+          <p trans>
+            Whether person filmography should be auto updated when person data provider is set to
+            TMDb.
+          </p>
+        </div>
+
+        <div class="settings-separator"></div>
+
+        <div class="input-container">
+          <label for="content.list_provider" trans>List Data Provider</label>
+          <select
+            name="content.list_provider"
+            id="content.list_provider"
+            [(ngModel)]="state.client['content.list_provider']"
+          >
+            <option value="tmdb" trans>The Movie Database (TMDb)</option>
+            <option value="local" trans>Local Database</option>
+          </select>
+          <p trans>
+            Which method should be used for auto updating lists. Note that some list auto update
+            methods (like last added titles) will use local provider regardless of what is set here.
+          </p>
+        </div>
+
+        <button
+          mat-flat-button
+          color="accent"
+          class="button"
+          (click)="updateLists()"
+          [disabled]="state.loading$ | async"
+          type="button"
+          trans
+        >
+          Update Lists Now
+        </button>
+
+        <div class="settings-separator"></div>
+
+        <div class="widget widget-info">
+          <div class="title" trans>Information</div>
+          <p trans>
+            TMDb method will automatically query themoviedb for relevant data and import it into
+            local database. Local method will retrieve data from local site database (this includes
+            data that was previously cached locally by any import methods as well as data created
+            manually via admin area).
+          </p>
+        </div>
+
+        <ng-container>
+          <div class="input-container" [class.has-error]="errors['tmdb_api_key']">
+            <label for="tmdb_api_key" trans>TMDB API Key</label>
+            <input
+              type="text"
+              id="tmdb_api_key"
+              name="tmdb_api_key"
+              [(ngModel)]="state.server['tmdb_api_key']"
+              required
+            />
+            <p class="error" *ngIf="errors['tmdb_api_key']">{{ errors['tmdb_api_key'] }}</p>
+          </div>
+
+          <div class="input-container">
+            <label for="tmdb.language" trans>TMDB Language</label>
+            <select
+              id="tmdb.language"
+              name="tmdb.language"
+              [(ngModel)]="state.client['tmdb.language']"
+            >
+              <option [value]="lang.code" *ngFor="let lang of languages$ | async">
+                {{ lang.name }}
+              </option>
+            </select>
+            <p trans>
+              In what language should content be fetched from TMDb. If translation is not available
+              data will default to english.
+            </p>
+          </div>
+
+          <div class="setting-toggle-container">
+            <mat-slide-toggle
+              name="tmdb.includeAdult"
+              id="tmdb.includeAdult"
+              [(ngModel)]="state.client['tmdb.includeAdult']"
+              trans
+              >Allow Adult Content</mat-slide-toggle
+            >
+          </div>
+        </ng-container>
+      </div>
+    </mat-tab>
+
+    <mat-tab [label]="'Homepage' | trans">
+      <div class="many-inputs tab-content error-group no-bottom-border">
+        <div class="setting-toggle-container">
+          <mat-slide-toggle
+            name="homepage.autoslide"
+            id="homepage.autoslide"
+            [(ngModel)]="state.client['homepage.autoslide']"
+            trans
+            >Auto Slide Homepage Slider</mat-slide-toggle
+          >
+          <p trans>Toggle auto-slide functionality of homepage slider.</p>
+        </div>
+
+        <div class="input-container">
+          <label for="homepage.list_items_count" trans>Homepage List Items</label>
+          <input
+            type="number"
+            id="homepage.list_items_count"
+            name="homepage.list_items_count"
+            [(ngModel)]="state.client['homepage.list_items_count']"
+            required
+            min="1"
+            max="30"
+          />
+          <p trans>How many items each list on homepage should show.</p>
+        </div>
+
+        <div class="input-container">
+          <label for="homepage.slider_items_count" trans>Homepage Slider Items</label>
+          <input
+            type="number"
+            id="homepage.slider_items_count"
+            name="homepage.slider_items_count"
+            [(ngModel)]="state.client['homepage.slider_items_count']"
+            required
+            min="1"
+            max="30"
+          />
+          <p trans>How many items homepage slider should show.</p>
+        </div>
+
+        <div class="setting-toggle-container">
+          <mat-slide-toggle
+            name="homepage.show_play_buttons"
+            id="homepage.show_play_buttons"
+            [(ngModel)]="state.client['homepage.show_play_buttons']"
+            trans
+            >Show Play Buttons</mat-slide-toggle
+          >
+          <p trans>Show "play" buttons on all title posters on homepage.</p>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <button
+    mat-raised-button
+    color="accent"
+    class="update-button"
+    [disabled]="state.loading$ | async"
+    type="submit"
+    trans
+  >
+    Update
+  </button>
+  <mat-progress-bar mode="indeterminate" color="accent" *ngIf="state.loading$ | async"></mat-progress-bar>
+</form>

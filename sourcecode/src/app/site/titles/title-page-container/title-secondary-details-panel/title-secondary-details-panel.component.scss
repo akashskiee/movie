@@ -1,0 +1,121 @@
+@import "../../../../../scss/variables";
+
+title-secondary-details-panel {
+  display: flex;
+  overflow: hidden;
+
+  .left {
+    display: flex;
+    flex: 1 1 auto;
+    max-width: 600px;
+    margin-right: 35px;
+
+    .img-container {
+      flex: 0 0 250px;
+      width: 250px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        max-height: 375px;
+      }
+    }
+
+    .details {
+      margin-left: 25px;
+      flex: 1 1 auto;
+      min-width: 0;
+
+      .with-separator {
+        border-bottom: 1px solid mat-color($app-foreground, divider);
+        padding-bottom: 15px;
+      }
+
+      .detail {
+        margin-bottom: 15px;
+      }
+
+      .name {
+        font-size: 1.6rem;
+        font-weight: 500;
+      }
+
+      .value {
+        overflow-wrap: break-word;
+
+        &.no-wrap {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      a {
+        color: inherit;
+      }
+    }
+
+    .seasons {
+      .season {
+        color: mat-color($app-accent, default);
+        margin-right: 10px;
+        font-size: 1.5rem;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .right {
+    width: 500px;
+    flex: 0 0 500px;
+
+    .video-cover {
+      position: relative;
+      background-color: #000;
+
+      @media only screen and (min-width: $medium) {
+        min-height: 281px;
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+
+      .mat-fab {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+      }
+    }
+  }
+
+  @media only screen and (max-width: $large) {
+    display: block;
+    max-height: none;
+
+    .left, .right {
+      display: block;
+      width: auto;
+      max-width: initial;
+      flex: 1 1 auto;
+    }
+
+    .left  {
+      .img-container {
+        display: none;
+      }
+
+      .details {
+        margin: 25px 0 0;
+      }
+    }
+  }
+}

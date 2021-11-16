@@ -1,0 +1,15 @@
+@import "common-imports";
+
+button.more-less-button {
+  padding-left: 5px;
+  //color: mat-color($app-accent, default);
+  font-weight: 500;
+}
+
+.play-button-animation.mat-mini-fab, .play-button-animation.mat-fab {
+  transition: background .4s cubic-bezier(.25, .8, .25, 1), box-shadow 280ms cubic-bezier(.4, 0, .2, 1), transform .3s cubic-bezier(0, 0, 0, 2.41);
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}

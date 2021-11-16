@@ -1,0 +1,10 @@
+@import "../scss/variables";
+
+app-root {
+  display: block;
+  min-height: 100vh;
+  background-color: mat-color($app-background, card);
+  color: mat-color($app-foreground, text);
+
+  @import "../../src/common/scss/container";
+}

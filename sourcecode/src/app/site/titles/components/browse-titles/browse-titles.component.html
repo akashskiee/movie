@@ -1,0 +1,178 @@
+<media-item-header></media-item-header>
+
+<ad-host slot="ads.shared" class="shared-ad-host"></ad-host>
+
+<mat-sidenav-container class="container main-container">
+  <mat-sidenav
+    class="sidebar"
+    [mode]="breakpoints.isMobile$.value ? 'over' : 'side'"
+    [opened]="!breakpoints.isMobile$.value"
+    [fixedInViewport]="breakpoints.isMobile$.value"
+    #sidenav
+  >
+    <form [formGroup]="form">
+      <div class="filter-container input-container">
+        <label class="filter-header" for="type" trans>Title Type</label>
+        <select name="type" id="type" formControlName="type">
+          <option [ngValue]="null" trans>All Types</option>
+          <option value="movie" trans>Movie</option>
+          <option value="series" trans>TV Series</option>
+        </select>
+      </div>
+
+      <div class="filter-container" *ngIf="settings.get('browse.show_streamable_filter')">
+        <mat-slide-toggle formControlName="onlyStreamable" trans>Only Streamable</mat-slide-toggle>
+      </div>
+
+      <div class="genres-filter filter-container">
+        <div class="filter-header" trans>With selected genres</div>
+        <mat-selection-list formControlName="genre">
+          <mat-list-option
+            [value]="genre"
+            *ngFor="let genre of genres"
+            checkboxPosition="before"
+            trans
+            >{{ genre }}</mat-list-option
+          >
+        </mat-selection-list>
+      </div>
+
+      <div class="slider-filter filter-container">
+        <div class="filter-header" trans>Released In</div>
+        <range-slider
+          [min]="yearSliderMin"
+          [max]="yearSliderMax"
+          [step]="1"
+          formControlName="released"
+        ></range-slider>
+      </div>
+
+      <div class="slider-filter filter-container">
+        <div class="filter-header" trans>User Score</div>
+        <range-slider
+          [min]="1"
+          [max]="10"
+          [step]="0.1"
+          [float]="true"
+          formControlName="score"
+        ></range-slider>
+      </div>
+
+      <div class="slider-filter filter-container">
+        <div class="filter-header" trans>Runtime</div>
+        <range-slider
+          [min]="1"
+          [max]="255"
+          [step]="1"
+          affix="min"
+          formControlName="runtime"
+        ></range-slider>
+      </div>
+
+      <div class="filter-container input-container">
+        <div class="filter-header" trans>Country</div>
+        <select id="country" formControlName="country">
+          <option [ngValue]="null" trans>All Countries</option>
+          <option [value]="option.code" *ngFor="let option of countries" trans>
+            {{ option.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-container input-container">
+        <div class="filter-header" trans>Language</div>
+        <select id="language" formControlName="language">
+          <option [ngValue]="null" trans>All Languages</option>
+          <option [value]="option.code" *ngFor="let option of languages" trans>
+            {{ option.name }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-container">
+        <div class="filter-header" trans>Age Ratings</div>
+        <mat-button-toggle-group formControlName="certification" aria-label="Certification">
+          <mat-button-toggle [value]="certification" *ngFor="let certification of certifications">{{
+            certification
+          }}</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+
+      <button
+        class="reset-filters-btn"
+        mat-stroked-button
+        (click)="clearAllFilters()"
+        [disabled]="!(anyFilterActive$ | async)"
+        trans
+      >
+        <mat-icon svgIcon="refresh"></mat-icon>
+        <span trans>Reset Filters</span>
+      </button>
+    </form>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="browse-container">
+      <div class="header">
+        <h1 trans>Browse</h1>
+        <div class="applied-filters">
+          <button
+            class="toggle-filters-button"
+            mat-icon-button
+            (click)="sidenav.toggle()"
+            *ngIf="breakpoints.isMobile$.value"
+          >
+            <mat-icon svgIcon="tune"></mat-icon>
+          </button>
+          <button
+            mat-stroked-button
+            class="clear-all-filters-button"
+            (click)="clearAllFilters()"
+            *ngIf="anyFilterActive$ | async"
+          >
+            <span class="text" trans>Reset Filters</span>
+            <mat-icon svgIcon="close"></mat-icon>
+          </button>
+        </div>
+
+        <sort-dropdown
+          [formControl]="form.get('order')"
+          [sortOptions]="sortOptions"
+        ></sort-dropdown>
+        <media-view-mode-switcher storageKey="browse-titles" #switcher></media-view-mode-switcher>
+      </div>
+      <div class="media-view-container" *ngIf="pagination$ | async as pagination">
+        <media-view [items]="pagination?.data" [switcher]="switcher"></media-view>
+        <no-results-message svgImage="searching.svg" *ngIf="pagination?.data?.length === 0">
+          <span primary-text trans>Nothing To Display.</span>
+          <span secondary-text trans>Seems like no titles match specified filters.</span>
+        </no-results-message>
+      </div>
+      <div class="pagination-container" *ngIf="(pagination$ | async)?.data">
+        <button
+          type="button"
+          class="pagination-btn"
+          mat-stroked-button
+          (click)="prevPage()"
+          [disabled]="!(hasPrev$ | async)"
+          trans
+        >
+          Previous Page
+        </button>
+        <button
+          type="button"
+          mat-raised-button
+          class="pagination-btn"
+          color="accent"
+          [disabled]="!(hasNext$ | async)"
+          (click)="nextPage()"
+          trans
+        >
+          Next Page
+        </button>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<footer></footer>
+<loading-indicator [isVisible]="loading$ | async" class="overlay"></loading-indicator>

@@ -1,0 +1,89 @@
+<div class="datatable-page-header">
+  <h1 trans>News</h1>
+  <div class="header">
+    <datatable-filters pluralName="news" [filters]="filters"></datatable-filters>
+    <div class="action-buttons">
+      <a
+        *ngIf="currentUser.hasPermission('news.create')"
+        mat-raised-button
+        color="accent"
+        routerLink="/admin/news/create"
+        class="button-with-icon"
+      >
+        <mat-icon svgIcon="add"></mat-icon>
+        <span trans>Add New Article</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="datatable responsive-table">
+  <mat-progress-bar
+    class="loading-bar"
+    mode="indeterminate"
+    color="accent"
+    *ngIf="datatable.paginator && datatable.paginator.loading$ | async"
+  ></mat-progress-bar>
+  <table class="material-table">
+    <thead>
+      <tr>
+        <th table-header-checkbox></th>
+        <th table-sort-header trans>Title</th>
+        <th trans>Source</th>
+        <th table-sort-header="updated_at" trans>Last Updated</th>
+        <th></th>
+      </tr>
+      <tr *ngIf="datatable.selectedRows$.value.length as selectedCount">
+        <th colspan="5">
+          <div
+            class="bulk-actions-title"
+            [transValues]="{count: selectedCount, resource: 'news'}"
+            trans
+          >
+            :count :resource selected:
+          </div>
+          <div class="bulk-actions">
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="maybeDeleteSelectedArticles()"
+              *ngIf="currentUser.hasPermission('news.delete')"
+              trans
+            >
+              Delete
+            </button>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let article of news$ | async">
+        <td [table-body-checkbox]="article.id"></td>
+        <td>
+          <div class="column-with-image">
+            <img [src]="article?.meta?.image" alt="" />
+            <a [routerLink]="url.generate(article)" target="_blank" class="link">{{
+              article.title
+            }}</a>
+          </div>
+        </td>
+        <td data-label="Source">{{ article?.meta?.source ? article.meta.source : '-' }}</td>
+        <td data-label="Last Updated">{{ article.updated_at | formattedDate }}</td>
+        <td class="edit-column">
+          <a
+            mat-icon-button
+            [routerLink]="['/admin/news', article.id, 'edit']"
+            *ngIf="currentUser.hasPermission('news.update')"
+            [matTooltip]="'Edit article' | trans"
+          >
+            <mat-icon svgIcon="edit"></mat-icon>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <no-results-message svgImage="newspaper.svg" *ngIf="datatable.paginator.noResults$ | async">
+    <span primary-text trans>No articles have been created yet.</span>
+  </no-results-message>
+  <datatable-footer></datatable-footer>
+</div>

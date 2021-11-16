@@ -1,0 +1,23 @@
+<div class="current-rating" *ngIf="rating || item?.rating as rating">
+    <mat-icon svgIcon="star"></mat-icon>
+    <span class="text">{{rating}} / 10</span>
+</div>
+
+<ng-container *ngIf="showRateButton">
+    <div class="separator" *ngIf="item.rating"></div>
+
+    <button mat-button class="user-rating rate-button" *ngIf="userRating$ | async as userRating; else rateThis" (authClick)="openRatingOverlay($event)">
+        <mat-icon svgIcon="star"></mat-icon>
+        <span class="text">
+        <span trans>Your Score</span>:
+        <span class="score"> {{userRating.score}}</span>
+    </span>
+    </button>
+
+    <ng-template #rateThis>
+        <button mat-button class="rate-this rate-button" (authClick)="openRatingOverlay($event)">
+            <mat-icon svgIcon="star-border"></mat-icon>
+            <span class="text" trans>Rate This</span>
+        </button>
+    </ng-template>
+</ng-container>

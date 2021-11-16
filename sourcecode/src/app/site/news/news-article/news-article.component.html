@@ -1,0 +1,44 @@
+<media-item-header></media-item-header>
+
+<div class="container main-container">
+    <article class="news-article" *ngIf="article$ | async as article">
+        <ad-host slot="ads.shared" class="shared-ad-host"></ad-host>
+
+        <h1 class="title">
+            <a [routerLink]="['/news', article.id]">{{article.title}}</a>
+        </h1>
+        <div class="meta">
+            <div class="date">{{article.created_at | formattedDate}}</div>
+            <ng-container *ngIf="article?.meta?.source">
+                <div class="separator"></div>
+                <div class="source">{{article.meta.source}}</div>
+            </ng-container>
+        </div>
+        <div class="content">
+            <img [src]="article?.meta?.image" class="main-image">
+            <div class="body" [innerHTML]="trustHtml(article.body)"></div>
+        </div>
+    </article>
+
+    <aside class="sidebar">
+        <div class="header" trans>Other news</div>
+        <div class="articles">
+            <div class="article" *ngFor="let article of sidebarArticles$ | async">
+                <img [src]="article?.meta?.image">
+                <div class="meta">
+                    <a [routerLink]="['/news', article.id]" class="title">{{article.title}}</a>
+                    <div class="subtitle">
+                        <ng-container *ngIf="article?.meta?.source">
+                            <span class="source"> {{article.meta.source}}</span>
+                        </ng-container>
+                        <span>{{article.created_at | formattedDate}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <loading-indicator [isVisible]="loading$ | async" class="overlay overlay-light"></loading-indicator>
+</div>
+
+<footer></footer>

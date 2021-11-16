@@ -1,0 +1,4 @@
+<span *ngFor="let genre of genres|slice:0:limit; last as last">
+    <a class="genre" [routerLink]="['/browse']" [queryParams]="{genre: genre.name.toLowerCase()}" draggable="false" trans>{{genre.display_name || genre.name}}</a>
+    <span class="separator" [class.default]="separator === '/'" *ngIf="!last">{{separator}}</span>
+</span>

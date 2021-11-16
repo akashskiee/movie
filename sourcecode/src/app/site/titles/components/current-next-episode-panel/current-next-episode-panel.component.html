@@ -1,0 +1,22 @@
+<ng-container *ngIf="titlePage.currentEpisode && titlePage.nextEpisode">
+    <div class="episode current" *ngFor="let episode of [titlePage.currentEpisode, titlePage.nextEpisode]; index as index">
+        <div class="header">
+            <span trans>
+                <ng-container *ngIf="index === 0">Most Recent Episode</ng-container>
+                <ng-container *ngIf="index === 1">Next Episode</ng-container>
+            </span>
+            <span> (<season-episode-number [episode]="episode"></season-episode-number>)</span>
+        </div>
+
+        <div class="media">
+            <a class="img-container" [routerLink]="getEpisodeUrl(episode)">
+                <media-image [src]="episode.poster" [alt]="episode.name" size="medium" mode="landscape"></media-image>
+            </a>
+            <div class="media-body">
+                <a [routerLink]="getEpisodeUrl(episode)" class="name" [title]="episode.name">{{episode.name}}</a>
+                <div class="release-date">{{episode.release_date | formattedDate}}</div>
+                <div class="description" moreLessText="120" [textContent]="episode.description"></div>
+            </div>
+        </div>
+    </div>
+</ng-container>

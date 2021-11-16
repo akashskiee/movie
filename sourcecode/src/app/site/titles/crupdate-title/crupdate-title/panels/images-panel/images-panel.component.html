@@ -1,0 +1,17 @@
+<button mat-raised-button color="accent" (click)="uploadImage()">
+    <mat-icon svgIcon="add"></mat-icon>
+    <span trans>Upload Image</span>
+</button>
+
+<div cdkDropListGroup>
+    <div cdkDropList [cdkDropListEnterPredicate]="dropListEnterPredicate" (cdkDropListDropped)="dropListDropped()"></div>
+    <div class="images-grid">
+        <div cdkDropList [cdkDropListEnterPredicate]="dropListEnterPredicate" (cdkDropListDropped)="dropListDropped()" *ngFor="let image of images$ | async">
+            <media-image class="images-panel-media-image" cdkDrag (cdkDragMoved)="dragMoved($event);" [src]="image.url" size="medium" mode="landscape">
+                <button mat-mini-fab color="warn" (click)="deleteImage(image)">
+                    <mat-icon svgIcon="delete"></mat-icon>
+                </button>
+            </media-image>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+@import "../../../../../scss/variables";
+
+title-action-buttons {
+  display: block;
+  margin-bottom: 15px;
+
+  .mat-flat-button, .mat-stroked-button {
+    width: 100%;
+    line-height: 45px;
+
+    .mat-icon {
+      margin-right: 5px;
+      
+      svg {
+        display: block;
+      }
+    }
+  }
+}

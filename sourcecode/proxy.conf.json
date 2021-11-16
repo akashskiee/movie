@@ -1,0 +1,22 @@
+{
+    "/secure": {
+        "target": "http://localhost/movie-streaming",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/storage": {
+        "target": "http://localhost/movie-streaming",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/client": {
+        "target": "http://localhost/movie-streaming",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/__clockwork": {
+        "target": "http://localhost/movie-streaming",
+        "secure": false,
+        "changeOrigin": true
+    }
+}

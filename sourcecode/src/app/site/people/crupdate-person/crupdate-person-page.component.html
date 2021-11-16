@@ -1,0 +1,116 @@
+<mat-tab-group animationDuration="0ms" class="material-panel" color="accent">
+    <mat-tab [label]="'Primary Facts' | trans">
+        <form class="primary-facts-panel" (ngSubmit)="submit()" [formGroup]="personForm" ngNativeValidate>
+            <div class="left-col">
+                <media-image [src]="poster$ | async" size="medium"></media-image>
+                <button type="submit" mat-raised-button color="accent" class="submit-button" trans>Save</button>
+            </div>
+            <div class="right-col many-inputs">
+                <div class="inline-container many-inputs">
+                    <div class="input-container">
+                        <label for="name" trans>Name</label>
+                        <input type="text" formControlName="name" id="name" required>
+                    </div>
+                    <div class="input-container">
+                        <label for="known_for" trans>Known For</label>
+                        <input type="text" formControlName="known_for" id="known_for">
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <label for="poster" trans>Image</label>
+                    <div class="input-with-action action-left">
+                        <button type="button" mat-flat-button color="accent" (click)="uploadPoster()" [matTooltip]="'Upload poster' | trans">
+                            <mat-icon svgIcon="file-upload"></mat-icon>
+                        </button>
+                        <input type="text" formControlName="poster" id="poster" minlength="1" maxlength="250">
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <label for="description" trans>Biography</label>
+                    <textarea id="description" formControlName="description" cdkTextareaAutosize cdkAutosizeMinRows="10" cdkAutosizeMaxRows="100"></textarea>
+                </div>
+
+                <div class="inline-container many-inputs">
+                    <div class="input-container">
+                        <label for="gender" trans>Gender</label>
+                        <select id="gender" formControlName="gender">
+                            <option [ngValue]="null">-</option>
+                            <option value="male" trans>Male</option>
+                            <option value="female" trans>Female</option>
+                        </select>
+                    </div>
+                    <div class="input-container">
+                        <label for="birth_date" trans>Birth Date</label>
+                        <input type="date" id="birth_date" formControlName="birth_date">
+                    </div>
+                    <div class="input-container">
+                        <label for="death_date" trans>Death Date</label>
+                        <input type="date" id="death_date" formControlName="death_date">
+                    </div>
+                </div>
+
+                <div class="inline-container many-inputs">
+                    <div class="input-container">
+                        <label for="popularity" trans>Popularity</label>
+                        <input type="number" formControlName="popularity" id="popularity" min="1" max="1000" step="0.1">
+                    </div>
+
+                    <div class="input-container">
+                        <label for="birth_place" trans>Birth Place</label>
+                        <input type="text" id="birth_place" formControlName="birth_place">
+                    </div>
+
+                    <div class="input-container">
+                        <label for="allow_update" trans>Allow Auto Update</label>
+                        <select formControlName="allow_update" id="allow_update" required>
+                            <option [ngValue]="true" trans>Yes</option>
+                            <option [ngValue]="false" trans>No</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </mat-tab>
+    <mat-tab [label]="'Credits' | trans">
+        <div class="responsive-table">
+            <datatable-header></datatable-header>
+            <table class="material-table">
+                <thead>
+                <tr>
+                    <th table-sort-header="name" trans>Credit</th>
+                    <th table-sort-header="pivot.character" trans>Character</th>
+                    <th table-sort-header="pivot.department" trans>Department</th>
+                    <th table-sort-header="pivot.job" trans>Job</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let credit of datatable.data$ | async">
+                    <td>
+                        <div class="column-with-image">
+                            <media-image [src]="credit.poster" size="small"></media-image>
+                            <span>{{credit.name}}</span>
+                        </div>
+                    </td>
+                    <td data-label="Character" class="capitalize">{{credit.pivot?.character ? credit.pivot.character : '-'}}</td>
+                    <td data-label="Department" class="capitalize">{{credit.pivot?.department ? credit.pivot.department : '-'}} </td>
+                    <td data-label="Job" class="capitalize">{{credit.pivot?.job ? credit.pivot.job : '-'}}</td>
+                    <td class="edit-column">
+                        <button type="button" mat-icon-button (click)="detachCredit(credit)">
+                            <mat-icon svgIcon="close"></mat-icon>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <no-results-message *ngIf="!(datatable.data$ | async).length" svgImage="awards.svg">
+                <span primary-text trans>Nothing to display.</span>
+            </no-results-message>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+
+<loading-indicator [isVisible]="loading$ | async" class="overlay"></loading-indicator>

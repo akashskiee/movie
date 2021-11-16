@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <h2 class="modal-title" mat-dialog-title *ngIf="data.review" trans>Update Review</h2>
+    <h2 class="modal-title" mat-dialog-title *ngIf="!data.review" trans>New Review</h2>
+    <button type="button" (click)="close()" tabindex="-1" class="close-button no-style icon-button">
+        <mat-icon svgIcon="close"></mat-icon>
+    </button>
+</div>
+
+<form autocomplete="off" (ngSubmit)="confirm()" [formGroup]="reviewForm" ngNativeValidate>
+    <mat-dialog-content class="many-inputs" *ngIf="errors$ | async as errors">
+        <div class="input-container">
+            <div class="fake-label" trans>Score</div>
+            <star-rating-widget formControlName="score"></star-rating-widget>
+            <div class="error" *ngIf="errors.rating">{{errors.rating}}</div>
+        </div>
+
+        <div class="input-container">
+            <label for="review" trans>Review</label>
+            <textarea
+                    id="review"
+                    formControlName="body"
+                    required
+                    minlength="50"
+                    maxlength="5000"
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="8"
+                    cdkAutosizeMaxRows="20"
+            ></textarea>
+            <div class="error" *ngIf="errors.review">{{errors.review}}</div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button (click)="close()" type="button" mat-button class="button cancel" trans>Cancel</button>
+        <button type="submit" class="button primary" mat-raised-button color="accent" [disabled]="loading$ | async" trans>Save</button>
+    </mat-dialog-actions>
+</form>

@@ -1,0 +1,144 @@
+<media-item-header></media-item-header>
+
+<div class="page-container container" *ngIf="person$ | async as person">
+  <div class="left">
+    <div class="img-container">
+      <media-image [src]="person.poster" [alt]="person.name"></media-image>
+      <a
+        class="edit-button"
+        mat-icon-button
+        [routerLink]="['edit']"
+        *ngIf="currentUser.hasPermission('people.edit')"
+      >
+        <mat-icon svgIcon="edit"></mat-icon>
+      </a>
+    </div>
+    <div class="details">
+      <div class="header" trans>Personal Info</div>
+      <div class="values" *ngIf="person.known_for">
+        <div class="name" trans>Known For</div>
+        <div class="value" trans>{{ person.known_for }}</div>
+      </div>
+      <div class="values gender-values" *ngIf="person.gender">
+        <div class="name" trans>Gender</div>
+        <div class="value" trans>{{ person.gender }}</div>
+      </div>
+      <div class="values" *ngIf="person.known_for">
+        <div class="name" trans>Known Credits</div>
+        <div class="value">{{ creditsCount$ | async }}</div>
+      </div>
+      <div class="values" *ngIf="person.death_date">
+        <div class="name" trans>Date of Death</div>
+        <div class="value">{{ person.death_date | formattedDate }}</div>
+      </div>
+      <div class="values" *ngIf="person.birth_date">
+        <div class="name" trans>Date of Birth</div>
+        <div class="value">{{ person.birth_date | formattedDate }}</div>
+      </div>
+      <div class="values" *ngIf="person.birth_place">
+        <div class="name" trans>Place of Birth</div>
+        <div class="value">{{ person.birth_place }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="right">
+    <h1>{{ person.name }}</h1>
+    <div class="biography" *ngIf="person.description">
+      <div class="right-col-title" trans>Biography</div>
+      <p moreLessText="600" [textContent]="person.description"></p>
+    </div>
+
+    <ad-host slot="ads.shared" class="shared-ad-host"></ad-host>
+
+    <div class="known-for" *ngIf="(knownFor$ | async).length">
+      <div class="right-col-title" trans>Known For</div>
+      <media-view [items]="knownFor$ | async"></media-view>
+    </div>
+
+    <div class="credits-container">
+      <div class="right-col-title" trans>Filmography</div>
+      <mat-expansion-panel
+        *ngFor="let creditGroup of credits$ | async | keyvalue: originalOrder; first as isFirst"
+        [expanded]="isFirst"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="credit-group-name" trans>{{ creditGroup.key }}</span>
+            &nbsp; ({{ creditGroup.value.length }}&nbsp;<span trans>credits</span>)
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div class="credits">
+          <ng-container
+            *ngFor="
+              let credit of creditGroup.value;
+              index as index;
+              last as isLast;
+              trackBy: trackByFn
+            "
+          >
+            <div class="credit">
+              <div class="meta">
+                <a [routerLink]="url.generate(credit)" class="title">{{ credit.name }}</a>
+                <div class="character" *ngIf="credit?.pivot?.department === 'cast'">
+                  {{ credit?.pivot?.character }}
+                </div>
+                <div class="character" *ngIf="credit?.pivot?.department !== 'cast'" trans>
+                  {{ credit?.pivot?.job }}
+                </div>
+
+                <ng-container *ngIf="credit.episodes">
+                  <div class="episode-list">
+                    <div class="episode-credit" *ngFor="let episodeCredit of credit.episodes">
+                      <div class="episode-name">
+                        <span>- </span>
+                        <a [routerLink]="url.generate(episodeCredit, credit)">{{
+                          episodeCredit.name
+                        }}</a>
+                        <span *ngIf="episodeCredit.year"> ({{ episodeCredit.year }})</span>
+                        <span class="episode-separator"> ... </span>
+                        <span class="season-episode-number-container">
+                          (<season-episode-number [episode]="episodeCredit"></season-episode-number
+                          >)
+                          <span class="episode-separator"> ... </span>
+                        </span>
+                        <span>
+                          <span *ngIf="episodeCredit.pivot.department === 'cast'">{{
+                            episodeCredit.pivot.character
+                          }}</span>
+                          <span *ngIf="episodeCredit.pivot.department !== 'cast'" trans>{{
+                            episodeCredit.pivot.job
+                          }}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    class="no-style load-episodes-button"
+                    (click)="loadFullTitleCredits(person, credit, creditGroup.key)"
+                    *ngIf="credit.credited_episode_count > 5 && credit.episodes.length === 5"
+                    [transValues]="{count: credit.credited_episode_count}"
+                    [disabled]="loadingAdditionalCredits$ | async"
+                    trans
+                  >
+                    Show all :count episodes
+                  </button>
+                </ng-container>
+              </div>
+              <div class="year">{{ credit.year }}</div>
+            </div>
+            <div
+              class="separator"
+              *ngIf="!isLast && credit.year !== creditGroup.value[index + 1]?.year"
+            ></div>
+          </ng-container>
+        </div>
+      </mat-expansion-panel>
+    </div>
+
+    <ad-host slot="ads.person" class="person-ad-host"></ad-host>
+  </div>
+</div>
+
+<footer></footer>

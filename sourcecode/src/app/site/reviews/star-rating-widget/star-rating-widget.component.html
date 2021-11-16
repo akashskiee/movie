@@ -1,0 +1,17 @@
+<div class="stars">
+    <button
+            type="button"
+            tabindex="-1"
+            mat-icon-button
+            (mouseenter)="setRating(index + 1)"
+            (click)="setRatingAndPropagate(index + 1)"
+            *ngFor="let star of stars; index as index"
+    >
+        <mat-icon svgIcon="star-border" *ngIf="(rating$ | async) < index + 1; else fullStar"></mat-icon>
+        <ng-template #fullStar>
+            <mat-icon svgIcon="star" class="star-button"></mat-icon>
+        </ng-template>
+    </button>
+</div>
+
+<div class="current-rating">{{rating$ | async}}</div>

@@ -1,0 +1,73 @@
+@import "../../../../scss/variables";
+
+title-page-container {
+  display: block;
+  width: 100%;
+
+  .tagline {
+    background-color: mat-color($app-background, background);
+    font-size: 2.2rem;
+    font-style: italic;
+    font-weight: 300;
+    padding: 25px 0;
+    text-align: center;
+
+    @media only screen and (min-width: $medium) {
+      margin-top: 50px;
+    }
+  }
+
+  .mat-tab-group {
+    margin-top: 40px;
+  }
+
+  .mat-tab-label-content {
+    text-transform: capitalize;
+  }
+
+  title-videos {
+    margin-top: 40px;
+    margin-bottom: 50px;
+    padding-top: 25px;
+    border-top: 1px solid mat-color($app-foreground, divider);
+  }
+
+  .images-container {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(1, 1fr);
+    margin: 25px 0;
+
+    @media only screen and (min-width: $medium) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media only screen and (min-width: $large) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    media-image {
+      border-radius: 4px;
+      @include mat-elevation(1);
+      cursor: pointer;
+    }
+  }
+
+  .comment-tab {
+    padding: 25px 0;
+  }
+
+  .root-new-comment-form {
+    margin-bottom: 35px;
+  }
+
+  .shared-ad-host {
+    margin-top: 50px;
+    margin-bottom: 40px;
+  }
+
+  .title-ad-host {
+    margin-top: 10px;
+    margin-bottom: 30px;
+  }
+}

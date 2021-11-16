@@ -1,0 +1,16 @@
+@import "variables";
+
+:host {
+  display: block;
+  position: absolute;
+  background: mat-color($app-success, default);
+  color: #fff;
+  padding: 5px;
+  box-shadow: 0 5px 10px rgba(0,0,0,.1);
+  width: 160px;
+  text-align: center;
+  top: 21px;
+  right: -45px;
+  transform: rotate(45deg);
+  letter-spacing: 0.5px;
+}

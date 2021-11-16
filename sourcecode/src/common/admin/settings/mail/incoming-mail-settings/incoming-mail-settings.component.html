@@ -1,0 +1,62 @@
+<div class="error-group no-bottom-border">
+  <div class="input-container">
+    <label for="mail.handler" trans>Incoming Mail Method</label>
+    <select name="mail.handler" id="mail.handler" [(ngModel)]="state.client['mail.handler']">
+      <option value="mailgun" trans>Mailgun</option>
+      <option value="gmail" trans>Gmail API</option>
+      <option value="null" trans>API (Send emails via http API)</option>
+      <option value="mime" trans>Pipe (Pipe emails directly)</option>
+    </select>
+    <p trans>Which method should be used to handle incoming application emails.</p>
+  </div>
+
+  <div class="input-container" *ngIf="state.client['mail.handler'] === 'null'">
+    <label for="webhook_secret_key">API Secret Key</label>
+    <input
+      type="text"
+      id="webhook_secret_key"
+      name="webhook_secret_key"
+      [(ngModel)]="state.client['mail.webhook_secret_key']"
+      required
+      minlength="30"
+      maxlength="30"
+    />
+  </div>
+
+  <div id="gmail_group" *ngIf="state.client['mail.handler'] === 'gmail'">
+    <div class="gmail-input-container">
+      <div class="gmail-label">Gmail account:</div>
+      <div class="authorized-gmail-account" *ngIf="state.server['connectedGmailAccount']">
+        <img class="gmail-img" src="client/assets/images/gmail.png" alt="" />
+        <span class="text">Gmail {{ state.server['connectedGmailAccount'] }}</span>
+        <button type="button" (click)="connectGmailAccount()" mat-button color="accent" trans>
+          Reconnect
+        </button>
+      </div>
+      <button
+        type="button"
+        mat-flat-button
+        color="accent"
+        class="connect-gmail-button"
+        *ngIf="!state.server['connectedGmailAccount']"
+        (click)="connectGmailAccount()"
+      >
+        <img class="gmail-img" src="client/assets/images/gmail.png" alt="" />
+        <span class="text" trans>Connect gmail account</span>
+      </button>
+      <p class="error" *ngIf="(state.errors$ | async).gmail_group as error">{{error}}</p>
+    </div>
+    <div class="input-container">
+      <label for="gmail.incoming.topicName">Gmail Topic Name</label>
+      <input
+        type="text"
+        id="gmail.incoming.topicName"
+        name="webhook_secret_key"
+        [(ngModel)]="state.client['gmail.incoming.topicName']"
+        required
+        minlength="10"
+      />
+        <p trans>Google cloud Pub/Sub topic name.</p>
+    </div>
+  </div>
+</div>

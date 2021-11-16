@@ -1,0 +1,31 @@
+<ng-container *ngIf="activePanel$ | async as activePanel">
+    <primary-facts-panel class="material-panel crupdate-title-panel" *ngIf="activePanel === 'primaryFacts'"></primary-facts-panel>
+    <seasons-panel class="material-panel crupdate-title-panel" *ngIf="activePanel === 'seasons'"></seasons-panel>
+    <images-panel class="material-panel crupdate-title-panel" *ngIf="activePanel === 'images'"></images-panel>
+    <video-index class="material-panel crupdate-title-panel" *ngIf="activePanel === 'videos'" [title]="title"></video-index>
+    <credits-panel class="material-panel crupdate-title-panel" [mediaItem]="title" type="cast" *ngIf="activePanel === 'cast'"></credits-panel>
+    <credits-panel class="material-panel crupdate-title-panel" [mediaItem]="title" type="crew" *ngIf="activePanel === 'crew'"></credits-panel>
+    <tags-panel class="material-panel crupdate-title-panel" type="keyword" *ngIf="activePanel === 'keywords'"></tags-panel>
+    <tags-panel class="material-panel crupdate-title-panel" type="genre" *ngIf="activePanel === 'genres'"></tags-panel>
+    <tags-panel class="material-panel crupdate-title-panel" type="production_country" displayType="country" *ngIf="activePanel === 'countries'"></tags-panel>
+    <reviews-index class="material-panel crupdate-title-panel" *ngIf="activePanel === 'reviews'" [title]="title"></reviews-index>
+
+    <aside class="sidebar material-panel">
+        <div class="header" trans>Edit</div>
+        <div class="list">
+            <button class="list-item no-style" (click)="openPanel('primaryFacts')" [class.active]="activePanel === 'primaryFacts'" trans>Primary Facts</button>
+            <button class="list-item no-style" [disabled]="!titleCreated()" (click)="openPanel('seasons')" [class.active]="activePanel === 'seasons'" trans>Seasons</button>
+            <button class="list-item no-style" [disabled]="!titleCreated()" (click)="openPanel('images')" [class.active]="activePanel === 'images'" trans>Images</button>
+            <button class="list-item no-style" [disabled]="!titleCreated()" (click)="openPanel('videos')" [class.active]="activePanel === 'videos'" trans>Videos</button>
+            <button class="list-item no-style" [disabled]="!titleCreated()" (click)="openPanel('cast')" [class.active]="activePanel === 'cast'" trans>Cast</button>
+            <button class="list-item no-style" [disabled]="!titleCreated()" (click)="openPanel('crew')" [class.active]="activePanel === 'crew'" trans>Crew</button>
+            <button class="list-item no-style" [disabled]="!titleCreated()" (click)="openPanel('genres')" [class.active]="activePanel === 'genres'" trans>Genres</button>
+            <button class="list-item no-style" [disabled]="!titleCreated()" (click)="openPanel('keywords')" [class.active]="activePanel === 'keywords'" trans>Keywords</button>
+            <button class="list-item no-style" [disabled]="!titleCreated()" (click)="openPanel('countries')" [class.active]="activePanel === 'countries'" trans>Countries</button>
+            <button class="list-item no-style" [disabled]="!titleCreated()" (click)="openPanel('reviews')" [class.active]="activePanel === 'reviews'" trans>Reviews</button>
+        </div>
+        <p *ngIf="!titleCreated()" class="message" trans>Save from "Primary Facts" panel in order to enable other menu items.</p>
+    </aside>
+
+    <loading-indicator [isVisible]="loading$ | async" class="overlay"></loading-indicator>
+</ng-container>

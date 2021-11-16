@@ -1,0 +1,101 @@
+<div class="datatable-page-header">
+  <h1 trans>People</h1>
+  <div class="header">
+    <datatable-filters pluralName="people" [filters]="filters"></datatable-filters>
+    <div class="action-buttons">
+      <button mat-raised-button color="accent" class="button-with-icon" [matMenuTriggerFor]="menu">
+        <mat-icon svgIcon="add"></mat-icon>
+        <span trans>New Person</span>
+      </button>
+      <mat-menu #menu="matMenu">
+        <a
+          mat-menu-item
+          *ngIf="currentUser.hasPermission('people.create')"
+          routerLink="/admin/people/new"
+          class="button-with-icon"
+          trans
+        >
+          Create Person
+        </a>
+        <button mat-menu-item type="button" (click)="openImportMediaModal()" trans>
+          Import Person
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</div>
+
+<div class="datatable responsive-table">
+  <mat-progress-bar
+    class="loading-bar"
+    mode="indeterminate"
+    color="accent"
+    *ngIf="datatable.paginator && datatable.paginator.loading$ | async"
+  ></mat-progress-bar>
+  <table class="material-table">
+    <thead>
+      <tr>
+        <th table-header-checkbox></th>
+        <th table-sort-header trans>Name</th>
+        <th table-sort-header trans>Birth Date</th>
+        <th table-sort-header="views" trans>Local Views</th>
+        <th table-sort-header trans>Popularity</th>
+        <th table-sort-header="updated_at" trans>Last Updated</th>
+        <th></th>
+      </tr>
+      <tr *ngIf="datatable.selectedRows$.value.length as selectedCount">
+        <th colspan="7">
+          <div
+            class="bulk-actions-title"
+            [transValues]="{count: selectedCount, resource: 'person(s)'}"
+            trans
+          >
+            :count :resource selected:
+          </div>
+          <div class="bulk-actions">
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="maybeDeleteSelectedPeople()"
+              *ngIf="currentUser.hasPermission('people.delete')"
+              trans
+            >
+              Delete
+            </button>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let person of people$ | async">
+        <td [table-body-checkbox]="person.id"></td>
+        <td>
+          <div class="column-with-image">
+            <media-image [src]="person.poster" size="small"></media-image>
+            <a target="_blank" [routerLink]="url.generate(person)" class="link">{{ person.name }}</a>
+          </div>
+        </td>
+        <td data-label="Birth Date">
+          {{ person.birth_date ? (person.birth_date | formattedDate) : '-' }}
+        </td>
+        <td data-label="Local Views">{{ person.views }}</td>
+        <td data-label="Popularity">{{ person.popularity }}</td>
+        <td data-label="Last Updated">{{ person.updated_at | formattedDate }}</td>
+        <td class="edit-column">
+          <a
+            mat-icon-button
+            [routerLink]="['/admin/people', person.id, 'edit']"
+            *ngIf="currentUser.hasPermission('people.update')"
+            [matTooltip]="'Edit person' | trans"
+          >
+            <mat-icon svgIcon="edit"></mat-icon>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <no-results-message svgImage="awards.svg" *ngIf="datatable.paginator.noResults$ | async">
+    <span primary-text trans>No people have been created yet</span>
+  </no-results-message>
+  <datatable-footer></datatable-footer>
+</div>

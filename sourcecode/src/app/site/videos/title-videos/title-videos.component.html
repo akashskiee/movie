@@ -1,0 +1,36 @@
+<div class="title">
+  <div class="text" trans>Videos</div>
+  <button
+    mat-flat-button
+    class="add-video-btn"
+    color="accent"
+    (click)="titlePage.openCrupdateVideoModal()"
+    *ngIf="currentUser.hasPermission('videos.create')"
+    trans
+  >
+    Add Video
+  </button>
+</div>
+
+<div
+  class="season-list"
+  *ngIf="titlePage.title.is_series && settings.get('streaming.video_panel_content') === 'full'"
+>
+  <a
+    [routerLink]="url.generate(titlePage.title, {seasonNum: season.number})"
+    mat-flat-button
+    color="gray"
+    class="season-list-item"
+    *ngFor="let season of titlePage.title.seasons"
+  >
+    <mat-icon svgIcon="play-arrow"></mat-icon>
+    <span>{{ ('Season' | trans) + ': ' + season.number }}</span>
+  </a>
+</div>
+
+<title-video-table
+  *ngIf="settings.get('titles.video_panel_mode') === 'table'; else carousel"
+></title-video-table>
+<ng-template #carousel>
+  <title-video-carousel></title-video-carousel>
+</ng-template>

@@ -1,0 +1,47 @@
+@import "variables";
+
+.video-name, .title-name {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.approved {
+  &:hover {
+    .warn-icon {
+      display: inline-block;
+    }
+    .success-icon {
+      display: none;
+    }
+  }
+  .success-icon {
+    display: inline-block;
+  }
+}
+
+.disapproved {
+  &:hover {
+    .success-icon {
+      display: inline-block;
+    }
+    .warn-icon {
+      display: none;
+    }
+  }
+  .warn-icon {
+    display: inline-block;
+  }
+}
+
+.success-icon {
+  display: none;
+  color: mat-color($app-success, default);
+}
+
+.warn-icon {
+  display: none;
+  color: mat-color($app-warn, default);
+}

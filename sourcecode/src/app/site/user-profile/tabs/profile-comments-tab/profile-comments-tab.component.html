@@ -1,0 +1,26 @@
+<ng-container *ngIf="pagination$ | async as pagination">
+  <no-results-message
+    *ngIf="!pagination.data.length && !(loading$ | async)"
+    svgImage="public-discussion.svg"
+  >
+    <span primary-text [transValues]="{user: profile.user$.value.display_name}" trans
+      >:user has not commented on any titles yet.</span
+    >
+  </no-results-message>
+
+  <div class="comment-container" *ngFor="let comment of pagination.data" @fadeIn>
+    <div class="commentable">
+      <media-image [src]="comment.commentable.image"></media-image>
+    </div>
+    <comment-list-item [comment]="comment"></comment-list-item>
+  </div>
+  <ng-container *ngIf="loading$ | async">
+    <div class="skeleton-comment" *ngFor="let skeleton of skeletonCount" @fadeOut>
+      <skeleton variant="avatar" class="skeleton-avatar"></skeleton>
+      <div class="skeleton-meta">
+        <skeleton variant="text" class="skeleton-username"></skeleton>
+        <skeleton variant="text" class="skeleton-content"></skeleton>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

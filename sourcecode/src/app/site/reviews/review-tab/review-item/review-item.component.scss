@@ -1,0 +1,86 @@
+@import 'variables';
+
+:host {
+  display: flex;
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid mat-color($app-foreground, divider);
+}
+
+media-image {
+  display: block;
+  flex-shrink: 0;
+  margin-right: 20px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.review {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  vertical-align: middle;
+  margin-bottom: 8px;
+}
+
+.score {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  margin-right: 15px;
+  color: mat-color($app-accent, default-contrast);
+  text-align: center;
+  font-size: 2.5rem;
+  border-radius: 4px;
+  padding-top: 8px;
+
+  &.low {
+    background-color: #f00;
+  }
+
+  &.medium {
+    background-color: #fc3;
+  }
+
+  &.high {
+    background-color: #6c3;
+  }
+}
+
+.meta {
+  flex: 1 1 auto;
+  padding-top: 3px;
+}
+
+.header-link {
+  display: flex;
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+
+  img {
+    margin-right: 8px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+  }
+
+  a {
+    color: mat-color($app-accent, default);
+  }
+}
+
+.date {
+  color: mat-color($app-foreground, secondary-text);
+  font-size: 1.3rem;
+}
+
+.actions {
+  flex: 0 1 auto;
+  margin-left: 10px;
+}

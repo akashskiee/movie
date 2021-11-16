@@ -1,0 +1,40 @@
+<form (ngSubmit)="onSubmit()" autocomplete="off">
+  <label for="autocomplete-input" *ngIf="label" trans>{{ label }}</label>
+  <div class="input-wrapper">
+    <input
+      id="autocomplete-input"
+      [formControl]="searchControl"
+      [matAutocomplete]="auto"
+      [placeholder]="placeholder | trans"
+      #inputEl
+      autocomplete="off"
+    />
+    <button
+      type="submit"
+      mat-icon-button
+      class="search-button"
+      [disabled]="!!resultSelected.observers.length"
+    >
+      <mat-icon svgIcon="search"></mat-icon>
+    </button>
+  </div>
+</form>
+
+<mat-autocomplete
+  #auto="matAutocomplete"
+  class="main-search-autocomplete-panel"
+  (optionSelected)="selectResult($event)"
+  [displayWith]="displayFn"
+>
+  <mat-option *ngFor="let result of results$ | async" [value]="result">
+    <media-image [src]="result.poster" [alt]="result.name" size="small"></media-image>
+    <div class="media-body">
+      <div class="name">
+        <span>{{ result.name }}</span>
+        <span *ngIf="!isPerson(result)">&nbsp;({{ result.year }})</span>
+      </div>
+      <known-for-widget [person]="result"></known-for-widget>
+      <div class="description">{{ result.description }}</div>
+    </div>
+  </mat-option>
+</mat-autocomplete>

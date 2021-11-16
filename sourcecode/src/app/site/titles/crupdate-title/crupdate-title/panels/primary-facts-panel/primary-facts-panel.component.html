@@ -1,0 +1,165 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="poster-container">
+    <media-image [src]="poster$ | async"></media-image>
+    <div class="many-inputs">
+      <div class="inline-container">
+        <div class="input-container">
+          <label for="name" trans>Title</label>
+          <input
+            type="text"
+            formControlName="name"
+            id="name"
+            minlength="1"
+            maxlength="250"
+            required
+          />
+        </div>
+        <div class="input-container">
+          <label for="original-title" trans>Original Title</label>
+          <input
+            type="text"
+            formControlName="original_title"
+            id="original-title"
+            minlength="1"
+            maxlength="250"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="inline-container">
+        <div class="input-container">
+          <label for="type" trans>Type</label>
+          <select formControlName="is_series" id="type" required>
+            <option [ngValue]="false" trans>Movie</option>
+            <option [ngValue]="true" trans>TV Series</option>
+          </select>
+        </div>
+
+        <div class="input-container">
+          <label for="allow_update" trans>Allow Auto Update</label>
+          <select formControlName="allow_update" id="allow_update" required>
+            <option [ngValue]="true" trans>Yes</option>
+            <option [ngValue]="false" trans>No</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="input-container">
+        <label for="poster" trans>Poster</label>
+        <div class="input-with-action action-left">
+          <button
+            type="button"
+            mat-flat-button
+            color="accent"
+            (click)="uploadImage('poster')"
+            [matTooltip]="'Upload poster' | trans"
+          >
+            <mat-icon svgIcon="file-upload"></mat-icon>
+          </button>
+          <input type="text" formControlName="poster" id="poster" minlength="1" maxlength="250" />
+        </div>
+      </div>
+
+      <div class="input-container">
+        <label for="backdrop" trans>Backdrop</label>
+        <div class="input-with-action action-left">
+          <button
+            type="button"
+            mat-flat-button
+            color="accent"
+            (click)="uploadImage('backdrop')"
+            [matTooltip]="'Upload backdrop' | trans"
+          >
+            <mat-icon svgIcon="file-upload"></mat-icon>
+          </button>
+          <input
+            type="text"
+            formControlName="backdrop"
+            id="backdrop"
+            minlength="1"
+            maxlength="250"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="inline-container">
+    <div class="input-container">
+      <label for="release_date" trans>Release Date</label>
+      <input
+        type="date"
+        formControlName="release_date"
+        id="release_date"
+        placeholder="YYYY-MM-DD"
+        required
+      />
+    </div>
+
+    <div class="input-container">
+      <label for="tagline" trans>Tagline</label>
+      <input type="text" formControlName="tagline" id="tagline" minlength="1" maxlength="250" />
+    </div>
+  </div>
+
+  <div class="input-container">
+    <label for="description" trans>Overview</label>
+    <textarea
+      type="text"
+      formControlName="description"
+      id="description"
+      minlength="1"
+      cdkTextareaAutosize
+      cdkAutosizeMinRows="6"
+    ></textarea>
+  </div>
+
+  <div class="inline-container">
+    <div class="input-container">
+      <label for="runtime" trans>Runtime</label>
+      <input type="number" formControlName="runtime" id="runtime" min="1" max="500" />
+    </div>
+
+    <div class="input-container certification-input-container">
+      <label for="certification" trans>Certification</label>
+      <select formControlName="certification" id="certification">
+        <option [ngValue]="certification" *ngFor="let certification of certificationOptions">
+          {{ certification }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="inline-container">
+    <div class="input-container">
+      <label for="budget" trans>Budget</label>
+      <input type="number" formControlName="budget" id="budget" min="1" />
+    </div>
+
+    <div class="input-container">
+      <label for="revenue" trans>Revenue</label>
+      <input type="number" formControlName="revenue" id="revenue" min="1" />
+    </div>
+  </div>
+
+  <div class="inline-container">
+    <div class="input-container">
+      <label for="popularity" trans>Popularity</label>
+      <input type="number" formControlName="popularity" id="popularity" min="1" max="1000" />
+    </div>
+
+    <div class="input-container">
+      <label for="language" trans>Language</label>
+      <select formControlName="language" id="language" required>
+        <option [value]="language.code" *ngFor="let language of languageOptions$ | async">
+          {{ language.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <button type="submit" mat-raised-button color="accent" [disabled]="loading$ | async" trans>
+    Save
+  </button>
+</form>

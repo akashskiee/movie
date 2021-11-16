@@ -1,0 +1,19 @@
+<div class="img-container">
+  <media-image
+    mode="portrait"
+    [src]="person.poster"
+    size="medium"
+    [alt]="person.name + ' image'"
+    [link]="url.generate(person)"
+  >
+  </media-image>
+</div>
+<div class="details">
+  <h3 class="title">
+    <a [routerLink]="url.generate(person)">{{ person.name }}</a>
+  </h3>
+  <div class="meta">
+    <known-for-widget [person]="person"></known-for-widget>
+  </div>
+  <div class="description">{{ person.description }}</div>
+</div>

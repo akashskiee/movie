@@ -1,0 +1,203 @@
+<div class="header">
+  <div class="title" trans>Streaming & Videos</div>
+  <div class="subtitle" trans>Control how videos are played and displayed on the site.</div>
+</div>
+
+<form
+  class="body many-inputs"
+  (ngSubmit)="saveSettings()"
+  *ngIf="state.errors$ | async as errors"
+  ngNativeValidate
+>
+  <div class="input-container">
+    <label for="titles.video_panel_mode" trans>Video Panel Design</label>
+    <select
+      name="titles.video_panel_mode"
+      id="titles.video_panel_mode"
+      [(ngModel)]="state.client['titles.video_panel_mode']"
+    >
+      <option [ngValue]="null" trans>Don't show videos at all</option>
+      <option value="carousel" trans>Carousel</option>
+      <option value="table" trans>Table</option>
+    </select>
+    <p trans>Which design mode should be used for displaying videos on title and episode pages.</p>
+  </div>
+
+  <div class="input-container">
+    <label for="streaming.default_sort" trans>Video Panel Sorting</label>
+    <select
+      name="streaming.default_sort"
+      id="streaming.default_sort"
+      [(ngModel)]="state.client['streaming.default_sort']"
+    >
+      <option value="order:asc" trans>Default (Order can be changed via drag and drop)</option>
+      <option value="created_at:desc" trans>Date Added</option>
+      <option value="name:asc" trans>Name (A-Z)</option>
+      <option value="language:asc" trans>Language (A-Z)</option>
+      <option value="reports:asc" trans>Reports (Videos with less reports first)</option>
+      <option value="score:desc" trans>Score (Most liked videos first)</option>
+    </select>
+    <p trans>How should videos on title and episode pages be ordered by default.</p>
+  </div>
+
+  <div class="input-container">
+    <label for="streaming.video_panel_content" trans>Video Panel Content Type</label>
+    <select
+      name="streaming.video_panel_content"
+      id="streaming.video_panel_content"
+      [(ngModel)]="state.client['streaming.video_panel_content']"
+    >
+      <option value="all" trans>All Videos</option>
+      <option value="full" trans>Full Movies and Episodes</option>
+      <option value="short" trans>Short Videos (Everything Except Full Movies/Episodes)</option>
+      <option value="trailer" trans>Trailers</option>
+      <option value="clip" trans>Clips</option>
+    </select>
+    <p trans>What kind of videos should be displayed in videos panel in title and episode pages.</p>
+  </div>
+
+  <div class="setting-toggle-container">
+    <mat-slide-toggle
+      name="streaming.show_captions_panel"
+      id="streaming.show_captions_panel"
+      [(ngModel)]="state.client['streaming.show_captions_panel']"
+      trans
+      >Show Captions Panel</mat-slide-toggle
+    >
+    <p trans>
+      Whether "add captions" panel should be shown to regular users when adding/editing videos.
+    </p>
+  </div>
+
+  <div class="setting-toggle-container">
+    <mat-slide-toggle
+      name="streaming.show_category_select"
+      id="streaming.show_category_select"
+      [(ngModel)]="state.client['streaming.show_category_select']"
+      trans
+      >Show Category Select</mat-slide-toggle
+    >
+    <p trans>
+      Whether "category" select should be shown to regular users when adding/editing videos.
+    </p>
+  </div>
+
+  <div class="setting-toggle-container">
+    <mat-slide-toggle
+      name="streaming.show_header_play"
+      id="streaming.show_header_play"
+      [(ngModel)]="state.client['streaming.show_header_play']"
+      trans
+      >Header Play Button</mat-slide-toggle
+    >
+    <p trans>Whether "play" button should be shown on main title header.</p>
+  </div>
+
+  <div class="setting-toggle-container">
+    <mat-slide-toggle
+      name="streaming.prefer_full"
+      id="streaming.prefer_full"
+      [(ngModel)]="state.client['streaming.prefer_full']"
+      trans
+      >Play Full Movies and Episodes</mat-slide-toggle
+    >
+    <p trans>
+      When user clicks on "play" buttons across the site play full movie or episode (if available)
+      instead of trailers and clips.
+    </p>
+  </div>
+
+  <div class="setting-toggle-container">
+    <mat-slide-toggle
+      name="streaming.show_label"
+      id="streaming.show_label"
+      [(ngModel)]="state.client['streaming.show_label']"
+      trans
+      >Show Streamable Label</mat-slide-toggle
+    >
+    <p trans>
+      Show "streamable" label on title and episode posters, if they have any streamable videos
+      attached.
+    </p>
+  </div>
+
+  <div class="input-container">
+    <label for="streaming.related_videos_type" trans>Related Videos Type</label>
+    <select
+      name="streaming.related_videos_type"
+      id="streaming.related_videos_type"
+      [(ngModel)]="state.client['streaming.related_videos_type']"
+    >
+      <option value="same_title" trans>Other Videos For Same Title</option>
+      <option value="other_titles" trans>Videos From Related Titles</option>
+      <option value="hide" trans>Hide Related Videos Panel</option>
+    </select>
+    <p trans>What videos should be displayed in player overlay "related videos" panel.</p>
+  </div>
+
+  <div class="setting-toggle-container">
+    <mat-slide-toggle
+      name="player.show_next_episodes"
+      id="player.show_next_episodes"
+      [(ngModel)]="state.client['player.show_next_episodes']"
+      trans
+      >Next Episodes As Related Videos</mat-slide-toggle
+    >
+    <p trans>
+      Show next and previous episode videos in player overlay related videos panel, instead of
+      videos related to the whole series.
+    </p>
+  </div>
+
+  <div class="setting-toggle-container">
+    <mat-slide-toggle
+      name="streaming.auto_approve"
+      id="streaming.auto_approve"
+      [(ngModel)]="state.client['streaming.auto_approve']"
+      trans
+      >Auto Approve Videos</mat-slide-toggle
+    >
+    <p trans>
+      Automatically approve all videos submitted by users. If disabled, videos submitted by users
+      will have to be manually approved by admin before they are visible.
+    </p>
+  </div>
+
+  <div class="setting-toggle-container">
+    <mat-slide-toggle
+      name="browse.show_streamable_filter"
+      id="browse.show_streamable_filter"
+      [(ngModel)]="state.client['browse.show_streamable_filter']"
+      trans
+      >Show Streamable Filter</mat-slide-toggle
+    >
+    <p trans>Toggle visibility of "Only Streamable" filter on browse titles page.</p>
+  </div>
+
+  <div class="setting-toggle-container">
+    <mat-slide-toggle
+      name="browse.streamable_filter_state"
+      id="browse.streamable_filter_state"
+      [(ngModel)]="state.client['browse.streamable_filter_state']"
+      trans
+      >Toggle Streamable Filter</mat-slide-toggle
+    >
+    <p trans>Set "Only Streamable" filter to "on" by default.</p>
+  </div>
+
+  <button
+    mat-raised-button
+    color="accent"
+    class="update-button"
+    [disabled]="state.loading$ | async"
+    type="submit"
+    trans
+  >
+    Update
+  </button>
+  <mat-progress-bar
+    mode="indeterminate"
+    color="accent"
+    *ngIf="state.loading$ | async"
+  ></mat-progress-bar>
+</form>

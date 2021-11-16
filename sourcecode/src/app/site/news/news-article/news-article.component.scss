@@ -1,0 +1,134 @@
+@import "../../../../scss/variables";
+
+news-article {
+  display: block;
+
+  .main-container {
+    display: flex;
+    min-height: calc(100% - #{$footer-height + $material-navbar-height});
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    @media only screen and (max-width: $medium) {
+      display: block;
+
+      .news-article {
+        padding: 15px;
+      }
+
+      .sidebar {
+        margin-left: 0;
+        margin-top: 30px;
+      }
+    }
+  }
+
+  .news-article {
+    flex: 1 1 auto;
+    align-self: flex-start;
+    padding: 30px;
+    background-color: mat-color($app-background, card);
+    border: 1px solid mat-color($app-foreground, divider);
+    border-radius: 4px;
+
+    .main-image {
+      max-width: 100px;
+      max-height: 150px;
+      object-fit: cover;
+      float: left;
+      margin-right: 15px;
+    }
+
+    .body {
+      font-size: 1.6rem;
+      line-height: 1.6;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .title {
+      font-size: 3rem;
+      line-height: 1;
+      margin: 0 0 15px;
+
+      a {
+        color: inherit;
+      }
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    a {
+      color: mat-color($app-accent, default);
+    }
+  }
+
+  .sidebar {
+    flex: 0 0 400px;
+    margin-left: 30px;
+    background-color: mat-color($app-background, background);
+    padding: 20px;
+
+    .header {
+      border-bottom: 1px solid mat-color($app-foreground, divider);
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+      font-size: 1.6rem;
+      font-weight: 500;
+      color: mat-color($app-foreground, secondary-text);
+      border-radius: 4px;
+    }
+
+    .article {
+      display: flex;
+      margin-bottom: 25px;
+
+      img {
+        width: 55px;
+        flex: 0 0 55px;
+        height: 55px;
+        object-fit: cover;
+        margin-right: 15px;
+        border-radius: 4px;
+      }
+
+      .title {
+        font-weight: 500;
+        color: inherit;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .subtitle {
+        color: mat-color($app-foreground, secondary-text);
+      }
+
+      .source {
+        &:after {
+          content: '\0000a0\002022\0000a0';
+          vertical-align: text-top;
+        }
+      }
+    }
+  }
+
+  .separator {
+    background-color: mat-color($app-foreground, divider);
+    width: 1px;
+    flex: 0 0 1px;
+    min-height: 16px;
+    margin: 0 8px;
+  }
+
+  .shared-ad-host {
+    margin-bottom: 40px;
+  }
+}
